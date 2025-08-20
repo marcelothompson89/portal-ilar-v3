@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Moléculas ILAR</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #8ba873;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.logout-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.main-container {
+    max-width: 1400px;
+    margin: 24px auto;
+    padding: 0 24px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #8ba873;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    color: #666;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 16px;
+}
+
+.info-box {
+    background: #e8f4fd;
+    border: 1px solid #bde3ff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.info-box h4 {
+    color: #8ba873;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.info-box ul {
+    list-style: none;
+    color: #374151;
+}
+
+.info-box li {
+    margin-bottom: 4px;
+}
+
+.filters-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.filters-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filters-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.filter-select {
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #8ba873;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+.countries-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #f9fafb;
+}
+
+.country-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.country-checkbox:hover {
+    background-color: #f3f4f6;
+}
+
+.country-checkbox.selected {
+    background-color: #8ba873;
+    color: white;
+    border-color: #8ba873;
+}
+
+.countries-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background-color: #f8f9fa;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.control-btn:active {
+    transform: translateY(1px);
+}
+
+.metrics-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #8ba873;
+    margin-bottom: 4px;
+}
+
+.metric-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.content-tabs {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 16px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.tab-button.active {
+    color: #8ba873;
+    border-bottom-color: #8ba873;
+    background-color: #f8f9fa;
+}
+
+.tab-button:hover:not(.active) {
+    background-color: #f3f4f6;
+}
+
+.tab-content {
+    display: none;
+    padding: 24px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.data-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-width: 36px;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.pagination-btn.active {
+    background-color: #8ba873;
+    color: white;
+    border-color: #8ba873;
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.chart-container {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #8ba873;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs-header {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 0 16px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .metrics-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="header-content">
+    <div class="breadcrumb">
+        <a href="/dashboard">🏠 Dashboard</a>
+        <span>›</span>
+        <span>Moléculas ILAR</span>
+    </div>
+    <div class="user-menu">
+        <span class="user-info">{{ user }}</span>
+        <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    </div>
+</div>
+</header>
+
+<main class="main-container">
+<h1 class="page-title">Dashboard de Moléculas ILAR</h1>
+<p class="page-subtitle">Análisis de datos farmacéuticos con filtros interactivos y visualizaciones</p>
+
+<div class="info-box">
+    <h4>ℹ️ Información sobre tipos de medicamentos:</h4>
+    <ul>
+        <li><strong>OTC</strong> (Venta libre): Medicamentos que se pueden comprar sin receta médica</li>
+        <li><strong>Rx</strong> (Solo prescripción): Medicamentos que requieren receta médica</li>
+        <li><strong>Rx-OTC</strong>: Moléculas o combinaciones que pueden estar en ambas categorías dependiendo de la dosis</li>
+    </ul>
+</div>
+
+<section class="filters-section">
+    <h2 class="filters-title">🔍 Filtros de Búsqueda</h2>
+    <div class="filters-grid">
+        <div class="filter-group">
+            <label class="filter-label">Selecciona una molécula:</label>
+            <select id="moleculeSelect" class="filter-select">
+                <option value="all">Todas las moléculas</option>
+                {% for molecule in molecules %}
+                <option value="{{ molecule }}">{{ molecule }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Selecciona países:</label>
+            <div class="countries-controls" style="margin-bottom: 8px;">
+                <button type="button" id="selectAllCountries" class="control-btn">
+                    Seleccionar todos
+                </button>
+                <button type="button" id="clearAllCountries" class="control-btn">
+                    Limpiar selección
+                </button>
+            </div>
+            <div class="countries-filter" id="countriesFilter">
+                {% for country in countries %}
+                <div class="country-checkbox" data-country="{{ country }}">
+                    <span>{{ country }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="metrics-section" id="metricsSection">
+    <div class="metric-card">
+        <div class="metric-value" id="totalRecords">-</div>
+        <div class="metric-label">Total de registros</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="uniqueCountries">-</div>
+        <div class="metric-label">Países únicos</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="uniqueMolecules">-</div>
+        <div class="metric-label">Moléculas únicas</div>
+    </div>
+</section>
+
+<section class="content-tabs">
+    <div class="loading" id="dataLoading">
+        <div class="spinner"></div>
+        <div>Cargando datos...</div>
+    </div>
+    <div id="dataContent" style="display: none;">
+        <div class="pagination-info" id="paginationInfo" style="margin-bottom: 16px; color: #666; font-size: 14px;">
+        </div>
+        <div class="table-container">
+            <table class="data-table" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Molécula</th>
+                        <th>Año de Switch</th>
+                        <th>País</th>
+                        <th>Tipo (RX-OTC)</th>
+                        <th>Concentración</th>
+                        <th>Código NFC1</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-controls" id="paginationControls" style="margin-top: 16px; text-align: center;">
+        </div>
+    </div>
+</section>
+</main>
+
+<script>
+let selectedCountries = [];
+let currentData = null;
+let currentPage = 1;
+let pageSize = 50;
+
+// Inicializar la página
+document.addEventListener('DOMContentLoaded', function() {
+    loadData();
+    setupEventListeners();
+});
+
+function setupEventListeners() {
+    // Filtro de moléculas
+    document.getElementById('moleculeSelect').addEventListener('change', function() {
+        console.log('Molécula seleccionada:', this.value);
+        currentPage = 1; // Reset a la primera página cuando cambia el filtro
+        loadData();
+    });
+
+    // Botones para selección masiva de países
+    document.getElementById('selectAllCountries').addEventListener('click', function() {
+        const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+        selectedCountries = [];
+        
+        countryCheckboxes.forEach(checkbox => {
+            if (!checkbox.classList.contains('selected')) {
+                checkbox.classList.add('selected');
+                selectedCountries.push(checkbox.dataset.country);
+            }
+        });
+        
+        console.log('Todos los países seleccionados:', selectedCountries);
+        currentPage = 1;
+        loadData();
+    });
+
+    document.getElementById('clearAllCountries').addEventListener('click', function() {
+        const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+        selectedCountries = [];
+        
+        countryCheckboxes.forEach(checkbox => {
+            checkbox.classList.remove('selected');
+        });
+        
+        console.log('Selección de países limpiada');
+        currentPage = 1;
+        loadData();
+    });
+
+    // Filtros de países individuales
+    const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+    countryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function() {
+            const country = this.dataset.country;
+            
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedCountries = selectedCountries.filter(c => c !== country);
+            } else {
+                this.classList.add('selected');
+                selectedCountries.push(country);
+            }
+            
+            console.log('Países seleccionados:', selectedCountries);
+            currentPage = 1; // Reset a la primera página cuando cambia el filtro
+            loadData();
+        });
+    });
+}
+
+async function loadData(page = 1) {
+    // Asegurarnos de que page sea un número válido
+    page = parseInt(page) || 1;
+    
+    const molecule = document.getElementById('moleculeSelect').value;
+    const countries = selectedCountries.join(',');
+    
+    console.log('🔍 Cargando datos con filtros:');
+    console.log('   - Molécula:', molecule);
+    console.log('   - Países:', countries);
+    console.log('   - Página:', page);
+    
+    // Mostrar loading solo si es la primera carga o cambio de filtros
+    if (page === 1) {
+        document.getElementById('dataLoading').style.display = 'block';
+        document.getElementById('dataContent').style.display = 'none';
+    }
+    
+    try {
+        // Construir URL con parámetros codificados
+        const params = new URLSearchParams({
+            page: page,
+            page_size: pageSize
+        });
+        
+        if (molecule && molecule !== 'all') {
+            params.append('molecule', molecule);
+        }
+        
+        if (countries && countries.trim() !== '') {
+            params.append('countries', countries);
+        }
+        
+        const url = `/api/molecules-data?${params.toString()}`;
+        console.log('📡 URL de la petición:', url);
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('📊 Datos recibidos:', data);
+        
+        // Verificar si hubo problemas con los filtros
+        if (data.filters_applied && !data.filters_applied.molecule_found) {
+            console.warn('⚠️ Molécula no encontrada en los datos');
+            alert(`La molécula "${molecule}" no fue encontrada en los datos.`);
+        }
+        
+        currentData = data;
+        currentPage = page;
+        updateMetrics(data.metrics);
+        updateDataTable(data.table_data);
+        updatePagination(data.pagination);
+        
+    } catch (error) {
+        console.error('❌ Error cargando datos:', error);
+        
+        // Mostrar error más específico
+        let errorMessage = 'Error al cargar los datos.';
+        if (error.message.includes('404')) {
+            errorMessage = 'Endpoint no encontrado. Verifica la configuración del servidor.';
+        } else if (error.message.includes('500')) {
+            errorMessage = 'Error interno del servidor. Revisa los logs del backend.';
+        } else if (error.message.includes('Failed to fetch')) {
+            errorMessage = 'No se pudo conectar con el servidor. Verifica que esté ejecutándose.';
+        }
+        
+        alert(errorMessage + '\n\nRevisa la consola para más detalles.');
+        
+        // Ocultar loading y mostrar mensaje de error
+        document.getElementById('dataLoading').style.display = 'none';
+        document.getElementById('dataContent').style.display = 'block';
+        document.getElementById('dataTableBody').innerHTML = 
+            '<tr><td colspan="6" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos. Intenta recargar la página.</td></tr>';
+    }
+}
+
+function updateMetrics(metrics) {
+    document.getElementById('totalRecords').textContent = metrics.total_records.toLocaleString();
+    document.getElementById('uniqueCountries').textContent = metrics.unique_countries;
+    document.getElementById('uniqueMolecules').textContent = metrics.unique_molecules;
+    
+    console.log('📈 Métricas actualizadas:', metrics);
+}
+
+function updateDataTable(tableData) {
+    const tbody = document.getElementById('dataTableBody');
+    tbody.innerHTML = '';
+    
+    console.log('📋 Actualizando tabla con', tableData.length, 'registros');
+    
+    if (tableData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
+        document.getElementById('dataLoading').style.display = 'none';
+        document.getElementById('dataContent').style.display = 'block';
+        return;
+    }
+    
+    tableData.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.Molecule || '-'}</td>
+            <td>${row['Switch Year'] || '-'}</td>
+            <td>${row.Country || '-'}</td>
+            <td>${row['RX-OTC - Product'] || '-'}</td>
+            <td>${row.Strength || '-'}</td>
+            <td>${row.NFC1 || '-'}</td>
+        `;
+        tbody.appendChild(tr);
+        
+        // Debug: mostrar algunas filas para verificar datos
+        if (index < 3) {
+            console.log(`   Fila ${index + 1}:`, row);
+        }
+    });
+    
+    document.getElementById('dataLoading').style.display = 'none';
+    document.getElementById('dataContent').style.display = 'block';
+}
+
+function updatePagination(pagination) {
+    const infoDiv = document.getElementById('paginationInfo');
+    const controlsDiv = document.getElementById('paginationControls');
+    
+    console.log('📄 Actualizando paginación:', pagination);
+    
+    // Información de paginación
+    infoDiv.innerHTML = `
+        Mostrando ${pagination.showing_from} - ${pagination.showing_to} de ${pagination.total_records} registros
+    `;
+    
+    // Si no hay datos, no mostrar controles de paginación
+    if (pagination.total_records === 0) {
+        controlsDiv.innerHTML = '';
+        return;
+    }
+    
+    // Controles de paginación
+    let paginationHTML = '';
+    
+    // Botón anterior
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_previous ? 'disabled' : ''}" 
+                onclick="changePage(${pagination.current_page - 1})" 
+                ${!pagination.has_previous ? 'disabled' : ''}>
+            ‹ Anterior
+        </button>
+    `;
+    
+    // Números de página
+    const startPage = Math.max(1, pagination.current_page - 2);
+    const endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+    
+    // Primera página si no está visible
+    if (startPage > 1) {
+        paginationHTML += `<button class="pagination-btn" onclick="changePage(1)">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+    }
+    
+    // Páginas visibles
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button class="pagination-btn ${i === pagination.current_page ? 'active' : ''}" 
+                    onclick="changePage(${i})">
+                ${i}
+            </button>
+        `;
+    }
+    
+    // Última página si no está visible
+    if (endPage < pagination.total_pages) {
+        if (endPage < pagination.total_pages - 1) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+        paginationHTML += `<button class="pagination-btn" onclick="changePage(${pagination.total_pages})">${pagination.total_pages}</button>`;
+    }
+    
+    // Botón siguiente
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_next ? 'disabled' : ''}" 
+                onclick="changePage(${pagination.current_page + 1})" 
+                ${!pagination.has_next ? 'disabled' : ''}>
+            Siguiente ›
+        </button>
+    `;
+    
+    controlsDiv.innerHTML = paginationHTML;
+}
+
+function changePage(page) {
+    // Asegurar que page sea un número válido
+    page = parseInt(page);
+    
+    if (isNaN(page) || page < 1 || (currentData && page > currentData.pagination.total_pages)) {
+        console.warn('Página inválida:', page);
+        return;
+    }
+    
+    console.log('📄 Cambiando a página:', page);
+    loadData(page);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+pais,ingrediente,tipo,unidad,minimo,maximo,establecido,categoria_regulacion,referencias,valor_original
+Argentina,Vitamina A / Retinol,Vitamina,µg,180.0,3000.0,True,Estándar,1,180 - 3000 [1]
+Argentina,Ácido Fólico,Vitamina,µg,72.0,1000.0,True,Estándar,2,72 - 1000 [2]
+Argentina,Beta Caroteno,Vitamina,mg,1.08,17.96,True,Estándar,3,"1,08 - 17,96 [3]"
+Argentina,Biotina,Vitamina,µg,9.0,2500.0,True,Estándar,4,9 - 2500 [4]
+Argentina,Vit B1 / Tiamina,Vitamina,mg,0.36,100.0,True,Estándar,5,"0,36 - 100 [5]"
+Argentina,Vit B2 / Riboflavina,Vitamina,mg,0.39,200.0,True,Estándar,6,"0,39 - 200 [6]"
+Argentina,Vit B3 / Niacina,Vitamina,mg,4.8,500.0,True,Estándar,7,"4,8 - 500 [7]"
+Argentina,Vit B5 / Ac. Pantoténico,Vitamina,mg,1.5,1000.0,True,Estándar,8,"1,5 - 1000 [8]"
+Argentina,Vit B6 / Piridoxina,Vitamina,mg,0.39,100.0,True,Estándar,9,"0,39 - 100 [9]"
+Argentina,Vit B12 / Cianocobalamina,Vitamina,µg,0.72,3000.0,True,Estándar,10,"0,72 - 3000 [10]"
+Argentina,Vit C / Ac. Ascórbico,Vitamina,mg,13.5,2000.0,True,Estándar,11,"13,5 - 2000 [11]"
+Argentina,Vitamina D,Vitamina,µg,1.5,100.0,True,Estándar,12,"1,5 - 100 [12]"
+Argentina,Vitamina E /d-tocoferol,Vitamina,mg,3.0,1000.0,True,Estándar,13,3 - 1000 [13]
+Argentina,Vitamina K,Vitamina,µg,19.5,10000.0,True,Estándar,14,"19,5 - 10000 [14]"
+Argentina,Colina,Vitamina,mg,,,False,Estándar,,No establecidos
+Brasil,Vitamina A / Retinol,Vitamina,µg,135.0,2623.61,True,Estándar,15,"135 - 2623,61 [15]"
+Brasil,Ácido Fólico,Vitamina,µg,60.0,1281.5,True,Estándar,16,"60 - 1281,5 [16]"
+Brasil,Beta Caroteno,Vitamina,mg,0.8,12.12,True,Estándar,17,"0,8 - 12,12 [17]"
+Brasil,Biotina,Vitamina,µg,4.5,5.64,True,Estándar,18,"4,5 - 5,64 [18]"
+Brasil,Vit B1 / Tiamina,Vitamina,mg,0.18,2.02,True,Estándar,19,"0,18 - 2,02 [19]"
+Brasil,Vit B2 / Riboflavina,Vitamina,mg,0.2,2.74,True,Estándar,20,"0,2 - 2,74 [20]"
+Brasil,Vit B3 / Niacina,Vitamina,mg,2.4,35.0,True,Estándar,21,"2,4 - 35 [21]"
+Brasil,Vit B5 / Ac. Pantoténico,Vitamina,mg,0.75,5.64,True,Estándar,22,"0,75 - 5,64 [22]"
+Brasil,Vit B6 / Piridoxina,Vitamina,mg,0.26,98.6,True,Estándar,23,"0,26 - 98,60 [23]"
+Brasil,Vit B12 / Cianocobalamina,Vitamina,µg,0.36,9.64,True,Estándar,24,"0,36 - 9,64 [24]"
+Brasil,Vit C / Ac. Ascórbico,Vitamina,mg,13.5,1916.02,True,Estándar,25,"13,5 - 1916,02 [25]"
+Brasil,Vitamina D,Vitamina,µg,3.0,50.0,True,Estándar,26,3 - 50 [26]
+Brasil,Vitamina E /d-tocoferol,Vitamina,mg,2.25,1000.0,True,Estándar,27,"2,25 - 1000 [27]"
+Brasil,Vitamina K,Vitamina,µg,0.18,149.06,True,Estándar,28,"0,18 - 149,06 [28]"
+Brasil,Colina,Vitamina,mg,82.5,3235.15,True,Estándar,,"82,5 - 3235,15"
+Chile,Vitamina A / Retinol,Vitamina,µg,200.0,1000.0,True,Estándar,,200 - 1000
+Chile,Ácido Fólico,Vitamina,µg,100.0,500.0,True,Estándar,,100 - 500
+Chile,Beta Caroteno,Vitamina,mg,5.0,15.0,True,Estándar,,may-15
+Chile,Biotina,Vitamina,µg,30.0,150.0,True,Estándar,,30 - 150
+Chile,Vit B1 / Tiamina,Vitamina,mg,0.7,6.0,True,Estándar,,"0,7 - 6"
+Chile,Vit B2 / Riboflavina,Vitamina,mg,0.8,6.0,True,Estándar,,"0,8 - 6"
+Chile,Vit B3 / Niacina,Vitamina,mg,4.5,20.0,True,Estándar,,"4,5 - 20"
+Chile,Vit B5 / Ac. Pantoténico,Vitamina,mg,5.0,25.0,True,Estándar,,may-25
+Chile,Vit B6 / Piridoxina,Vitamina,mg,1.0,50.0,True,Estándar,,ene-50
+Chile,Vit B12 / Cianocobalamina,Vitamina,µg,1.0,12.0,True,Estándar,,1-dic
+Chile,Vit C / Ac. Ascórbico,Vitamina,mg,60.0,1000.0,True,Estándar,,60 - 1000
+Chile,Vitamina D,Vitamina,µg,2.0,20.0,True,Estándar,,feb-20
+Chile,Vitamina E /d-tocoferol,Vitamina,mg,20.0,500.0,True,Estándar,,20 - 500
+Chile,Vitamina K,Vitamina,µg,80.0,600.0,True,Estándar,,80 - 600
+Chile,Colina,Vitamina,mg,275.0,2000.0,True,Estándar,,275 - 2000
+Colombia,Vitamina A / Retinol,Vitamina,µg,3000.0,3000.0,True,Estándar,29,No establecido - 3000 [29]
+Colombia,Ácido Fólico,Vitamina,µg,1000.0,1000.0,True,Estándar,,No establecido - 1000
+Colombia,Beta Caroteno,Vitamina,mg,72.0,72.0,True,Estándar,,No establecido - 72
+Colombia,Biotina,Vitamina,µg,900.0,900.0,True,Estándar,,No establecido - 900
+Colombia,Vit B1 / Tiamina,Vitamina,mg,100.0,100.0,True,Estándar,30,No establecido - 100 [30]
+Colombia,Vit B2 / Riboflavina,Vitamina,mg,40.0,40.0,True,Estándar,,No establecido - 40
+Colombia,Vit B3 / Niacina,Vitamina,mg,35.0,35.0,True,Estándar,,No establecido - 35
+Colombia,Vit B5 / Ac. Pantoténico,Vitamina,mg,200.0,200.0,True,Estándar,,No establecido - 200
+Colombia,Vit B6 / Piridoxina,Vitamina,mg,100.0,100.0,True,Estándar,,No establecido - 100
+Colombia,Vit B12 / Cianocobalamina,Vitamina,µg,2000.0,2000.0,True,Estándar,31,No establecido - 2000 [31]
+Colombia,Vit C / Ac. Ascórbico,Vitamina,mg,1000.0,1000.0,True,Estándar,,No establecido - 1000
+Colombia,Vitamina D,Vitamina,µg,50.0,50.0,True,Estándar,,No establecido - 50
+Colombia,Vitamina E /d-tocoferol,Vitamina,mg,1000.0,1000.0,True,Estándar,,No establecido - 1000
+Colombia,Vitamina K,Vitamina,µg,1000.0,1000.0,True,Estándar,32,No establecido - 1000 [32]
+Colombia,Colina,Vitamina,mg,,,False,Estándar,,No establecidos
+Costa Rica,Vitamina A / Retinol,Vitamina,µg,300.0,3000.0,True,Estándar,,300 - 3000
+Costa Rica,Ácido Fólico,Vitamina,µg,80.0,1000.0,True,Estándar,,80 - 1000
+Costa Rica,Beta Caroteno,Vitamina,mg,25.0,25.0,True,Estándar,,No establecido - 25
+Costa Rica,Biotina,Vitamina,µg,60.0,60.0,True,Estándar,,60 - No establecido
+Costa Rica,Vit B1 / Tiamina,Vitamina,mg,0.3,0.3,True,Estándar,,"0,3 - No establecido"
+Costa Rica,Vit B2 / Riboflavina,Vitamina,mg,0.34,0.34,True,Estándar,,"0,34 - No establecido"
+Costa Rica,Vit B3 / Niacina,Vitamina,mg,4.0,35.0,True,Estándar,,abr-35
+Costa Rica,Vit B5 / Ac. Pantoténico,Vitamina,mg,2.0,2.0,True,Estándar,,2 - No establecido
+Costa Rica,Vit B6 / Piridoxina,Vitamina,mg,0.4,100.0,True,Estándar,,"0,4 - 100"
+Costa Rica,Vit B12 / Cianocobalamina,Vitamina,µg,1.2,1.2,True,Estándar,,"1,2 - No establecido"
+Costa Rica,Vit C / Ac. Ascórbico,Vitamina,mg,12.0,0.0,True,Estándar,,dic-00
+Costa Rica,Vitamina D,Vitamina,µg,2.0,60.0,True,Estándar,,feb-60
+Costa Rica,Vitamina E /d-tocoferol,Vitamina,mg,4.0,1000.0,True,Estándar,,4 - 1000
+Costa Rica,Vitamina K,Vitamina,µg,16.0,16.0,True,Estándar,,16 - No establecido
+Costa Rica,Colina,Vitamina,mg,,,False,Estándar,,None
+República Dominicana,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Biotina,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecido
+República Dominicana,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecido
+República Dominicana,Colina,Vitamina,mg,,,False,Estándar,,No establecido
+Ecuador,Vitamina A / Retinol,Vitamina,µg,120.0,3000.0,True,Estándar,33,120 - 3000 [33]
+Ecuador,Ácido Fólico,Vitamina,µg,30.0,1000.0,True,Estándar,34,30 - 1000 [34]
+Ecuador,Beta Caroteno,Vitamina,mg,0.72,0.72,True,Estándar,35,"0,72 - No establecido [35]"
+Ecuador,Biotina,Vitamina,µg,45.0,45.0,True,Estándar,36,45 - No establecido [36]
+Ecuador,Vit B1 / Tiamina,Vitamina,mg,0.21,0.21,True,Estándar,37,"0,21 - No establecido [37]"
+Ecuador,Vit B2 / Riboflavina,Vitamina,mg,0.24,0.24,True,Estándar,38,"0,24 - No establecido [38]"
+Ecuador,Vit B3 / Niacina,Vitamina,mg,2.7,35.0,True,Estándar,39,"2,7 - 35 [39]"
+Ecuador,Vit B5 / Ac. Pantoténico,Vitamina,mg,1.5,1.5,True,Estándar,40,"1,5 - No establecido [40]"
+Ecuador,Vit B6 / Piridoxina,Vitamina,mg,0.3,100.0,True,Estándar,41,"0,3 - 100 [41]"
+Ecuador,Vit B12 / Cianocobalamina,Vitamina,µg,0.15,0.15,True,Estándar,42,"0,15 - No establecido [42]"
+Ecuador,Vit C / Ac. Ascórbico,Vitamina,mg,9.0,2000.0,True,Estándar,43,9 - 2000 [43]
+Ecuador,Vitamina D,Vitamina,µg,0.75,100.0,True,Estándar,44,"0,75 - 100 [44]"
+Ecuador,Vitamina E /d-tocoferol,Vitamina,mg,3.0,1000.0,True,Estándar,45,3 - 1000 [45]
+Ecuador,Vitamina K,Vitamina,µg,12.0,12.0,True,Estándar,46,12 - No establecido [46]
+Ecuador,Colina,Vitamina,mg,3500.0,3500.0,True,Estándar,47,No establecido - 3500 [47]
+Guatemala,Vitamina A / Retinol,Vitamina,µg,15.0,3000.0,True,Suplementos Alimenticios,48,AL:15-3000 / PF:160-3000 [48]
+Guatemala,Vitamina A / Retinol,Vitamina,µg,160.0,3000.0,True,Productos Farmacéuticos,48,AL:15-3000 / PF:160-3000 [48]
+Guatemala,Ácido Fólico,Vitamina,µg,66.0,1000.0,True,Suplementos Alimenticios,49,AL:66-1000 / PF:80-1000 [49]
+Guatemala,Ácido Fólico,Vitamina,µg,80.0,1000.0,True,Productos Farmacéuticos,49,AL:66-1000 / PF:80-1000 [49]
+Guatemala,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecidos
+Guatemala,Biotina,Vitamina,µg,8.0,60.0,True,Límite Superior,50,"UL:8-60 / PF:6-2,5 [50]"
+Guatemala,Biotina,Vitamina,µg,6.0,2.5,True,Productos Farmacéuticos,50,"UL:8-60 / PF:6-2,5 [50]"
+Guatemala,Vit B1 / Tiamina,Vitamina,mg,0.02,0.15,True,Suplementos Alimenticios,51,"AL:0,02-0,15 / PF:0,24-100 [51]"
+Guatemala,Vit B1 / Tiamina,Vitamina,mg,0.24,100.0,True,Productos Farmacéuticos,51,"AL:0,02-0,15 / PF:0,24-100 [51]"
+Guatemala,Vit B2 / Riboflavina,Vitamina,mg,0.32,2.4,True,Suplementos Alimenticios,52,"AL:0,32-2,4 / PF:0,24-200 [52]"
+Guatemala,Vit B2 / Riboflavina,Vitamina,mg,0.24,200.0,True,Productos Farmacéuticos,52,"AL:0,32-2,4 / PF:0,24-200 [52]"
+Guatemala,Vit B3 / Niacina,Vitamina,mg,0.32,900.0,True,Suplementos Alimenticios,53,"AL:0,32-900 / PF:3-35 [53]"
+Guatemala,Vit B3 / Niacina,Vitamina,mg,3.0,35.0,True,Productos Farmacéuticos,53,"AL:0,32-900 / PF:3-35 [53]"
+Guatemala,Vit B5 / Ac. Pantoténico,Vitamina,mg,1.0,7.5,True,Suplementos Alimenticios,54,"AL:1-7,5 / PF:1-1000 [54]"
+Guatemala,Vit B5 / Ac. Pantoténico,Vitamina,mg,1.0,1000.0,True,Productos Farmacéuticos,54,"AL:1-7,5 / PF:1-1000 [54]"
+Guatemala,Vit B6 / Piridoxina,Vitamina,mg,0.34,25.0,True,Suplementos Alimenticios,55,"AL:0,34-25 / PF:0,26-100 [55]"
+Guatemala,Vit B6 / Piridoxina,Vitamina,mg,0.26,100.0,True,Productos Farmacéuticos,55,"AL:0,34-25 / PF:0,26-100 [55]"
+Guatemala,Vit B12 / Cianocobalamina,Vitamina,µg,0.8,6.0,True,Suplementos Alimenticios,56,"AL:0,8-6 / PF:0,48-3000 [56]"
+Guatemala,Vit B12 / Cianocobalamina,Vitamina,µg,0.48,3000.0,True,Productos Farmacéuticos,56,"AL:0,8-6 / PF:0,48-3000 [56]"
+Guatemala,Vit C / Ac. Ascórbico,Vitamina,mg,22.0,165.0,True,Suplementos Alimenticios,57,AL:22-165 / PF:20-2000 [57]
+Guatemala,Vit C / Ac. Ascórbico,Vitamina,mg,20.0,2000.0,True,Productos Farmacéuticos,57,AL:22-165 / PF:20-2000 [57]
+Guatemala,Vitamina D,Vitamina,µg,3.0,100.0,True,Suplementos Alimenticios,58,AL:3-100 / PF:3-50 [58]
+Guatemala,Vitamina D,Vitamina,µg,3.0,50.0,True,Productos Farmacéuticos,58,AL:3-100 / PF:3-50 [58]
+Guatemala,Vitamina E /d-tocoferol,Vitamina,mg,2.6,300.0,True,Suplementos Alimenticios,59,"AL:2,6-300 / PF:1,8-1000 [59]"
+Guatemala,Vitamina E /d-tocoferol,Vitamina,mg,1.8,1000.0,True,Productos Farmacéuticos,59,"AL:2,6-300 / PF:1,8-1000 [59]"
+Guatemala,Vitamina K,Vitamina,µg,14.0,105.0,True,Suplementos Alimenticios,60,AL:14-105 / PF:12-10000 [60]
+Guatemala,Vitamina K,Vitamina,µg,12.0,10000.0,True,Productos Farmacéuticos,60,AL:14-105 / PF:12-10000 [60]
+Guatemala,Colina,Vitamina,mg,80.0,600.0,True,Suplementos Alimenticios,61,AL:80-600 / PF:NE-3500 [61]
+Guatemala,Colina,Vitamina,mg,3500.0,3500.0,True,Productos Farmacéuticos,61,AL:80-600 / PF:NE-3500 [61]
+Honduras,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Biotina,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecidos
+Honduras,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecidos
+Honduras,Colina,Vitamina,mg,,,False,Estándar,,No establecidos
+México,Vitamina A / Retinol,Vitamina,µg,1000.0,1000.0,True,Estándar,,No establecido - 1000
+México,Ácido Fólico,Vitamina,µg,400.0,400.0,True,Estándar,,No establecido - 400
+México,Beta Caroteno,Vitamina,mg,15.0,15.0,True,Estándar,,No establecido - 15
+México,Biotina,Vitamina,µg,300.0,300.0,True,Estándar,,No establecido - 300
+México,Vit B1 / Tiamina,Vitamina,mg,15.0,15.0,True,Estándar,,No establecido - 15
+México,Vit B2 / Riboflavina,Vitamina,mg,18.0,18.0,True,Estándar,,No establecido - 18
+México,Vit B3 / Niacina,Vitamina,mg,25.0,25.0,True,Estándar,,No establecido - 25
+México,Vit B5 / Ac. Pantoténico,Vitamina,mg,20.0,20.0,True,Estándar,,No establecido - 20
+México,Vit B6 / Piridoxina,Vitamina,mg,10.0,10.0,True,Estándar,,No establecido - 10
+México,Vit B12 / Cianocobalamina,Vitamina,µg,12.0,12.0,True,Estándar,,No establecido - 12
+México,Vit C / Ac. Ascórbico,Vitamina,mg,300.0,300.0,True,Estándar,,No establecido - 300
+México,Vitamina D,Vitamina,µg,10.0,10.0,True,Estándar,,No establecido - 10
+México,Vitamina E /d-tocoferol,Vitamina,mg,200.0,200.0,True,Estándar,,No establecido - 200
+México,Vitamina K,Vitamina,µg,30.0,30.0,True,Estándar,,No establecido - 30
+México,Colina,Vitamina,mg,,,False,Estándar,,No establecidos
+Nicaragua,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Biotina,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecido
+Nicaragua,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecido
+Nicaragua,Colina,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Biotina,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecido
+Panamá,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecido
+Panamá,Colina,Vitamina,mg,,,False,Estándar,,No establecido
+Perú,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Biotina,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecidos
+Perú,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecidos
+Perú,Colina,Vitamina,mg,,,False,Estándar,,No establecidos
+El Salvador,Vitamina A / Retinol,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Ácido Fólico,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Beta Caroteno,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Biotina,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Vit B1 / Tiamina,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vit B2 / Riboflavina,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vit B3 / Niacina,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vit B5 / Ac. Pantoténico,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vit B6 / Piridoxina,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vit B12 / Cianocobalamina,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Vit C / Ac. Ascórbico,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vitamina D,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Vitamina E /d-tocoferol,Vitamina,mg,,,False,Estándar,,No establecido
+El Salvador,Vitamina K,Vitamina,µg,,,False,Estándar,,No establecido
+El Salvador,Colina,Vitamina,mg,,,False,Estándar,,No establecido
+Argentina,Magnesio,Mineral,mg,78.0,400.0,True,Estándar,8,78 - 400 [8]
+Argentina,Cobre,Mineral,mg,0.27,9.0,True,Estándar,3,"0,27 - 9 [3]"
+Argentina,Hierro,Mineral,mg,4.2,60.0,True,Estándar,7,"4,2 - 60 [7]"
+Argentina,Calcio,Mineral,mg,300.0,1500.0,True,Estándar,2,300 - 1500 [2]
+Argentina,Cromo,Mineral,µg,10.5,200.0,True,Estándar,4,"10,5 - 200 [4]"
+Argentina,Flúor,Mineral,mg,,,False,Estándar,5,No Establecidos [5]
+Argentina,Fósforo,Mineral,mg,210.0,1500.0,True,Estándar,6,210 - 1500 [6]
+Argentina,Manganeso,Mineral,mg,0.69,10.0,True,Estándar,9,"0,69 - 10 [9]"
+Argentina,Molibdeno,Mineral,µg,13.5,350.0,True,Estándar,10,"13,5 - 350 [10]"
+Argentina,Selenio,Mineral,µg,10.2,200.0,True,Estándar,11,"10,2 - 200 [11]"
+Argentina,Yodo,Mineral,µg,39.0,500.0,True,Estándar,12,39 - 500 [12]
+Argentina,Zinc,Mineral,mg,2.1,30.0,True,Estándar,13,"2,1 - 30 [13]"
+Argentina,Boro,Mineral,mg,6.0,6.0,True,Estándar,1,No establecido - 6 [1]
+Argentina,Níquel,Mineral,mg,,,False,Estándar,,No estblecido
+Argentina,Potasio,Mineral,mg,,,False,Estándar,,No establecido
+Argentina,Silicio,Mineral,mg,,,False,Estándar,,No establecidos
+Argentina,Sodio,Mineral,mg,,,False,Estándar,,No establecido
+Argentina,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Brasil,Magnesio,Mineral,mg,63.0,350.0,True,Estándar,20,63 - 350 [20]
+Brasil,Cobre,Mineral,mg,135.0,8975.52,True,Estándar,16,"135 - 8975,52 [16]"
+Brasil,Hierro,Mineral,mg,2.7,34.31,True,Estándar,19,"2,7 - 34,31 [19]"
+Brasil,Calcio,Mineral,mg,180.0,1534.67,True,Estándar,15,"180 - 1534,67 [15]"
+Brasil,Cromo,Mineral,µg,5.25,250.0,True,Estándar,17,"5,25 - 250 [17]"
+Brasil,Flúor,Mineral,mg,,,False,Estándar,,No establecidos
+Brasil,Fósforo,Mineral,mg,105.0,2083.89,True,Estándar,18,"105 - 2083,89 [18]"
+Brasil,Manganeso,Mineral,mg,0.35,1.66,True,Estándar,21,"0,35 - 1,66 [21]"
+Brasil,Molibdeno,Mineral,µg,6.75,1955.0,True,Estándar,22,"6,75 - 1955 [22]"
+Brasil,Selenio,Mineral,µg,8.25,319.75,True,Estándar,24,"8,25 - 319,75 [24]"
+Brasil,Yodo,Mineral,µg,22.5,919.02,True,Estándar,27,"22,5 - 919,02 [27]"
+Brasil,Zinc,Mineral,mg,1.65,29.59,True,Estándar,28,"1,65 - 29,59 [28]"
+Brasil,Boro,Mineral,mg,8866.0,8866.0,True,Estándar,14,No establecido - 8866 [14]
+Brasil,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+Brasil,Potasio,Mineral,mg,,,False,Estándar,23,No establecido [23]
+Brasil,Silicio,Mineral,mg,,,False,Estándar,25,No establecido [25]
+Brasil,Sodio,Mineral,mg,,,False,Estándar,26,None [26]
+Brasil,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Chile,Magnesio,Mineral,mg,75.0,400.0,True,Estándar,,75 - 400
+Chile,Cobre,Mineral,mg,0.5,3.3,True,Estándar,,"0,5 - 3,3"
+Chile,Hierro,Mineral,mg,3.5,25.0,True,Estándar,,"3,5 - 25"
+Chile,Calcio,Mineral,mg,400.0,1600.0,True,Estándar,,400 - 1600
+Chile,Cromo,Mineral,µg,17.5,200.0,True,Estándar,,"17,5 - 200"
+Chile,Flúor,Mineral,mg,,,False,Estándar,,No establecido
+Chile,Fósforo,Mineral,mg,400.0,1600.0,True,Estándar,,400 - 1600
+Chile,Manganeso,Mineral,mg,0.5,6.0,True,Estándar,,"0,5 - 6"
+Chile,Molibdeno,Mineral,µg,25.0,600.0,True,Estándar,,25 - 600
+Chile,Selenio,Mineral,µg,17.5,200.0,True,Estándar,,"17,5 - 200"
+Chile,Yodo,Mineral,µg,30.0,150.0,True,Estándar,,30 - 150
+Chile,Zinc,Mineral,mg,3.8,20.0,True,Estándar,,"3,8 - 20"
+Chile,Boro,Mineral,mg,,,False,Estándar,,No establecido
+Chile,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+Chile,Potasio,Mineral,mg,3715.0,3715.0,True,Estándar,29,No establecido - 3715 [29]
+Chile,Silicio,Mineral,mg,,,False,Estándar,,No establecido
+Chile,Sodio,Mineral,mg,1610.0,1610.0,True,Estándar,30,No establecido - 1610 [30]
+Chile,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Colombia,Magnesio,Mineral,mg,350.0,350.0,True,Estándar,33,No establecido - 350 [33]
+Colombia,Cobre,Mineral,mg,10.0,10.0,True,Estándar,,No establecido - 10
+Colombia,Hierro,Mineral,mg,45.0,45.0,True,Estándar,,No establecido - 45
+Colombia,Calcio,Mineral,mg,1500.0,1500.0,True,Estándar,31,No establecido - 1500 [31]
+Colombia,Cromo,Mineral,µg,1000.0,1000.0,True,Estándar,,No establecido - 1000
+Colombia,Flúor,Mineral,mg,10.0,10.0,True,Estándar,,No establecido - 10
+Colombia,Fósforo,Mineral,mg,250.0,250.0,True,Estándar,32,No establecido - 250 [32]
+Colombia,Manganeso,Mineral,mg,11.0,11.0,True,Estándar,,No establecido - 11
+Colombia,Molibdeno,Mineral,µg,2000.0,2000.0,True,Estándar,,No establecido - 2000
+Colombia,Selenio,Mineral,µg,400.0,400.0,True,Estándar,,No establecido - 400
+Colombia,Yodo,Mineral,µg,1100.0,1100.0,True,Estándar,,No establecido - 1100
+Colombia,Zinc,Mineral,mg,40.0,40.0,True,Estándar,,No establecido - 40
+Colombia,Boro,Mineral,mg,6.0,6.0,True,Estándar,,No establecido - 6
+Colombia,Níquel,Mineral,mg,0.72,0.72,True,Estándar,,"No establecido - 0,72"
+Colombia,Potasio,Mineral,mg,3700.0,3700.0,True,Estándar,34,No establecido - 3700 [34]
+Colombia,Silicio,Mineral,mg,700.0,700.0,True,Estándar,,No establecido - 700
+Colombia,Sodio,Mineral,mg,2300.0,2300.0,True,Estándar,,No establecido - 2300
+Colombia,Vanadio,Mineral,mg,0.05,0.05,True,Estándar,,"No establecido - 0,05"
+Costa Rica,Magnesio,Mineral,mg,80.0,400.0,True,Estándar,,80 - 400
+Costa Rica,Cobre,Mineral,mg,0.4,10.0,True,Estándar,35,"0,4 - 10 [35]"
+Costa Rica,Hierro,Mineral,mg,3.6,60.0,True,Estándar,,"3,6 - 60"
+Costa Rica,Calcio,Mineral,mg,200.0,2500.0,True,Estándar,,200 - 2500
+Costa Rica,Cromo,Mineral,µg,24.0,24.0,True,Estándar,,24 - No establecido
+Costa Rica,Flúor,Mineral,mg,10.0,10.0,True,Estándar,,No establecido - 10
+Costa Rica,Fósforo,Mineral,mg,200.0,4000.0,True,Estándar,,200 - 4000
+Costa Rica,Manganeso,Mineral,mg,0.4,10.0,True,Estándar,,"0,4 - 10"
+Costa Rica,Molibdeno,Mineral,µg,15.0,2000.0,True,Estándar,,15 - 2000
+Costa Rica,Selenio,Mineral,µg,14.0,400.0,True,Estándar,,14 - 400
+Costa Rica,Yodo,Mineral,µg,30.0,1100.0,True,Estándar,,30 - 1100
+Costa Rica,Zinc,Mineral,mg,3.0,40.0,True,Estándar,,mar-40
+Costa Rica,Boro,Mineral,mg,20.0,20.0,True,Estándar,,No establecido - 20
+Costa Rica,Níquel,Mineral,mg,,,False,Estándar,,None
+Costa Rica,Potasio,Mineral,mg,,,False,Estándar,,None
+Costa Rica,Silicio,Mineral,mg,,,False,Estándar,,None
+Costa Rica,Sodio,Mineral,mg,,,False,Estándar,,None
+Costa Rica,Vanadio,Mineral,mg,,,False,Estándar,,None
+República Dominicana,Magnesio,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Cobre,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Hierro,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Calcio,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Cromo,Mineral,µg,,,False,Estándar,,No establecido
+República Dominicana,Flúor,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Fósforo,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Manganeso,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Molibdeno,Mineral,µg,,,False,Estándar,,No establecido
+República Dominicana,Selenio,Mineral,µg,,,False,Estándar,,No establecido
+República Dominicana,Yodo,Mineral,µg,,,False,Estándar,,No establecido
+República Dominicana,Zinc,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Boro,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Potasio,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Silicio,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Sodio,Mineral,mg,,,False,Estándar,,No establecido
+República Dominicana,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Ecuador,Magnesio,Mineral,mg,45.0,350.0,True,Estándar,43,45 - 350 [43]
+Ecuador,Cobre,Mineral,mg,0.3,10.0,True,Estándar,38,"0,3 - 10 [38]"
+Ecuador,Hierro,Mineral,mg,2.1,2.1,True,Estándar,42,"2,1 - No establecido [42]"
+Ecuador,Calcio,Mineral,mg,120.0,2500.0,True,Estándar,37,120 - 2500 [37]
+Ecuador,Cromo,Mineral,µg,18.0,18.0,True,Estándar,39,18 - No establecido [39]
+Ecuador,Flúor,Mineral,mg,10.0,10.0,True,Estándar,40,No establecido - 10 [40]
+Ecuador,Fósforo,Mineral,mg,150.0,4000.0,True,Estándar,41,150 - 4000 [41]
+Ecuador,Manganeso,Mineral,mg,0.3,11.0,True,Estándar,44,"0,3 - 11 [44]"
+Ecuador,Molibdeno,Mineral,µg,11.25,2000.0,True,Estándar,45,"11,25 - 2000 [45]"
+Ecuador,Selenio,Mineral,µg,10.5,400.0,True,Estándar,48,"10,5 - 400 [48]"
+Ecuador,Yodo,Mineral,µg,22.5,1100.0,True,Estándar,52,"22,5 - 1100 [52]"
+Ecuador,Zinc,Mineral,mg,2.25,40.0,True,Estándar,53,"2,25 - 40 [53]"
+Ecuador,Boro,Mineral,mg,20.0,20.0,True,Estándar,36,No establecido - 20 [36]
+Ecuador,Níquel,Mineral,mg,1.0,1.0,True,Estándar,46,"No establecido - 1,0 [46]"
+Ecuador,Potasio,Mineral,mg,525.0,525.0,True,Estándar,47,525 - No establecido [47]
+Ecuador,Silicio,Mineral,mg,,,False,Estándar,49,No establecido [49]
+Ecuador,Sodio,Mineral,mg,2300.0,2300.0,True,Estándar,50,No establecido - 2300 [50]
+Ecuador,Vanadio,Mineral,mg,1.8,1.8,True,Estándar,51,"No establecido - 1,8 [51]"
+Guatemala,Magnesio,Mineral,mg,,,False,Estándar,61,AL:70-250 / PF:62-400 [61]
+Guatemala,Cobre,Mineral,mg,,,False,Estándar,56,"AL:0,32-5 / PF: 0,9-10 [56]"
+Guatemala,Hierro,Mineral,mg,,,False,Estándar,60,"AL:1,4-10,5 / PF:3,6-45 [60]"
+Guatemala,Calcio,Mineral,mg,,,False,Estándar,55,AL:200-2500 /PF:200-2500 [55]
+Guatemala,Cromo,Mineral,µg,1000.0,1000.0,True,Estándar,57,AL: ND / PF: 7-1000 [57]
+Guatemala,Flúor,Mineral,mg,,,False,Estándar,58,"AL:0,68-7 / PF:2-10 [58]"
+Guatemala,Fósforo,Mineral,mg,,,False,Estándar,59,AL:110-825 / PF:140-4000 [59]
+Guatemala,Manganeso,Mineral,mg,,,False,Estándar,62,"AL:0,6-4,5 / PF:0,6-10 [62]"
+Guatemala,Molibdeno,Mineral,µg,,,False,Estándar,63,AL:13-600 / PF:9-2000 [63]
+Guatemala,Selenio,Mineral,µg,,,False,Estándar,66,AL:14-300 / PF:12-400 [66]
+Guatemala,Yodo,Mineral,µg,,,False,Estándar,70,AL:30-600 / PF:30-1100 [70]
+Guatemala,Zinc,Mineral,mg,,,False,Estándar,71,"AL:2,34-25 / PF:2,6-40 [71]"
+Guatemala,Boro,Mineral,mg,20.0,20.0,True,Estándar,54,AL:ND / PF:NE-20 [54]
+Guatemala,Níquel,Mineral,mg,1.0,1.0,True,Estándar,64,AL:NE / PF: NE-1 [64]
+Guatemala,Potasio,Mineral,mg,,,False,Estándar,65,"AL:700-5250/PF:0,94-NE [65]"
+Guatemala,Silicio,Mineral,mg,,,False,Estándar,67,AL:ND / PF:ND [67]
+Guatemala,Sodio,Mineral,mg,,,False,Estándar,68,AL:400-3000 / PF:300-NE [68]
+Guatemala,Vanadio,Mineral,mg,,,False,Estándar,69,AL: ND / PF:ND [69]
+Honduras,Magnesio,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Cobre,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Hierro,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Calcio,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Cromo,Mineral,µg,,,False,Estándar,,No establecidos
+Honduras,Flúor,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Fósforo,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Manganeso,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Molibdeno,Mineral,µg,,,False,Estándar,,No establecidos
+Honduras,Selenio,Mineral,µg,,,False,Estándar,,No establecidos
+Honduras,Yodo,Mineral,µg,,,False,Estándar,,No establecidos
+Honduras,Zinc,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Boro,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Níquel,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Potasio,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Silicio,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Sodio,Mineral,mg,,,False,Estándar,,No establecidos
+Honduras,Vanadio,Mineral,mg,,,False,Estándar,,No establecidos
+México,Magnesio,Mineral,mg,500.0,500.0,True,Estándar,,No establecido - 500
+México,Cobre,Mineral,mg,3.0,3.0,True,Estándar,,No establecido - 3
+México,Hierro,Mineral,mg,20.0,20.0,True,Estándar,,No establecido - 20
+México,Calcio,Mineral,mg,1200.0,1200.0,True,Estándar,,No establecido - 1200
+México,Cromo,Mineral,µg,200.0,200.0,True,Estándar,,No establecido - 200
+México,Flúor,Mineral,mg,1.0,1.0,True,Estándar,,No establecido - 1
+México,Fósforo,Mineral,mg,1200.0,1200.0,True,Estándar,,No establecido - 1200
+México,Manganeso,Mineral,mg,7.5,7.5,True,Estándar,,"No establecido - 7,5"
+México,Molibdeno,Mineral,µg,250.0,250.0,True,Estándar,,No establecido - 250
+México,Selenio,Mineral,µg,100.0,100.0,True,Estándar,,No establecido - 100
+México,Yodo,Mineral,µg,200.0,200.0,True,Estándar,,No establecido - 200
+México,Zinc,Mineral,mg,20.0,20.0,True,Estándar,72,No establecido - 20 [72]
+México,Boro,Mineral,mg,,,False,Estándar,,No establecidos
+México,Níquel,Mineral,mg,,,False,Estándar,,No establecidos
+México,Potasio,Mineral,mg,,,False,Estándar,,No establecidos
+México,Silicio,Mineral,mg,,,False,Estándar,,No establecidos
+México,Sodio,Mineral,mg,,,False,Estándar,,No establecidos
+México,Vanadio,Mineral,mg,,,False,Estándar,,No establecidos
+Nicaragua,Magnesio,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Cobre,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Hierro,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Calcio,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Cromo,Mineral,µg,,,False,Estándar,,No establecido
+Nicaragua,Flúor,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Fósforo,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Manganeso,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Molibdeno,Mineral,µg,,,False,Estándar,,No establecido
+Nicaragua,Selenio,Mineral,µg,,,False,Estándar,,No establecido
+Nicaragua,Yodo,Mineral,µg,,,False,Estándar,,No establecido
+Nicaragua,Zinc,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Boro,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Potasio,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Silicio,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Sodio,Mineral,mg,,,False,Estándar,,No establecido
+Nicaragua,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Magnesio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Cobre,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Hierro,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Calcio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Cromo,Mineral,µg,,,False,Estándar,,No establecido
+Panamá,Flúor,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Fósforo,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Manganeso,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Molibdeno,Mineral,µg,,,False,Estándar,,No establecido
+Panamá,Selenio,Mineral,µg,,,False,Estándar,,No establecido
+Panamá,Yodo,Mineral,µg,,,False,Estándar,,No establecido
+Panamá,Zinc,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Boro,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Potasio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Silicio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Sodio,Mineral,mg,,,False,Estándar,,No establecido
+Panamá,Vanadio,Mineral,mg,,,False,Estándar,,No establecido
+Perú,Magnesio,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Cobre,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Hierro,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Calcio,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Cromo,Mineral,µg,,,False,Estándar,,No establecidos
+Perú,Flúor,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Fósforo,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Manganeso,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Molibdeno,Mineral,µg,,,False,Estándar,,No establecidos
+Perú,Selenio,Mineral,µg,,,False,Estándar,,No establecidos
+Perú,Yodo,Mineral,µg,,,False,Estándar,,No establecidos
+Perú,Zinc,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Boro,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Níquel,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Potasio,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Silicio,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Sodio,Mineral,mg,,,False,Estándar,,No establecidos
+Perú,Vanadio,Mineral,mg,,,False,Estándar,,No establecidos
+El Salvador,Magnesio,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Cobre,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Hierro,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Calcio,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Cromo,Mineral,µg,,,False,Estándar,,No establecido
+El Salvador,Flúor,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Fósforo,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Manganeso,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Molibdeno,Mineral,µg,,,False,Estándar,,No establecido
+El Salvador,Selenio,Mineral,µg,,,False,Estándar,,No establecido
+El Salvador,Yodo,Mineral,µg,,,False,Estándar,,No establecido
+El Salvador,Zinc,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Boro,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Níquel,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Potasio,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Silicio,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Sodio,Mineral,mg,,,False,Estándar,,No establecido
+El Salvador,Vanadio,Mineral,mg,,,False,Estándar,,No establecido

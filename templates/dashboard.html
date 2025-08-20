@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Dashboards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #8ba873;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background-color: #f3f4f6;
+            color: #374151;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #e5e7eb;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .welcome-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #8ba873;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .welcome-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .dashboards-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .dashboards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .dashboard-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #8ba873, #8ba873);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .coming-soon:hover {
+            transform: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .coming-soon-badge {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .quick-stats {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .user-menu {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .main-container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .welcome-section {
+                padding: 24px;
+            }
+
+            .welcome-title {
+                font-size: 24px;
+            }
+
+            .dashboards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Portal de Dashboards</div>
+            <div class="user-menu">
+                <span class="user-info">Bienvenido, {{ user }}</span>
+                <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="welcome-section">
+            <h1 class="welcome-title">Panel de Control</h1>
+            <p class="welcome-subtitle">Accede a tus dashboards de análisis de datos</p>
+            <p class="welcome-description">
+                Bienvenido a tu portal personalizado de dashboards. Aquí puedes acceder a diferentes 
+                herramientas de análisis y visualización de datos. Selecciona el dashboard que necesitas 
+                para comenzar tu análisis.
+            </p>
+        </section>
+
+        <section class="dashboards-section">
+            <h2 class="section-title">Dashboards Disponibles</h2>
+            <div class="dashboards-grid">
+                <a href="/dashboard/molecules" class="dashboard-card">
+                    <div class="dashboard-icon">🧬</div>
+                    <h3 class="dashboard-title">Moléculas ILAR</h3>
+                    <p class="dashboard-description">
+                        Análisis completo de moléculas farmacéuticas con filtros por país, 
+                        tipo de medicamento (RX/OTC) y visualizaciones interactivas.
+                    </p>
+                    <div class="dashboard-stats">
+                        <div class="stat-item">
+                            <span>📊</span>
+                            <span>Gráficos interactivos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>🔍</span>
+                            <span>Filtros avanzados</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/dashboard/suplementos" class="dashboard-card">
+                    <div class="dashboard-icon">💊</div>
+                    <h3 class="dashboard-title">Suplementos América Latina</h3>
+                    <p class="dashboard-description">
+                        Análisis regulatorio de suplementos nutricionales en países de América Latina.
+                        Comparación de normativas por ingrediente y país con referencias específicas.
+                    </p>
+                    <div class="dashboard-stats">
+                        <div class="stat-item">
+                            <span>🌎</span>
+                            <span>Múltiples países</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>📋</span>
+                            <span>Comparación regulatoria</span>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="dashboard-card coming-soon">
+                    <div class="dashboard-icon">📈</div>
+                    <h3 class="dashboard-title">
+                        Análisis de Ventas
+                        <span class="coming-soon-badge">Próximamente</span>
+                    </h3>
+                    <p class="dashboard-description">
+                        Dashboard para análisis de ventas y tendencias de mercado con 
+                        métricas de performance y proyecciones.
+                    </p>
+                    <div class="dashboard-stats">
+                        <div class="stat-item">
+                            <span>💰</span>
+                            <span>Métricas financieras</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>📅</span>
+                            <span>Análisis temporal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Verificar conexión y mostrar estado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación suave para las tarjetas
+            const cards = document.querySelectorAll('.dashboard-card:not(.coming-soon)');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Prevenir clicks en dashboards no disponibles
+            const comingSoonCards = document.querySelectorAll('.coming-soon');
+            comingSoonCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Este dashboard estará disponible próximamente.');
+                });
+            });
+        });
+
+        // Función para actualizar estadísticas (se puede conectar con API real)
+        function updateStats() {
+            // Aquí se pueden actualizar las estadísticas en tiempo real
+            console.log('Actualizando estadísticas...');
+        }
+
+        // Actualizar cada 30 segundos
+        setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Suplementos - América Latina</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #1a365d;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.logout-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.main-container {
+    max-width: 1400px;
+    margin: 24px auto;
+    padding: 0 24px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    color: #666;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 16px;
+}
+
+.info-box {
+    background: #e8f4fd;
+    border: 1px solid #bde3ff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.info-box h4 {
+    color: #1a365d;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.info-box ul {
+    list-style: none;
+    color: #374151;
+}
+
+.info-box li {
+    margin-bottom: 4px;
+}
+
+.metrics-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 4px;
+}
+
+.metric-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.content-tabs {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: visible; /* Cambiar de hidden a visible */
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 16px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.tab-button.active {
+    color: #1a365d;
+    border-bottom-color: #1a365d;
+    background-color: #f8f9fa;
+}
+
+.tab-button:hover:not(.active) {
+    background-color: #f3f4f6;
+}
+
+.tab-content {
+    display: none;
+    padding: 24px;
+    overflow: visible; /* Permitir overflow */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Asegurar que el contenedor padre permita overflow */
+.filters-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    overflow: visible; /* Permitir overflow */
+    position: relative;
+}
+
+.filters-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.filter-select {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #1a365d;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+.multi-select-container {
+    position: relative;
+    z-index: 100;
+}
+
+.multi-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001; /* Aumentar más el z-index */
+    display: none;
+}
+
+.multi-select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.multi-select-option:hover {
+    background-color: #f8f9fa;
+}
+
+.multi-select-option.selected {
+    background-color: #e8f4fd;
+    color: #1a365d;
+    font-weight: 500;
+}
+
+.multi-select-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.control-btn {
+    background-color: #f8f9fa;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.data-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.pagination-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-width: 36px;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.pagination-btn.active {
+    background-color: #1a365d;
+    color: white;
+    border-color: #1a365d;
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #666;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.country-comparison-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.country-comparison-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a365d;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.comparison-item {
+    margin-bottom: 12px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.comparison-item-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.comparison-item-value {
+    color: #666;
+    font-size: 14px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #1a365d;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.export-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.export-btn {
+    background-color: #1a365d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+    background-color: #2d4a65;
+}
+
+@media (max-width: 1024px) {
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs-header {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 0 16px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .metrics-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Estatus de autorización - colores específicos */
+.status-autorizado {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-no-autorizado {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-requiere-evaluacion {
+    background-color: #fef3c7;
+    color: #92400e;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="header-content">
+    <div class="breadcrumb">
+        <a href="/dashboard">🏠 Dashboard</a>
+        <span>›</span>
+        <span>Suplementos América Latina</span>
+    </div>
+    <div class="user-menu">
+        <span class="user-info">{{ user }}</span>
+        <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    </div>
+</div>
+</header>
+
+<main class="main-container">
+<h1 class="page-title">Dashboard de Suplementos - América Latina</h1>
+<p class="page-subtitle">Análisis de regulación de suplementos nutricionales por país e ingrediente</p>
+
+<section class="metrics-section" id="metricsSection">
+    <div class="metric-card">
+        <div class="metric-value" id="totalRecords">-</div>
+        <div class="metric-label">Total de registros</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="uniqueCountries">-</div>
+        <div class="metric-label">Países únicos</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="uniqueIngredients">-</div>
+        <div class="metric-label">Ingredientes únicos</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="establishedRegulations">-</div>
+        <div class="metric-label">Regulaciones establecidas</div>
+    </div>
+</section>
+
+<section class="content-tabs">
+    <div class="tabs-header">
+        <button class="tab-button active" onclick="showTab('analysis')">
+            🔬 Análisis por Ingrediente
+        </button>
+        <button class="tab-button" onclick="showTab('comparison')">
+            🏛️ Comparación Regulatoria
+        </button>
+        <button class="tab-button" onclick="showTab('otras-sustancias')">
+            🌿 Otras Sustancias
+        </button>
+    </div>
+
+    <!-- Análisis por Ingrediente -->
+    <div id="analysisTab" class="tab-content active">
+        <div class="filters-section">
+            <h3 class="filters-title">🔍 Filtros de Análisis</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Tipo de suplemento:</label>
+                    <select id="tipoSelect" class="filter-select">
+                        <option value="all">Todos los tipos</option>
+                        <option value="Vitamina">Vitamina</option>
+                        <option value="Mineral">Mineral</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Ingredientes:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="ingredientSelector" onclick="toggleDropdown('ingredientDropdown')">
+                            Seleccionar ingredientes...
+                        </div>
+                        <div class="multi-select-dropdown" id="ingredientDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllIngredients()">
+                                Todos
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllIngredients()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Países:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="countrySelector" onclick="toggleDropdown('countryDropdown')">
+                            Seleccionar países...
+                        </div>
+                        <div class="multi-select-dropdown" id="countryDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllCountries()">
+                                Todos
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllCountries()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="analysisLoading">
+            <div class="spinner"></div>
+            <div>Cargando análisis...</div>
+        </div>
+        
+        <div id="analysisContent" style="display: none;">
+            <div class="pagination-info" id="analysisPaginationInfo"></div>
+            <div class="table-container">
+                <table class="data-table" id="analysisTable">
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th>Ingrediente</th>
+                            <th>Tipo</th>
+                            <th>Mínimo</th>
+                            <th>Máximo</th>
+                            <th>Unidad</th>
+                            <th>Establecido</th>
+                            <th>Categoría</th>
+                            <th>Referencias</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analysisTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-controls" id="analysisPaginationControls"></div>
+            
+            <div class="export-section">
+                <button class="export-btn" onclick="exportAnalysisData()">
+                    📥 Exportar datos filtrados (CSV)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparación Regulatoria -->
+    <div id="comparisonTab" class="tab-content">
+        <div class="filters-section">
+            <h3 class="filters-title">🌎 Filtros de Comparación</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Países a comparar:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="comparisonCountrySelector" onclick="toggleDropdown('comparisonCountryDropdown')">
+                            Seleccionar países...
+                        </div>
+                        <div class="multi-select-dropdown" id="comparisonCountryDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllComparisonCountries()">
+                                Todos
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllComparisonCountries()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Categorías a comparar:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="categorySelector" onclick="toggleDropdown('categoryDropdown')">
+                            Seleccionar categorías...
+                        </div>
+                        <div class="multi-select-dropdown" id="categoryDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllCategories()">
+                                Todas
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllCategories()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="comparisonLoading">
+            <div class="spinner"></div>
+            <div>Cargando comparación...</div>
+        </div>
+        
+        <div id="comparisonContent" style="display: none;">
+            <div class="comparison-grid" id="comparisonGrid">
+                <!-- Contenido de comparación se carga dinámicamente -->
+            </div>
+            
+            <div class="export-section">
+                <button class="export-btn" onclick="exportComparisonData()">
+                    📥 Exportar comparación (CSV)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Otras Sustancias -->
+    <div id="otrasSustanciasTab" class="tab-content">
+        <div class="filters-section">
+            <h3 class="filters-title">🔍 Filtros de Otras Sustancias</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Categoría de sustancia:</label>
+                    <select id="categoriaOtrasSustanciasSelect" class="filter-select">
+                        <option value="all">Todas las categorías</option>
+                        <!-- Opciones se cargan dinámicamente -->
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Países:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="paisesOtrasSustanciasSelector" onclick="toggleDropdown('paisesOtrasSustanciasDropdown')">
+                            Seleccionar países...
+                        </div>
+                        <div class="multi-select-dropdown" id="paisesOtrasSustanciasDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllOtrasSustanciasPaises()">
+                                Todos
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllOtrasSustanciasPaises()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="otrasSustanciasLoading">
+            <div class="spinner"></div>
+            <div>Cargando otras sustancias...</div>
+        </div>
+        
+        <div id="otrasSustanciasContent" style="display: none;">
+            <div class="pagination-info" id="otrasSustanciasPaginationInfo"></div>
+            <div class="table-container">
+                <table class="data-table" id="otrasSustanciasTable">
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Sustancia</th>
+                            <th>País</th>
+                            <th>Estatus de Autorización</th>
+                        </tr>
+                    </thead>
+                    <tbody id="otrasSustanciasTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-controls" id="otrasSustanciasPaginationControls"></div>
+            
+            <div class="export-section">
+                <button class="export-btn" onclick="exportOtrasSustanciasData()">
+                    📥 Exportar datos filtrados (CSV)
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+<script>
+// Variables globales
+let allData = null;
+let allReferences = null;
+let selectedIngredients = [];
+let selectedCountries = [];
+let selectedComparisonCountries = [];
+let selectedCategories = [];
+let currentAnalysisPage = 1;
+let pageSize = 50;
+let selectedOtrasSustanciasPaises = [];
+let currentOtrasSustanciasPage = 1;
+let otrasSustanciasCategorias = [];
+let otrasSustanciasPaises = [];
+
+// Inicializar dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    loadInitialData();
+});
+
+async function loadInitialData() {
+    try {
+        console.log('🔄 Cargando datos iniciales...');
+        
+        // Primero cargar categorías regulatorias
+        const categoriesResponse = await fetch('/api/suplementos-categories');
+        if (categoriesResponse.ok) {
+            const categoriesData = await categoriesResponse.json();
+            console.log('📋 Categorías regulatorias cargadas:', categoriesData);
+            setupRegulatoryCategories(categoriesData);
+        } else {
+            console.warn('No se pudieron cargar las categorías regulatorias');
+        }
+        
+        // Luego cargar datos principales
+        const response = await fetch('/api/suplementos-initial');
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('📊 Datos iniciales cargados:', data);
+        
+        allData = data.data;
+        allReferences = data.references;
+        
+        setupFilters(data);
+        updateMetrics();
+        loadAnalysisData();
+        
+    } catch (error) {
+        console.error('❌ Error cargando datos iniciales:', error);
+        alert('Error al cargar los datos. Verifica la consola para más detalles.');
+    }
+}
+
+function setupFilters(data) {
+    // Configurar filtros de ingredientes
+    const ingredientDropdown = document.getElementById('ingredientDropdown');
+    const ingredients = [...new Set(data.data.map(item => item.ingrediente))].sort();
+    
+    ingredientDropdown.innerHTML = ingredients.map(ingredient => 
+        `<div class="multi-select-option" data-value="${ingredient}" onclick="toggleIngredientSelection('${ingredient}')">${ingredient}</div>`
+    ).join('');
+    
+    // Configurar filtros de países para análisis
+    const countryDropdown = document.getElementById('countryDropdown');
+    const countries = [...new Set(data.data.map(item => item.pais))].sort();
+    
+    const countryOptions = countries.map(country => 
+        `<div class="multi-select-option" data-value="${country}" onclick="toggleCountrySelection('${country}')">${country}</div>`
+    ).join('');
+    
+    countryDropdown.innerHTML = countryOptions;
+    
+    // Configurar filtros de países para comparación (se actualizará con datos regulatorios)
+    const comparisonCountryDropdown = document.getElementById('comparisonCountryDropdown');
+    comparisonCountryDropdown.innerHTML = countryOptions.replace(/toggleCountrySelection/g, 'toggleComparisonCountrySelection');
+    
+    // Event listener para cambio de tipo
+    document.getElementById('tipoSelect').addEventListener('change', function() {
+        updateIngredientFilter();
+        currentAnalysisPage = 1;
+        loadAnalysisData();
+    });
+}
+
+function updateIngredientFilter() {
+    const selectedType = document.getElementById('tipoSelect').value;
+    const ingredientDropdown = document.getElementById('ingredientDropdown');
+    
+    let filteredIngredients;
+    if (selectedType === 'all') {
+        filteredIngredients = [...new Set(allData.map(item => item.ingrediente))].sort();
+    } else {
+        // CORRECCIÓN: Asegurar que el filtro sea exacto
+        filteredIngredients = [...new Set(allData.filter(item => {
+            console.log(`Comparando: item.tipo='${item.tipo}' con selectedType='${selectedType}'`);
+            return item.tipo === selectedType;
+        }).map(item => item.ingrediente))].sort();
+        
+        console.log(`Ingredientes filtrados para tipo '${selectedType}':`, filteredIngredients);
+    }
+    
+    // Limpiar selecciones anteriores
+    selectedIngredients = [];
+    updateSelectorDisplay('ingredientSelector', selectedIngredients, 'ingredientes');
+    
+    // Actualizar opciones
+    ingredientDropdown.innerHTML = filteredIngredients.map(ingredient => 
+        `<div class="multi-select-option" data-value="${ingredient}" onclick="toggleIngredientSelection('${ingredient}')">${ingredient}</div>`
+    ).join('');
+}
+
+function toggleDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    const isVisible = dropdown.style.display === 'block';
+    
+    // Cerrar todos los dropdowns
+    document.querySelectorAll('.multi-select-dropdown').forEach(d => d.style.display = 'none');
+    
+    // Mostrar el seleccionado si estaba cerrado
+    if (!isVisible) {
+        dropdown.style.display = 'block';
+    }
+}
+
+// Cerrar dropdowns al hacer clic fuera
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.multi-select-container')) {
+        document.querySelectorAll('.multi-select-dropdown').forEach(d => d.style.display = 'none');
+    }
+});
+
+function toggleIngredientSelection(ingredient) {
+    const index = selectedIngredients.indexOf(ingredient);
+    const option = document.querySelector(`#ingredientDropdown [data-value="${ingredient}"]`);
+    
+    if (index === -1) {
+        selectedIngredients.push(ingredient);
+        option.classList.add('selected');
+    } else {
+        selectedIngredients.splice(index, 1);
+        option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('ingredientSelector', selectedIngredients, 'ingredientes');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function toggleCountrySelection(country) {
+    const index = selectedCountries.indexOf(country);
+    const option = document.querySelector(`#countryDropdown [data-value="${country}"]`);
+    
+    if (index === -1) {
+        selectedCountries.push(country);
+        option.classList.add('selected');
+    } else {
+        selectedCountries.splice(index, 1);
+        option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('countrySelector', selectedCountries, 'países');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function toggleComparisonCountrySelection(country) {
+    const index = selectedComparisonCountries.indexOf(country);
+    const option = document.querySelector(`#comparisonCountryDropdown [data-value="${country}"]`);
+    
+    if (index === -1) {
+        selectedComparisonCountries.push(country);
+        if (option) option.classList.add('selected');
+    } else {
+        selectedComparisonCountries.splice(index, 1);
+        if (option) option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('comparisonCountrySelector', selectedComparisonCountries, 'países');
+    loadComparisonData();
+}
+
+function toggleCategorySelection(category) {
+    const index = selectedCategories.indexOf(category);
+    const option = document.querySelector(`#categoryDropdown [data-value="${category}"]`);
+    
+    if (index === -1) {
+        selectedCategories.push(category);
+        if (option) option.classList.add('selected');
+    } else {
+        selectedCategories.splice(index, 1);
+        if (option) option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('categorySelector', selectedCategories, 'categorías');
+    loadComparisonData();
+}
+
+function updateSelectorDisplay(selectorId, selectedItems, label) {
+    const selector = document.getElementById(selectorId);
+    if (selectedItems.length === 0) {
+        selector.textContent = `Seleccionar ${label}...`;
+    } else if (selectedItems.length === 1) {
+        selector.textContent = selectedItems[0];
+    } else {
+        selector.textContent = `${selectedItems.length} ${label} seleccionados`;
+    }
+}
+
+function selectAllIngredients() {
+    const selectedType = document.getElementById('tipoSelect').value;
+    let allIngredients;
+    
+    if (selectedType === 'all') {
+        allIngredients = [...new Set(allData.map(item => item.ingrediente))];
+    } else {
+        // CORRECCIÓN: Usar el mismo filtro exacto
+        allIngredients = [...new Set(allData.filter(item => item.tipo === selectedType).map(item => item.ingrediente))];
+    }
+    
+    selectedIngredients = [...allIngredients];
+    
+    // Actualizar UI
+    document.querySelectorAll('#ingredientDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('ingredientSelector', selectedIngredients, 'ingredientes');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function clearAllIngredients() {
+    selectedIngredients = [];
+    
+    document.querySelectorAll('#ingredientDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('ingredientSelector', selectedIngredients, 'ingredientes');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function selectAllCountries() {
+    const allCountries = [...new Set(allData.map(item => item.pais))];
+    selectedCountries = [...allCountries];
+    
+    document.querySelectorAll('#countryDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('countrySelector', selectedCountries, 'países');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function clearAllCountries() {
+    selectedCountries = [];
+    
+    document.querySelectorAll('#countryDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('countrySelector', selectedCountries, 'países');
+    currentAnalysisPage = 1;
+    loadAnalysisData();
+}
+
+function selectAllComparisonCountries() {
+    // CAMBIAR: No usar allData, usar los países del dropdown de comparación
+    const countryOptions = document.querySelectorAll('#comparisonCountryDropdown .multi-select-option');
+    const allCountries = Array.from(countryOptions).map(option => option.getAttribute('data-value'));
+    
+    selectedComparisonCountries = [...allCountries];
+    
+    document.querySelectorAll('#comparisonCountryDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('comparisonCountrySelector', selectedComparisonCountries, 'países');
+    loadComparisonData();
+}
+
+function clearAllComparisonCountries() {
+    selectedComparisonCountries = [];
+    
+    document.querySelectorAll('#comparisonCountryDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('comparisonCountrySelector', selectedComparisonCountries, 'países');
+    
+    // Cerrar dropdown después de limpiar
+    document.getElementById('comparisonCountryDropdown').style.display = 'none';
+    
+    loadComparisonData();
+}
+
+function selectAllCategories() {
+    // Obtener categorías desde los datos regulatorios, no desde allData
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const allCategories = Array.from(categoryDropdown.querySelectorAll('.multi-select-option')).map(option => option.getAttribute('data-value'));
+    selectedCategories = [...allCategories];
+    
+    document.querySelectorAll('#categoryDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('categorySelector', selectedCategories, 'categorías');
+    loadComparisonData();
+}
+
+function clearAllCategories() {
+    selectedCategories = [];
+    
+    document.querySelectorAll('#categoryDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('categorySelector', selectedCategories, 'categorías');
+    
+    // Cerrar dropdown después de limpiar
+    document.getElementById('categoryDropdown').style.display = 'none';
+    
+    loadComparisonData();
+}
+
+function updateMetrics() {
+    if (!allData) return;
+    
+    const totalRecords = allData.length;
+    const uniqueCountries = new Set(allData.map(item => item.pais)).size;
+    const uniqueIngredients = new Set(allData.map(item => item.ingrediente)).size;
+    const establishedRegulations = allData.filter(item => item.establecido).length;
+    
+    document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
+    document.getElementById('uniqueCountries').textContent = uniqueCountries;
+    document.getElementById('uniqueIngredients').textContent = uniqueIngredients;
+    document.getElementById('establishedRegulations').textContent = establishedRegulations.toLocaleString();
+}
+
+async function loadAnalysisData(page = 1) {
+    try {
+        page = parseInt(page) || 1;
+        
+        if (page === 1) {
+            document.getElementById('analysisLoading').style.display = 'block';
+            document.getElementById('analysisContent').style.display = 'none';
+        }
+        
+        const params = new URLSearchParams({
+            page: page,
+            page_size: pageSize
+        });
+        
+        const selectedType = document.getElementById('tipoSelect').value;
+        if (selectedType !== 'all') {
+            params.append('tipo', selectedType);
+        }
+        
+        if (selectedIngredients.length > 0) {
+            params.append('ingredientes', selectedIngredients.join(','));
+        }
+        
+        if (selectedCountries.length > 0) {
+            params.append('paises', selectedCountries.join(','));
+        }
+        
+        const response = await fetch(`/api/suplementos-analysis?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos de análisis recibidos:', data);
+        
+        currentAnalysisPage = page;
+        updateAnalysisTable(data.table_data);
+        updateAnalysisPagination(data.pagination);
+        
+    } catch (error) {
+        console.error('Error cargando análisis:', error);
+        alert('Error al cargar los datos de análisis.');
+        
+        document.getElementById('analysisLoading').style.display = 'none';
+        document.getElementById('analysisContent').style.display = 'block';
+        document.getElementById('analysisTableBody').innerHTML = 
+            '<tr><td colspan="9" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos.</td></tr>';
+    }
+}
+
+function updateAnalysisTable(tableData) {
+    const tbody = document.getElementById('analysisTableBody');
+    tbody.innerHTML = '';
+    
+    if (tableData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
+        document.getElementById('analysisLoading').style.display = 'none';
+        document.getElementById('analysisContent').style.display = 'block';
+        return;
+    }
+    
+    tableData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.pais || '-'}</td>
+            <td>${row.ingrediente || '-'}</td>
+            <td>${row.tipo || '-'}</td>
+            <td>${row.minimo !== null && row.minimo !== undefined ? row.minimo.toFixed(3) : '-'}</td>
+            <td>${row.maximo !== null && row.maximo !== undefined ? row.maximo.toFixed(3) : '-'}</td>
+            <td>${row.unidad || '-'}</td>
+            <td>${row.establecido ? 'Sí' : 'No'}</td>
+            <td>${row.categoria_regulacion || '-'}</td>
+            <td>${row.referencias || '-'}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    document.getElementById('analysisLoading').style.display = 'none';
+    document.getElementById('analysisContent').style.display = 'block';
+}
+
+function updateAnalysisPagination(pagination) {
+    const infoDiv = document.getElementById('analysisPaginationInfo');
+    const controlsDiv = document.getElementById('analysisPaginationControls');
+    
+    infoDiv.innerHTML = `
+        Mostrando ${pagination.showing_from} - ${pagination.showing_to} de ${pagination.total_records} registros
+    `;
+    
+    if (pagination.total_records === 0) {
+        controlsDiv.innerHTML = '';
+        return;
+    }
+    
+    let paginationHTML = '';
+    
+    // Botón anterior
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_previous ? 'disabled' : ''}" 
+                onclick="changeAnalysisPage(${pagination.current_page - 1})" 
+                ${!pagination.has_previous ? 'disabled' : ''}>
+            ‹ Anterior
+        </button>
+    `;
+    
+    // Números de página
+    const startPage = Math.max(1, pagination.current_page - 2);
+    const endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+    
+    if (startPage > 1) {
+        paginationHTML += `<button class="pagination-btn" onclick="changeAnalysisPage(1)">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button class="pagination-btn ${i === pagination.current_page ? 'active' : ''}" 
+                    onclick="changeAnalysisPage(${i})">
+                ${i}
+            </button>
+        `;
+    }
+    
+    if (endPage < pagination.total_pages) {
+        if (endPage < pagination.total_pages - 1) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+        paginationHTML += `<button class="pagination-btn" onclick="changeAnalysisPage(${pagination.total_pages})">${pagination.total_pages}</button>`;
+    }
+    
+    // Botón siguiente
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_next ? 'disabled' : ''}" 
+                onclick="changeAnalysisPage(${pagination.current_page + 1})" 
+                ${!pagination.has_next ? 'disabled' : ''}>
+            Siguiente ›
+        </button>
+    `;
+    
+    controlsDiv.innerHTML = paginationHTML;
+}
+
+function changeAnalysisPage(page) {
+    page = parseInt(page);
+    if (isNaN(page) || page < 1) return;
+    
+    loadAnalysisData(page);
+}
+
+async function loadComparisonData() {
+    console.log('Intentando cargar comparación con:', {
+        países: selectedComparisonCountries,
+        categorías: selectedCategories
+    });
+    
+    if (selectedComparisonCountries.length === 0 || selectedCategories.length === 0) {
+        console.log('No hay países o categorías seleccionados');
+        document.getElementById('comparisonContent').style.display = 'none';
+        return;
+    }
+    
+    try {
+        document.getElementById('comparisonLoading').style.display = 'block';
+        document.getElementById('comparisonContent').style.display = 'none';
+        
+        const params = new URLSearchParams({
+            paises: selectedComparisonCountries.join(','),
+            categorias: selectedCategories.join(',')
+        });
+        
+        console.log('Enviando parámetros:', params.toString());
+        
+        const response = await fetch(`/api/suplementos-comparison?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos de comparación recibidos:', data);
+        
+        updateRegulatoryComparisonGrid(data.comparison_data);
+        
+    } catch (error) {
+        console.error('Error cargando comparación:', error);
+        alert('Error al cargar los datos de comparación.');
+        
+        document.getElementById('comparisonLoading').style.display = 'none';
+        document.getElementById('comparisonContent').style.display = 'block';
+    }
+}
+
+function setupRegulatoryCategories(categoriesData) {
+    console.log('Configurando categorías regulatorias:', categoriesData);
+    
+    // Configurar países para comparación
+    const comparisonCountryDropdown = document.getElementById('comparisonCountryDropdown');
+    
+    if (categoriesData.countries && categoriesData.countries.length > 0) {
+        selectedComparisonCountries = [];
+        updateSelectorDisplay('comparisonCountrySelector', selectedComparisonCountries, 'países');
+        
+        const countryOptions = categoriesData.countries.map(country => {
+            // Escapar caracteres especiales para el onclick
+            const escapedCountry = country.replace(/'/g, "\\'");
+            return `<div class="multi-select-option" data-value="${country}" onclick="toggleComparisonCountrySelection('${escapedCountry}')">${country}</div>`;
+        }).join('');
+        
+        comparisonCountryDropdown.innerHTML = countryOptions;
+        console.log('Países configurados:', categoriesData.countries);
+    }
+    
+    // Configurar categorías
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    
+    selectedCategories = [];
+    updateSelectorDisplay('categorySelector', selectedCategories, 'categorías');
+    
+    if (categoriesData.categories && categoriesData.categories.length > 0) {
+        const categoryOptions = categoriesData.categories.map(category => {
+            const escapedCategory = category.replace(/'/g, "\\'");
+            return `<div class="multi-select-option" data-value="${category}" onclick="toggleCategorySelection('${escapedCategory}')">${category}</div>`;
+        }).join('');
+        
+        categoryDropdown.innerHTML = categoryOptions;
+        console.log('Categorías configuradas:', categoriesData.categories);
+    }
+}
+
+async function loadComparisonData() {
+    if (selectedComparisonCountries.length === 0 || selectedCategories.length === 0) {
+        document.getElementById('comparisonContent').style.display = 'none';
+        return;
+    }
+    
+    try {
+        document.getElementById('comparisonLoading').style.display = 'block';
+        document.getElementById('comparisonContent').style.display = 'none';
+        
+        const params = new URLSearchParams({
+            paises: selectedComparisonCountries.join(','),
+            categorias: selectedCategories.join(',')
+        });
+        
+        const response = await fetch(`/api/suplementos-comparison?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos de comparación recibidos:', data);
+        
+        updateRegulatoryComparisonGrid(data.comparison_data);
+        
+    } catch (error) {
+        console.error('Error cargando comparación:', error);
+        alert('Error al cargar los datos de comparación.');
+        
+        document.getElementById('comparisonLoading').style.display = 'none';
+        document.getElementById('comparisonContent').style.display = 'block';
+    }
+}
+
+function updateRegulatoryComparisonGrid(comparisonData) {
+    const grid = document.getElementById('comparisonGrid');
+    grid.innerHTML = '';
+    
+    selectedComparisonCountries.forEach(country => {
+        const countryData = comparisonData[country] || {};
+        
+        const card = document.createElement('div');
+        card.className = 'country-comparison-card';
+        
+        let cardHTML = `
+            <div class="country-comparison-header">🏴 ${country}</div>
+        `;
+        
+        selectedCategories.forEach(category => {
+            const categoryData = countryData[category] || {};
+            
+            cardHTML += `
+                <div class="comparison-item">
+                    <div class="comparison-item-title">${category}</div>
+                    <div class="comparison-item-value">
+            `;
+            
+            if (Object.keys(categoryData).length === 0) {
+                cardHTML += '<div style="color: #666; font-style: italic;">No hay información disponible para este país</div>';
+            } else {
+                Object.entries(categoryData).forEach(([subcategory, info]) => {
+                    cardHTML += `
+                        <div style="margin-bottom: 12px; padding: 8px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #1a365d;">
+                            <strong style="color: #1a365d;">${subcategory}:</strong><br>
+                            <div style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #444;">
+                                ${formatRegulatoryInfo(info)}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            cardHTML += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        card.innerHTML = cardHTML;
+        grid.appendChild(card);
+    });
+    
+    document.getElementById('comparisonLoading').style.display = 'none';
+    document.getElementById('comparisonContent').style.display = 'block';
+}
+
+function formatRegulatoryInfo(info) {
+    if (!info || info === 'Información no disponible') {
+        return '<span style="color: #666; font-style: italic;">Información no disponible</span>';
+    }
+    
+    // Procesar el texto para convertir Markdown a HTML
+    let processedInfo = info
+        // Convertir enlaces Markdown [texto](url) a HTML
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: #1a365d; text-decoration: underline;">$1</a>')
+        // Convertir texto en **negrita** a HTML
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Convertir saltos de línea a <br>
+        .replace(/\n/g, '<br>')
+        // Convertir listas numeradas (ej: "1. texto", "2. texto")
+        .replace(/^(\d+\.\s)/gm, '<br><strong>$1</strong>')
+        // Mejorar el formato de las referencias con espaciado
+        .replace(/(<br><strong>\d+\.\s<\/strong>)/g, '<br><br>$1');
+    
+    return processedInfo;
+}
+
+function showTab(tabName) {
+    // Actualizar botones
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+    
+    // Mostrar contenido
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    if (tabName === 'analysis') {
+        document.getElementById('analysisTab').classList.add('active');
+        if (allData && document.getElementById('analysisContent').style.display !== 'block') {
+            loadAnalysisData();
+        }
+    } else if (tabName === 'comparison') {
+        document.getElementById('comparisonTab').classList.add('active');
+        // NO cargar comparación automáticamente - solo cuando hay selecciones
+        document.getElementById('comparisonLoading').style.display = 'none';
+        document.getElementById('comparisonContent').style.display = 'none';
+    } else if (tabName === 'otras-sustancias') {
+        document.getElementById('otrasSustanciasTab').classList.add('active');
+        // Cargar datos iniciales si es la primera vez
+        if (otrasSustanciasCategorias.length === 0) {
+            loadOtrasSustanciasInitial().then(() => {
+                loadOtrasSustanciasData();
+            });
+        } else if (document.getElementById('otrasSustanciasContent').style.display !== 'block') {
+            loadOtrasSustanciasData();
+        }
+    }
+}
+
+async function exportAnalysisData() {
+    try {
+        const params = new URLSearchParams();
+        
+        const selectedType = document.getElementById('tipoSelect').value;
+        if (selectedType !== 'all') {
+            params.append('tipo', selectedType);
+        }
+        
+        if (selectedIngredients.length > 0) {
+            params.append('ingredientes', selectedIngredients.join(','));
+        }
+        
+        if (selectedCountries.length > 0) {
+            params.append('paises', selectedCountries.join(','));
+        }
+        
+        const response = await fetch(`/api/suplementos-export-analysis?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `suplementos_analisis_${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+    } catch (error) {
+        console.error('Error exportando análisis:', error);
+        alert('Error al exportar los datos.');
+    }
+}
+
+async function exportComparisonData() {
+    try {
+        const params = new URLSearchParams({
+            paises: selectedComparisonCountries.join(','),
+            categorias: selectedCategories.join(',')
+        });
+        
+        const response = await fetch(`/api/suplementos-export-comparison?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `suplementos_comparacion_${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+    } catch (error) {
+        console.error('Error exportando comparación:', error);
+        alert('Error al exportar los datos.');
+    }
+}
+
+// Cargar datos iniciales de otras sustancias
+async function loadOtrasSustanciasInitial() {
+    try {
+        console.log('Cargando datos iniciales de otras sustancias...');
+        
+        const response = await fetch('/api/otras-sustancias-initial');
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos iniciales de otras sustancias:', data);
+        
+        otrasSustanciasCategorias = data.categories;
+        otrasSustanciasPaises = data.countries;
+        
+        setupOtrasSustanciasFilters();
+        
+    } catch (error) {
+        console.error('Error cargando datos iniciales de otras sustancias:', error);
+        alert('Error al cargar los datos de otras sustancias.');
+    }
+}
+
+// Configurar filtros de otras sustancias
+function setupOtrasSustanciasFilters() {
+    // Configurar categorías
+    const categoriaSelect = document.getElementById('categoriaOtrasSustanciasSelect');
+    categoriaSelect.innerHTML = '<option value="all">Todas las categorías</option>';
+    
+    otrasSustanciasCategorias.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        categoriaSelect.appendChild(option);
+    });
+    
+    // Configurar países
+    const paisesDropdown = document.getElementById('paisesOtrasSustanciasDropdown');
+    paisesDropdown.innerHTML = otrasSustanciasPaises.map(pais => 
+        `<div class="multi-select-option" data-value="${pais}" onclick="toggleOtrasSustanciasPaisSelection('${pais}')">${pais}</div>`
+    ).join('');
+    
+    // Event listener para cambio de categoría
+    categoriaSelect.addEventListener('change', function() {
+        currentOtrasSustanciasPage = 1;
+        loadOtrasSustanciasData();
+    });
+}
+
+// Toggle selección de países para otras sustancias
+function toggleOtrasSustanciasPaisSelection(pais) {
+    const index = selectedOtrasSustanciasPaises.indexOf(pais);
+    const option = document.querySelector(`#paisesOtrasSustanciasDropdown [data-value="${pais}"]`);
+    
+    if (index === -1) {
+        selectedOtrasSustanciasPaises.push(pais);
+        option.classList.add('selected');
+    } else {
+        selectedOtrasSustanciasPaises.splice(index, 1);
+        option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('paisesOtrasSustanciasSelector', selectedOtrasSustanciasPaises, 'países');
+    currentOtrasSustanciasPage = 1;
+    loadOtrasSustanciasData();
+}
+
+// Seleccionar todos los países para otras sustancias
+function selectAllOtrasSustanciasPaises() {
+    selectedOtrasSustanciasPaises = [...otrasSustanciasPaises];
+    
+    document.querySelectorAll('#paisesOtrasSustanciasDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('paisesOtrasSustanciasSelector', selectedOtrasSustanciasPaises, 'países');
+    currentOtrasSustanciasPage = 1;
+    loadOtrasSustanciasData();
+}
+
+// Limpiar todos los países para otras sustancias
+function clearAllOtrasSustanciasPaises() {
+    selectedOtrasSustanciasPaises = [];
+    
+    document.querySelectorAll('#paisesOtrasSustanciasDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('paisesOtrasSustanciasSelector', selectedOtrasSustanciasPaises, 'países');
+    currentOtrasSustanciasPage = 1;
+    loadOtrasSustanciasData();
+}
+
+// Cargar datos de otras sustancias
+async function loadOtrasSustanciasData(page = 1) {
+    try {
+        page = parseInt(page) || 1;
+        
+        if (page === 1) {
+            document.getElementById('otrasSustanciasLoading').style.display = 'block';
+            document.getElementById('otrasSustanciasContent').style.display = 'none';
+        }
+        
+        const params = new URLSearchParams({
+            page: page,
+            page_size: pageSize
+        });
+        
+        const selectedCategoria = document.getElementById('categoriaOtrasSustanciasSelect').value;
+        if (selectedCategoria !== 'all') {
+            params.append('categoria', selectedCategoria);
+        }
+        
+        if (selectedOtrasSustanciasPaises.length > 0) {
+            params.append('paises', selectedOtrasSustanciasPaises.join(','));
+        }
+        
+        const response = await fetch(`/api/otras-sustancias-analysis?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos de otras sustancias recibidos:', data);
+        
+        currentOtrasSustanciasPage = page;
+        updateOtrasSustanciasTable(data.table_data);
+        updateOtrasSustanciasPagination(data.pagination);
+        
+    } catch (error) {
+        console.error('Error cargando otras sustancias:', error);
+        alert('Error al cargar los datos de otras sustancias.');
+        
+        document.getElementById('otrasSustanciasLoading').style.display = 'none';
+        document.getElementById('otrasSustanciasContent').style.display = 'block';
+        document.getElementById('otrasSustanciasTableBody').innerHTML = 
+            '<tr><td colspan="4" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos.</td></tr>';
+    }
+}
+
+// Actualizar tabla de otras sustancias
+function updateOtrasSustanciasTable(tableData) {
+    const tbody = document.getElementById('otrasSustanciasTableBody');
+    tbody.innerHTML = '';
+    
+    if (tableData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
+        document.getElementById('otrasSustanciasLoading').style.display = 'none';
+        document.getElementById('otrasSustanciasContent').style.display = 'block';
+        return;
+    }
+    
+    tableData.forEach(row => {
+        const tr = document.createElement('tr');
+        
+        // Formatear estatus con colores
+        let estatusFormatted = row.estatus || '-';
+        if (estatusFormatted.toLowerCase().includes('autorizado') && !estatusFormatted.toLowerCase().includes('no')) {
+            estatusFormatted = `<span class="status-autorizado">${estatusFormatted}</span>`;
+        } else if (estatusFormatted.toLowerCase().includes('no autorizado')) {
+            estatusFormatted = `<span class="status-no-autorizado">${estatusFormatted}</span>`;
+        } else if (estatusFormatted.toLowerCase().includes('evaluación')) {
+            estatusFormatted = `<span class="status-requiere-evaluacion">${estatusFormatted}</span>`;
+        }
+        
+        tr.innerHTML = `
+            <td>${row.categoria || '-'}</td>
+            <td>${row.sustancia || '-'}</td>
+            <td>${row.pais || '-'}</td>
+            <td>${estatusFormatted}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    document.getElementById('otrasSustanciasLoading').style.display = 'none';
+    document.getElementById('otrasSustanciasContent').style.display = 'block';
+}
+
+// Actualizar paginación de otras sustancias
+function updateOtrasSustanciasPagination(pagination) {
+    const infoDiv = document.getElementById('otrasSustanciasPaginationInfo');
+    const controlsDiv = document.getElementById('otrasSustanciasPaginationControls');
+    
+    infoDiv.innerHTML = `
+        Mostrando ${pagination.showing_from} - ${pagination.showing_to} de ${pagination.total_records} registros
+    `;
+    
+    if (pagination.total_records === 0) {
+        controlsDiv.innerHTML = '';
+        return;
+    }
+    
+    let paginationHTML = '';
+    
+    // Botón anterior
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_previous ? 'disabled' : ''}" 
+                onclick="changeOtrasSustanciasPage(${pagination.current_page - 1})" 
+                ${!pagination.has_previous ? 'disabled' : ''}>
+            ‹ Anterior
+        </button>
+    `;
+    
+    // Números de página
+    const startPage = Math.max(1, pagination.current_page - 2);
+    const endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+    
+    if (startPage > 1) {
+        paginationHTML += `<button class="pagination-btn" onclick="changeOtrasSustanciasPage(1)">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button class="pagination-btn ${i === pagination.current_page ? 'active' : ''}" 
+                    onclick="changeOtrasSustanciasPage(${i})">
+                ${i}
+            </button>
+        `;
+    }
+    
+    if (endPage < pagination.total_pages) {
+        if (endPage < pagination.total_pages - 1) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+        paginationHTML += `<button class="pagination-btn" onclick="changeOtrasSustanciasPage(${pagination.total_pages})">${pagination.total_pages}</button>`;
+    }
+    
+    // Botón siguiente
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_next ? 'disabled' : ''}" 
+                onclick="changeOtrasSustanciasPage(${pagination.current_page + 1})" 
+                ${!pagination.has_next ? 'disabled' : ''}>
+            Siguiente ›
+        </button>
+    `;
+    
+    controlsDiv.innerHTML = paginationHTML;
+}
+
+// Cambiar página de otras sustancias
+function changeOtrasSustanciasPage(page) {
+    page = parseInt(page);
+    if (isNaN(page) || page < 1) return;
+    
+    loadOtrasSustanciasData(page);
+}
+
+// Exportar datos de otras sustancias
+async function exportOtrasSustanciasData() {
+    try {
+        const params = new URLSearchParams();
+        
+        const selectedCategoria = document.getElementById('categoriaOtrasSustanciasSelect').value;
+        if (selectedCategoria !== 'all') {
+            params.append('categoria', selectedCategoria);
+        }
+        
+        if (selectedOtrasSustanciasPaises.length > 0) {
+            params.append('paises', selectedOtrasSustanciasPaises.join(','));
+        }
+        
+        const response = await fetch(`/api/otras-sustancias-export?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `otras_sustancias_${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+    } catch (error) {
+        console.error('Error exportando otras sustancias:', error);
+        alert('Error al exportar los datos.');
+    }
+}
+</script>
+</body>
+</html>
