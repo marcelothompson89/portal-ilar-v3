@@ -444,10 +444,13 @@ body {
 <body>
 <header class="header">
 <div class="header-content">
-    <div class="breadcrumb">
-        <a href="/dashboard">🏠 Dashboard</a>
-        <span>›</span>
-        <span>Moléculas ILAR</span>
+    <div style="display: flex; align-items: center; gap: 16px;">
+        <img src="/static/images/logo-ilar.png" alt="ILAR" style="height: 80px; width: auto;">
+        <div class="breadcrumb">
+            <a href="/dashboard">🏠 Dashboard</a>
+            <span>›</span>
+            <span>Moléculas ILAR</span>
+        </div>
     </div>
     <div class="user-menu">
         <span class="user-info">{{ user }}</span>
