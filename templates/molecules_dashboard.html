@@ -530,12 +530,16 @@ body {
             <table class="data-table" id="dataTable">
                 <thead>
                     <tr>
-                        <th>Molécula</th>
-                        <th>Año de Switch</th>
                         <th>País</th>
-                        <th>Tipo (RX-OTC)</th>
-                        <th>Concentración</th>
-                        <th>Código NFC1</th>
+                        <th>Ingrediente activo</th>
+                        <th>Vía de administración</th>
+                        <th>Dosis permitidas/Duración</th>
+                        <th>Indicación ingrediente 1</th>
+                        <th>Indicación ingrediente 2</th>
+                        <th>Combinaciones registradas</th>
+                        <th>Indicación producto</th>
+                        <th>Año de comercialización</th>
+                        <th>Clasificación regulatoria</th>
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
@@ -695,7 +699,7 @@ async function loadData(page = 1) {
         document.getElementById('dataLoading').style.display = 'none';
         document.getElementById('dataContent').style.display = 'block';
         document.getElementById('dataTableBody').innerHTML = 
-            '<tr><td colspan="6" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos. Intenta recargar la página.</td></tr>';
+            '<tr><td colspan="10" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos. Intenta recargar la página.</td></tr>';
     }
 }
 
@@ -714,7 +718,7 @@ function updateDataTable(tableData) {
     console.log('📋 Actualizando tabla con', tableData.length, 'registros');
     
     if (tableData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
         document.getElementById('dataLoading').style.display = 'none';
         document.getElementById('dataContent').style.display = 'block';
         return;
@@ -723,12 +727,16 @@ function updateDataTable(tableData) {
     tableData.forEach((row, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${row.Molecule || '-'}</td>
-            <td>${row['Switch Year'] || '-'}</td>
-            <td>${row.Country || '-'}</td>
-            <td>${row['RX-OTC - Product'] || '-'}</td>
-            <td>${row.Strength || '-'}</td>
-            <td>${row.NFC1 || '-'}</td>
+            <td>${row['País'] || '-'}</td>
+            <td>${row['Ingrediente activo'] || '-'}</td>
+            <td>${row['Vía de administración'] || '-'}</td>
+            <td>${row['Dosis permitidas/Duración'] || '-'}</td>
+            <td>${row['Indicación ingrediente 1'] || '-'}</td>
+            <td>${row['Indicación ingrediente 2'] || '-'}</td>
+            <td>${row['Combinaciones registradas con el ingrediente activo'] || '-'}</td>
+            <td>${row['Indicación producto/Declaración de propiedades'] || '-'}</td>
+            <td>${row['Año de comercialización'] || '-'}</td>
+            <td>${row['Clasificación regulatoria'] || '-'}</td>
         `;
         tbody.appendChild(tr);
         

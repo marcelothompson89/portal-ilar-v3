@@ -77,8 +77,8 @@ def load_data_cache():
     
     # Cargar datos de moléculas (existente)
     try:
-        df_cache = pd.read_excel('Version final Extracto base de datos Mar 2023.xlsx', 
-                               sheet_name='Base en inglés')
+        df_cache = pd.read_excel('moleculas_sin_duplicados_2025.xlsx', 
+                               sheet_name='Hoja1')
         df_cache = clean_duplicates(df_cache)
         print(f"Datos moléculas cargados: {len(df_cache)} registros")
     except FileNotFoundError:
@@ -137,7 +137,7 @@ def load_data_cache():
 
 def clean_duplicates(df):
     """Limpia duplicados basándose en columnas clave"""
-    key_columns = ['Molecule', 'Country', 'Switch Year', 'Strength']
+    key_columns = ['Ingrediente activo', 'País', 'Año de comercialización', 'Dosis permitidas/Duración']
     df_cleaned = df.drop_duplicates()
     df_cleaned = df_cleaned.drop_duplicates(subset=key_columns, keep='first')
     return df_cleaned
@@ -146,19 +146,23 @@ def create_sample_data():
     """Crea datos de ejemplo para moléculas"""
     import random
     countries = ['Spain', 'France', 'Germany', 'Italy', 'Netherlands', 'Belgium']
-    molecules = ['Ibuprofen', 'Paracetamol', 'Aspirin', 'Omeprazole', 'Simvastatin']
-    rx_otc = ['RX', 'OTC', 'Rx-OTC']
+    ingredientes = ['Ibuprofen', 'Paracetamol', 'Aspirin', 'Omeprazole', 'Simvastatin']
+    vias = ['Oral', 'Tópica', 'Sublingual', 'Transdérmica']
+    clasificaciones = ['RX', 'OTC', 'Rx-OTC']
     
     data = []
     for _ in range(100):
         data.append({
-            'Molecule': random.choice(molecules),
-            'Country': random.choice(countries),
-            'Switch Year': random.randint(2010, 2023),
-            'Strength': f"{random.randint(10, 500)}mg",
-            'RX-OTC - Product': random.choice(rx_otc),
-            'RX-OTC - Molecule': random.choice(rx_otc),
-            'NFC1': f"Code{random.randint(1000, 9999)}"
+            'País': random.choice(countries),
+            'Ingrediente activo': random.choice(ingredientes),
+            'Vía de administración': random.choice(vias),
+            'Dosis permitidas/Duración': f"{random.randint(10, 500)}mg / {random.randint(3, 14)} días",
+            'Indicación ingrediente 1': f"Indicación {random.randint(1, 10)}",
+            'Indicación ingrediente 2': f"Indicación {random.randint(1, 10)}",
+            'Combinaciones registradas con el ingrediente activo': f"Combinación con ingrediente {random.randint(1, 5)}",
+            'Indicación producto/Declaración de propiedades': f"Tratamiento de condición {random.randint(1, 15)}",
+            'Año de comercialización': random.randint(2010, 2023),
+            'Clasificación regulatoria': random.choice(clasificaciones)
         })
     return pd.DataFrame(data)
 
@@ -296,8 +300,8 @@ async def molecules_dashboard(request: Request, user: str = Depends(require_auth
     global df_cache
     
     # Obtener listas para filtros
-    molecules = sorted(df_cache['Molecule'].unique().tolist())
-    countries = sorted(df_cache['Country'].unique().tolist())
+    molecules = sorted(df_cache['Ingrediente activo'].unique().tolist())
+    countries = sorted(df_cache['País'].unique().tolist())
     
     return templates.TemplateResponse("molecules_dashboard.html", {
         "request": request,
@@ -337,48 +341,48 @@ async def get_molecules_data(
     original_count = len(filtered_df)
     
     print(f"   - Total registros iniciales: {original_count}")
-    print(f"   - Moléculas únicas disponibles: {sorted(filtered_df['Molecule'].unique())}")
+    print(f"   - Moléculas únicas disponibles: {sorted(filtered_df['Ingrediente activo'].unique())}")
     
     # Filtrar por molécula
     if molecule and molecule != "all" and molecule.strip() != "":
         print(f"   - Filtrando por molécula exacta: '{molecule}'")
         
         # Verificar si la molécula existe exactamente en los datos
-        available_molecules = filtered_df['Molecule'].unique()
+        available_molecules = filtered_df['Ingrediente activo'].unique()
         exact_match = molecule in available_molecules
         
         print(f"   - ¿Molécula '{molecule}' existe en datos?: {exact_match}")
         
         if exact_match:
-            filtered_df = filtered_df[filtered_df['Molecule'] == molecule]
+            filtered_df = filtered_df[filtered_df['Ingrediente activo'] == molecule]
             print(f"   - Registros después de filtrar por molécula: {len(filtered_df)}")
         else:
             print(f"   - ⚠️ Molécula '{molecule}' no encontrada. Moléculas disponibles:")
             for mol in sorted(available_molecules):
                 print(f"     - '{mol}'")
             # Si no se encuentra la molécula, devolver DataFrame vacío
-            filtered_df = filtered_df[filtered_df['Molecule'] == 'MOLÉCULA_NO_ENCONTRADA']
+            filtered_df = filtered_df[filtered_df['Ingrediente activo'] == 'MOLÉCULA_NO_ENCONTRADA']
     
     # Filtrar por países
     if countries and countries.strip():
         country_list = [c.strip() for c in countries.split(',') if c.strip()]
         if country_list:
             print(f"   - Filtrando por países: {country_list}")
-            available_countries = filtered_df['Country'].unique()
+            available_countries = filtered_df['País'].unique()
             valid_countries = [c for c in country_list if c in available_countries]
             print(f"   - Países válidos encontrados: {valid_countries}")
             
             if valid_countries:
-                filtered_df = filtered_df[filtered_df['Country'].isin(valid_countries)]
+                filtered_df = filtered_df[filtered_df['País'].isin(valid_countries)]
                 print(f"   - Registros después de filtrar por países: {len(filtered_df)}")
             else:
                 print(f"   - ⚠️ Ningún país válido encontrado")
-                filtered_df = filtered_df[filtered_df['Country'] == 'PAÍS_NO_ENCONTRADO']
+                filtered_df = filtered_df[filtered_df['País'] == 'PAÍS_NO_ENCONTRADO']
     
     # Métricas básicas
     total_records = len(filtered_df)
-    unique_countries = filtered_df['Country'].nunique() if total_records > 0 else 0
-    unique_molecules = filtered_df['Molecule'].nunique() if total_records > 0 else 0
+    unique_countries = filtered_df['País'].nunique() if total_records > 0 else 0
+    unique_molecules = filtered_df['Ingrediente activo'].nunique() if total_records > 0 else 0
     
     print(f"   - Total registros finales: {total_records}")
     print(f"   - Países únicos: {unique_countries}")
@@ -392,7 +396,18 @@ async def get_molecules_data(
     # Datos para la tabla (solo la página actual)
     if total_records > 0:
         # Asegurar que las columnas existen antes de seleccionarlas
-        required_columns = ['Molecule', 'Switch Year', 'Country', 'RX-OTC - Product', 'Strength', 'NFC1']
+        required_columns = [
+            'País', 
+            'Ingrediente activo', 
+            'Vía de administración', 
+            'Dosis permitidas/Duración',
+            'Indicación ingrediente 1',
+            'Indicación ingrediente 2', 
+            'Combinaciones registradas con el ingrediente activo',
+            'Indicación producto/Declaración de propiedades',
+            'Año de comercialización',
+            'Clasificación regulatoria'
+        ]
         available_columns = [col for col in required_columns if col in paginated_df.columns]
         
         if len(available_columns) != len(required_columns):
@@ -415,7 +430,7 @@ async def get_molecules_data(
         "filters_applied": {
             "molecule": molecule,
             "countries": countries,
-            "molecule_found": molecule in df_cache['Molecule'].unique() if molecule and molecule != "all" else True
+            "molecule_found": molecule in df_cache['Ingrediente activo'].unique() if molecule and molecule != "all" else True
         },
         "metrics": {
             "total_records": total_records,
