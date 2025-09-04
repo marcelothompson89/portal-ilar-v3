@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Suplementos - América Latina</title>
+<title>Tablero de Suplementos - América Latina</title>
 <style>
 * {
     margin: 0;
@@ -535,9 +535,9 @@ body {
     <div style="display: flex; align-items: center; gap: 16px;">
         <img src="/static/images/logo-ilar.png" alt="ILAR" style="height: 80px; width: auto;">
         <div class="breadcrumb">
-            <a href="/dashboard">🏠 Dashboard</a>
+            <a href="/dashboard">🏠 Tablero</a>
             <span>›</span>
-            <span>Suplementos América Latina</span>
+            <span>Suplementos Alimenticios en América Latina</span>
         </div>
     </div>
     <div class="user-menu">
@@ -548,8 +548,8 @@ body {
 </header>
 
 <main class="main-container">
-<h1 class="page-title">Dashboard de Suplementos - América Latina</h1>
-<p class="page-subtitle">Análisis de regulación de suplementos nutricionales por país e ingrediente</p>
+<h1 class="page-title">Tablero de Suplementos - América Latina</h1>
+<p class="page-subtitle">Análisis de regulación de suplementos “alimenticios” por país e ingrediente</p>
 
 <section class="metrics-section" id="metricsSection">
     <div class="metric-card">
@@ -558,11 +558,12 @@ body {
     </div>
     <div class="metric-card">
         <div class="metric-value" id="uniqueCountries">-</div>
-        <div class="metric-label">Países únicos</div>
+        <div class="metric-label">Países de América Latina</div>
     </div>
     <div class="metric-card">
         <div class="metric-value" id="uniqueIngredients">-</div>
-        <div class="metric-label">Ingredientes únicos</div>
+        <div class="metric-label">Ingredientes con nivel mínimo y máximo establecido </div>
+        <div id="ingredientsBreakdown"></div>
     </div>
     <div class="metric-card">
         <div class="metric-value" id="establishedRegulations">-</div>
@@ -589,11 +590,11 @@ body {
             <h3 class="filters-title">🔍 Filtros de Análisis</h3>
             <div class="filters-grid">
                 <div class="filter-group">
-                    <label class="filter-label">Tipo de suplemento:</label>
+                    <label class="filter-label">Tipo de Ingrediente:</label>
                     <select id="tipoSelect" class="filter-select">
                         <option value="all">Todos los tipos</option>
-                        <option value="Vitamina">Vitamina</option>
-                        <option value="Mineral">Mineral</option>
+                        <option value="Vitamina">Vitaminas</option>
+                        <option value="Mineral">Minerales</option>
                     </select>
                 </div>
                 
@@ -1143,12 +1144,37 @@ function updateMetrics() {
     
     const totalRecords = allData.length;
     const uniqueCountries = new Set(allData.map(item => item.pais)).size;
-    const uniqueIngredients = new Set(allData.map(item => item.ingrediente)).size;
+    
+    // Calcular ingredientes con niveles establecidos
+    const ingredientsWithLevels = allData.filter(item => 
+        item.establecido && 
+        item.minimo !== null && item.minimo !== undefined && item.minimo > 0 &&
+        item.maximo !== null && item.maximo !== undefined && item.maximo > 0
+    );
+    
+    const uniqueIngredientsWithLevels = new Set(ingredientsWithLevels.map(item => item.ingrediente)).size;
+    
+    // Contar vitaminas y minerales por separado
+    const vitaminsWithLevels = ingredientsWithLevels.filter(item => item.tipo === 'Vitamina');
+    const mineralsWithLevels = ingredientsWithLevels.filter(item => item.tipo === 'Mineral');
+    
+    const uniqueVitamins = new Set(vitaminsWithLevels.map(item => item.ingrediente)).size;
+    const uniqueMinerals = new Set(mineralsWithLevels.map(item => item.ingrediente)).size;
+    
     const establishedRegulations = allData.filter(item => item.establecido).length;
     
     document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
     document.getElementById('uniqueCountries').textContent = uniqueCountries;
-    document.getElementById('uniqueIngredients').textContent = uniqueIngredients;
+    
+    // Actualizar el KPI compuesto
+    document.getElementById('uniqueIngredients').textContent = uniqueIngredientsWithLevels;
+    document.getElementById('ingredientsBreakdown').innerHTML = `
+        <div style="font-size: 12px; color: #888; margin-top: 4px;">
+            <div>${uniqueVitamins} Vitaminas</div>
+            <div>${uniqueMinerals} Minerales</div>
+        </div>
+    `;
+    
     document.getElementById('establishedRegulations').textContent = establishedRegulations.toLocaleString();
 }
 
@@ -1471,6 +1497,16 @@ function updateRegulatoryComparisonGrid(comparisonData) {
 function formatRegulatoryInfo(info) {
     if (!info || info === 'Información no disponible') {
         return '<span style="color: #666; font-style: italic;">Información no disponible</span>';
+    }
+    
+    // Si info es un array (como las frases de advertencia), convertir a lista HTML
+    if (Array.isArray(info)) {
+        return info.map(item => `<div style="margin-bottom: 4px;">• ${item}</div>`).join('');
+    }
+    
+    // Si no es string, convertir a string
+    if (typeof info !== 'string') {
+        info = String(info);
     }
     
     // Procesar el texto para convertir Markdown a HTML

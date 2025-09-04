@@ -928,15 +928,22 @@ async def export_suplementos_analysis(
         False: 'No'
     })
     
-    # Crear CSV
+    # Crear CSV con codificación UTF-8 y BOM para Excel
     output = io.StringIO()
     filtered_df.to_csv(output, index=False, encoding='utf-8')
     output.seek(0)
     
+    # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
+    csv_content = output.getvalue()
+    csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
+    
     return StreamingResponse(
-        io.BytesIO(output.getvalue().encode('utf-8')),
-        media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=suplementos_analisis.csv"}
+        io.BytesIO(csv_bytes.encode('utf-8')),
+        media_type="text/csv; charset=utf-8",
+        headers={
+            "Content-Disposition": "attachment; filename=suplementos_analisis.csv",
+            "Content-Type": "text/csv; charset=utf-8"
+        }
     )
 
 # Descarga de datos de comparación regulatoria
@@ -992,19 +999,26 @@ async def export_suplementos_comparison(
                     # Obtener información del país para esta subcategoría
                     info = get_regulatory_info(pais, subcategoria_key)
                     
-                    # Limpiar el texto de información regulatoria para CSV
-                    # Remover markdown y formatear para texto plano
-                    info_clean = info
-                    if info_clean and info_clean != 'Información no disponible':
-                        # Remover enlaces markdown [texto](url)
-                        import re
-                        info_clean = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', info_clean)
-                        # Remover texto en negrita **texto**
-                        info_clean = re.sub(r'\*\*(.*?)\*\*', r'\1', info_clean)
-                        # Reemplazar saltos de línea con punto y coma para CSV
-                        info_clean = info_clean.replace('\n', '; ')
-                        # Limpiar múltiples espacios
-                        info_clean = re.sub(r'\s+', ' ', info_clean).strip()
+                # Limpiar el texto de información regulatoria para CSV
+                # Remover markdown y formatear para texto plano
+                info_clean = info
+
+                # Si info es un array (como las frases de advertencia), convertir a string
+                if isinstance(info, list):
+                    info_clean = '; '.join(str(item) for item in info)
+                elif info_clean and info_clean != 'Información no disponible':
+                    # Convertir a string si no lo es
+                    info_clean = str(info_clean)
+                    
+                    # Remover enlaces markdown [texto](url)
+                    import re
+                    info_clean = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', info_clean)
+                    # Remover texto en negrita **texto**
+                    info_clean = re.sub(r'\*\*(.*?)\*\*', r'\1', info_clean)
+                    # Reemplazar saltos de línea con punto y coma para CSV
+                    info_clean = info_clean.replace('\n', '; ')
+                    # Limpiar múltiples espacios
+                    info_clean = re.sub(r'\s+', ' ', info_clean).strip()
                     
                     export_data.append({
                         'pais': pais,
@@ -1024,15 +1038,22 @@ async def export_suplementos_comparison(
         
         print(f"Datos preparados para exportación: {len(df_export)} filas")
         
-        # Crear CSV
+        # Crear CSV con codificación UTF-8 y BOM para Excel
         output = io.StringIO()
         df_export.to_csv(output, index=False, encoding='utf-8')
         output.seek(0)
-        
+
+        # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
+        csv_content = output.getvalue()
+        csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
+
         return StreamingResponse(
-            io.BytesIO(output.getvalue().encode('utf-8')),
-            media_type="text/csv",
-            headers={"Content-Disposition": "attachment; filename=suplementos_comparacion_regulatoria.csv"}
+            io.BytesIO(csv_bytes.encode('utf-8')),
+            media_type="text/csv; charset=utf-8",
+            headers={
+                "Content-Disposition": "attachment; filename=suplementos_comparacion_regulatoria.csv",
+                "Content-Type": "text/csv; charset=utf-8"
+            }
         )
         
     except Exception as e:
@@ -1041,22 +1062,29 @@ async def export_suplementos_comparison(
         traceback.print_exc()
         
         # En caso de error, crear CSV con mensaje de error
+        import pandas as pd  # Asegurar que pd esté importado
         error_data = [{
             'pais': 'Error',
-            'categoria': 'Error',
+            'categoria': 'Error', 
             'subcategoria': 'Error al generar exportación',
             'informacion_regulatoria': str(e)
         }]
-        
+
         df_error = pd.DataFrame(error_data)
         output = io.StringIO()
         df_error.to_csv(output, index=False, encoding='utf-8')
         output.seek(0)
-        
+
+        csv_content = output.getvalue()
+        csv_bytes = '\ufeff' + csv_content
+
         return StreamingResponse(
-            io.BytesIO(output.getvalue().encode('utf-8')),
-            media_type="text/csv",
-            headers={"Content-Disposition": "attachment; filename=suplementos_comparacion_error.csv"}
+            io.BytesIO(csv_bytes.encode('utf-8')),
+            media_type="text/csv; charset=utf-8",
+            headers={
+                "Content-Disposition": "attachment; filename=suplementos_comparacion_error.csv",
+                "Content-Type": "text/csv; charset=utf-8"
+            }
         )
 
 # AGREGAR API PARA EXPORTAR OTRAS SUSTANCIAS
@@ -1088,15 +1116,22 @@ async def export_otras_sustancias(
                 columns_to_keep = ['Category', 'Substance'] + valid_countries
                 filtered_df = filtered_df[columns_to_keep]
         
-        # Crear CSV
+        # Crear CSV con codificación UTF-8 y BOM para Excel
         output = io.StringIO()
         filtered_df.to_csv(output, index=False, encoding='utf-8')
         output.seek(0)
-        
+
+        # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
+        csv_content = output.getvalue()
+        csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
+
         return StreamingResponse(
-            io.BytesIO(output.getvalue().encode('utf-8')),
-            media_type="text/csv",
-            headers={"Content-Disposition": "attachment; filename=otras_sustancias_analisis.csv"}
+            io.BytesIO(csv_bytes.encode('utf-8')),
+            media_type="text/csv; charset=utf-8",
+            headers={
+                "Content-Disposition": "attachment; filename=otras_sustancias_analisis.csv",
+                "Content-Type": "text/csv; charset=utf-8"
+            }
         )
         
     except Exception as e:
