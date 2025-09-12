@@ -304,23 +304,23 @@ body {
 }
 
 .table-container {
-    overflow-x: auto;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    min-width: 100%;
+    width: 100%;
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
-    table-layout: fixed; /* Importante para el redimensionado */
-    min-width: 1400px; /* Ancho mínimo para todas las columnas */
+    font-size: 12px;
+    table-layout: auto;
+    word-wrap: break-word;
+    table-layout: fixed;
 }
 
 .data-table th {
     background-color: #f8f9fa;
-    padding: 12px 8px;
+    padding: 10px 6px;
     text-align: left;
     font-weight: 600;
     color: #374151;
@@ -328,30 +328,29 @@ body {
     border-right: 1px solid #e5e7eb;
     position: relative;
     user-select: none; /* Evita selección de texto al redimensionar */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: visible;
+    white-space: normal;
+    min-width: 0; /* Permite que las columnas se compriman */
+    max-width: none; /* Sin límite máximo */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto; /* Opcional: permite guiones en palabras largas */
+    line-height: 1.3; 
 }
 
-/* Anchos iniciales de columnas */
-.data-table th:nth-child(1) { width: 120px; } /* País */
-.data-table th:nth-child(2) { width: 180px; } /* Ingrediente activo */
-.data-table th:nth-child(3) { width: 140px; } /* Vía de administración */
-.data-table th:nth-child(4) { width: 160px; } /* Dosis permitidas */
-.data-table th:nth-child(5) { width: 150px; } /* Indicación ingrediente 1 */
-.data-table th:nth-child(6) { width: 150px; } /* Indicación ingrediente 2 */
-.data-table th:nth-child(7) { width: 180px; } /* Combinaciones registradas */
-.data-table th:nth-child(8) { width: 200px; } /* Indicación producto */
-.data-table th:nth-child(9) { width: 120px; } /* Año de comercialización */
-.data-table th:nth-child(10) { width: 140px; } /* Clasificación regulatoria */
 
 .data-table td {
-    padding: 12px 8px;
+    padding: 10px 6px;
     border-bottom: 1px solid #f3f4f6;
     border-right: 1px solid #f3f4f6;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: visible;
+    white-space: normal;
+    min-width: 0; /* Permite que las columnas se compriman */
+    max-width: none; /* Sin límite máximo */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto; /* Opcional: permite guiones en palabras largas */
+    line-height: 1.3; 
 }
 
 .data-table tr:hover {
@@ -534,6 +533,26 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+@media (max-width: 1200px) {
+    .data-table {
+        font-size: 11px;
+    }
+    .data-table th,
+    .data-table td {
+        padding: 8px 5px;
+    }
+}
+
+@media (max-width: 900px) {
+    .data-table {
+        font-size: 10px;
+    }
+    .data-table th,
+    .data-table td {
+        padding: 6px 4px;
+    }
+}
 </style>
 </head>
 <body>
@@ -623,57 +642,40 @@ body {
     </div>
     <div id="dataContent" style="display: none;">
         <div class="pagination-info" id="paginationInfo" style="margin-bottom: 16px; color: #666; font-size: 14px;">
-        </div>
-        
-        <div class="table-controls">
-            <button type="button" class="reset-columns-btn" onclick="resetColumnWidths()">
-                🔄 Resetear anchos de columnas
-            </button>
-        </div>
-        
+        </div>        
         <div class="table-container">
             <table class="data-table" id="dataTable">
                 <thead>
                     <tr>
                         <th>
                             País
-                            <div class="column-resizer" data-column="0"></div>
                         </th>
                         <th>
                             Ingrediente activo
-                            <div class="column-resizer" data-column="1"></div>
                         </th>
                         <th>
                             Vía de administración
-                            <div class="column-resizer" data-column="2"></div>
                         </th>
                         <th>
                             Dosis permitidas/Duración
-                            <div class="column-resizer" data-column="3"></div>
                         </th>
                         <th>
                             Indicación Ingrediente (ATC 1)
-                            <div class="column-resizer" data-column="4"></div>
                         </th>
                         <th>
                             Indicación ingrediente (ATC 2)
-                            <div class="column-resizer" data-column="5"></div>
                         </th>
                         <th>
                             Combinaciones registradas
-                            <div class="column-resizer" data-column="6"></div>
                         </th>
                         <th>
                             Indicación producto
-                            <div class="column-resizer" data-column="7"></div>
                         </th>
                         <th>
                             Año de comercialización
-                            <div class="column-resizer" data-column="8"></div>
                         </th>
                         <th>
                             Clasificación regulatoria
-                            <div class="column-resizer" data-column="9"></div>
                         </th>
                     </tr>
                 </thead>
@@ -694,23 +696,18 @@ let currentPage = 1;
 let pageSize = 50;
 
 // AGREGAR estas nuevas variables para el redimensionado de columnas
-let isResizing = false;
-let currentColumn = null;
-let startX = 0;
-let startWidth = 0;
+// let isResizing = false;
+// let currentColumn = null;
+// let startX = 0;
+// let startWidth = 0;
 
 // Anchos por defecto de las columnas
-const defaultColumnWidths = [120, 180, 140, 160, 150, 150, 180, 200, 120, 140];
+// const defaultColumnWidths = [120, 180, 140, 160, 150, 150, 180, 200, 120, 140];
 
 // Inicializar la página
 document.addEventListener('DOMContentLoaded', function() {
     loadData();
     setupEventListeners();
-    
-    // Inicializar redimensionado de columnas
-    setTimeout(() => {
-        initializeColumnResizing();
-    }, 500);
 });
 
 function setupEventListeners() {
@@ -877,10 +874,7 @@ function updateDataTable(tableData) {
     // Función para truncar texto y agregar tooltip
     const createCellWithTooltip = (text, maxLength = 30) => {
         const cleanText = text || '-';
-        if (cleanText.length <= maxLength) {
-            return cleanText;
-        }
-        return `<span title="${cleanText.replace(/"/g, '&quot;')}">${cleanText.substring(0, maxLength)}...</span>`;
+        return cleanText;
     };
     
     tableData.forEach((row, index) => {
@@ -907,11 +901,6 @@ function updateDataTable(tableData) {
     
     document.getElementById('dataLoading').style.display = 'none';
     document.getElementById('dataContent').style.display = 'block';
-    
-    // Reinicializar el redimensionado después de actualizar la tabla
-    setTimeout(() => {
-        initializeColumnResizing();
-    }, 100);
 }
 
 function updatePagination(pagination) {
@@ -998,66 +987,66 @@ function changePage(page) {
     loadData(page);
 }
 // Inicializar redimensionado de columnas
-function initializeColumnResizing() {
-    const resizers = document.querySelectorAll('.column-resizer');
+// function initializeColumnResizing() {
+//     const resizers = document.querySelectorAll('.column-resizer');
     
-    resizers.forEach(resizer => {
-        resizer.addEventListener('mousedown', function(e) {
-            e.preventDefault();
-            isResizing = true;
-            currentColumn = parseInt(this.getAttribute('data-column'));
-            startX = e.pageX;
+//     resizers.forEach(resizer => {
+//         resizer.addEventListener('mousedown', function(e) {
+//             e.preventDefault();
+//             isResizing = true;
+//             currentColumn = parseInt(this.getAttribute('data-column'));
+//             startX = e.pageX;
             
-            const th = this.parentElement;
-            startWidth = parseInt(document.defaultView.getComputedStyle(th).width, 10);
+//             const th = this.parentElement;
+//             startWidth = parseInt(document.defaultView.getComputedStyle(th).width, 10);
             
-            this.classList.add('resizing');
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
-        });
-    });
+//             this.classList.add('resizing');
+//             document.body.style.cursor = 'col-resize';
+//             document.body.style.userSelect = 'none';
+//         });
+//     });
     
-    document.addEventListener('mousemove', function(e) {
-        if (!isResizing) return;
+//     document.addEventListener('mousemove', function(e) {
+//         if (!isResizing) return;
         
-        const diff = e.pageX - startX;
-        const newWidth = Math.max(80, startWidth + diff); // Mínimo 80px
+//         const diff = e.pageX - startX;
+//         const newWidth = Math.max(80, startWidth + diff); // Mínimo 80px
         
-        // Actualizar ancho de la columna
-        const table = document.getElementById('dataTable');
-        const columnCells = table.querySelectorAll(`th:nth-child(${currentColumn + 1}), td:nth-child(${currentColumn + 1})`);
+//         // Actualizar ancho de la columna
+//         const table = document.getElementById('dataTable');
+//         const columnCells = table.querySelectorAll(`th:nth-child(${currentColumn + 1}), td:nth-child(${currentColumn + 1})`);
         
-        columnCells.forEach(cell => {
-            cell.style.width = newWidth + 'px';
-        });
-    });
+//         columnCells.forEach(cell => {
+//             cell.style.width = newWidth + 'px';
+//         });
+//     });
     
-    document.addEventListener('mouseup', function() {
-        if (isResizing) {
-            isResizing = false;
-            currentColumn = null;
+//     document.addEventListener('mouseup', function() {
+//         if (isResizing) {
+//             isResizing = false;
+//             currentColumn = null;
             
-            document.querySelectorAll('.column-resizer').forEach(resizer => {
-                resizer.classList.remove('resizing');
-            });
+//             document.querySelectorAll('.column-resizer').forEach(resizer => {
+//                 resizer.classList.remove('resizing');
+//             });
             
-            document.body.style.cursor = '';
-            document.body.style.userSelect = '';
-        }
-    });
-}
+//             document.body.style.cursor = '';
+//             document.body.style.userSelect = '';
+//         }
+//     });
+// }
 
 // Resetear anchos de columnas a valores por defecto
-function resetColumnWidths() {
-    const table = document.getElementById('dataTable');
+// function resetColumnWidths() {
+//     const table = document.getElementById('dataTable');
     
-    defaultColumnWidths.forEach((width, index) => {
-        const columnCells = table.querySelectorAll(`th:nth-child(${index + 1}), td:nth-child(${index + 1})`);
-        columnCells.forEach(cell => {
-            cell.style.width = width + 'px';
-        });
-    });
-}
+//     defaultColumnWidths.forEach((width, index) => {
+//         const columnCells = table.querySelectorAll(`th:nth-child(${index + 1}), td:nth-child(${index + 1})`);
+//         columnCells.forEach(cell => {
+//             cell.style.width = width + 'px';
+//         });
+//     });
+// }
 </script>
 </body>
 </html>

@@ -327,11 +327,15 @@ body {
     font-weight: 600;
     color: #374151;
     border-bottom: 1px solid #e5e7eb;
+    border: 1px solid #e5e7eb;
 }
 
 .data-table td {
     padding: 12px;
     border-bottom: 1px solid #f3f4f6;
+    border: 1px solid #e5e7eb;
+    vertical-align: top;
+    line-height: 1.5;
 }
 
 .data-table tr:hover {
@@ -573,11 +577,11 @@ body {
 
 <section class="content-tabs">
     <div class="tabs-header">
-        <button class="tab-button active" onclick="showTab('analysis')">
-            🔬 Análisis por Ingrediente
-        </button>
         <button class="tab-button" onclick="showTab('comparison')">
             🏛️ Comparación Regulatoria
+        </button>
+        <button class="tab-button active" onclick="showTab('analysis')">
+            🔬 Análisis por Ingrediente
         </button>
         <button class="tab-button" onclick="showTab('otras-sustancias')">
             🌿 Otras Sustancias
@@ -1408,44 +1412,38 @@ function setupRegulatoryCategories(categoriesData) {
     }
 }
 
-async function loadComparisonData() {
-    if (selectedComparisonCountries.length === 0 || selectedCategories.length === 0) {
-        document.getElementById('comparisonContent').style.display = 'none';
-        return;
-    }
-    
-    try {
-        document.getElementById('comparisonLoading').style.display = 'block';
-        document.getElementById('comparisonContent').style.display = 'none';
-        
-        const params = new URLSearchParams({
-            paises: selectedComparisonCountries.join(','),
-            categorias: selectedCategories.join(',')
-        });
-        
-        const response = await fetch(`/api/suplementos-comparison?${params.toString()}`);
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('Datos de comparación recibidos:', data);
-        
-        updateRegulatoryComparisonGrid(data.comparison_data);
-        
-    } catch (error) {
-        console.error('Error cargando comparación:', error);
-        alert('Error al cargar los datos de comparación.');
-        
-        document.getElementById('comparisonLoading').style.display = 'none';
-        document.getElementById('comparisonContent').style.display = 'block';
-    }
-}
-
 function updateRegulatoryComparisonGrid(comparisonData) {
     const grid = document.getElementById('comparisonGrid');
     grid.innerHTML = '';
+    grid.style.display = 'block'; // Asegurar que el contenedor principal sea un bloque
     
+    const hasListasOficiales = selectedCategories.includes('Listas Oficiales de Suplementos');
+    const otherCategories = selectedCategories.filter(cat => cat !== 'Listas Oficiales de Suplementos');
+    
+    // Mostrar tabla para Listas Oficiales si está seleccionada
+    if (hasListasOficiales) {
+        createListasOficialesTable(comparisonData, grid);
+    }
+    
+    // Mostrar cards para las otras categorías si las hay
+    if (otherCategories.length > 0) {
+        // Crear un contenedor separado para los cards
+        const cardsContainer = document.createElement('div');
+        cardsContainer.style.display = 'grid'; // Forzar grid solo para cards
+        cardsContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+        cardsContainer.style.gap = '20px';
+        cardsContainer.style.marginTop = '20px';
+        grid.appendChild(cardsContainer);
+        
+        createRegularCardsView(comparisonData, cardsContainer, otherCategories);
+    }
+    
+    document.getElementById('comparisonLoading').style.display = 'none';
+    document.getElementById('comparisonContent').style.display = 'block';
+}
+
+// Y modifica createRegularCardsView para aceptar las categorías como parámetro:
+function createRegularCardsView(comparisonData, container, categories) {
     selectedComparisonCountries.forEach(country => {
         const countryData = comparisonData[country] || {};
         
@@ -1456,7 +1454,7 @@ function updateRegulatoryComparisonGrid(comparisonData) {
             <div class="country-comparison-header">🏴 ${country}</div>
         `;
         
-        selectedCategories.forEach(category => {
+        categories.forEach(category => {
             const categoryData = countryData[category] || {};
             
             cardHTML += `
@@ -1487,11 +1485,56 @@ function updateRegulatoryComparisonGrid(comparisonData) {
         });
         
         card.innerHTML = cardHTML;
-        grid.appendChild(card);
+        container.appendChild(card);
     });
+}
+
+// Agregar también esta nueva función después de updateRegulatoryComparisonGrid
+function createListasOficialesTable(comparisonData, container) {
+    const tableContainer = document.createElement('div');
+    tableContainer.style.display = 'block'; // Forzar display block para la tabla
+    tableContainer.style.width = '100%';
+    tableContainer.innerHTML = `
+        <div style="overflow-x: auto; margin-bottom: 20px; width: 100%; display: block;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; display: table;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 12px; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">País</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">¿Lista oficial para suplementos?</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Dónde consultar</th>
+                    </tr>
+                </thead>
+                <tbody id="listasOficialesTableBody">
+                </tbody>
+            </table>
+        </div>
+    `;
     
-    document.getElementById('comparisonLoading').style.display = 'none';
-    document.getElementById('comparisonContent').style.display = 'block';
+    container.appendChild(tableContainer);
+    
+    const tbody = document.getElementById('listasOficialesTableBody');
+    
+    selectedComparisonCountries.forEach(country => {
+        const countryData = comparisonData[country] || {};
+        const listasData = countryData['Listas Oficiales de Suplementos'] || {};
+        
+        const listaOficial = listasData['¿Lista oficial para suplementos?'] || 'Información no disponible';
+        const dondeConsultar = listasData['Dónde consultar'] || 'Información no disponible';
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td style="padding: 12px; border: 1px solid #e5e7eb; vertical-align: top;">
+                <strong style="color: #8ba873;">🏴 ${country}</strong>
+            </td>
+            <td style="padding: 12px; border: 1px solid #e5e7eb; vertical-align: top;">
+                ${formatRegulatoryInfo(listaOficial)}
+            </td>
+            <td style="padding: 12px; border: 1px solid #e5e7eb; vertical-align: top;">
+                ${formatRegulatoryInfo(dondeConsultar)}
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 function formatRegulatoryInfo(info) {

@@ -37,6 +37,10 @@ CATEGORIAS_REGULATORIAS = {
     "Uso de ingredientes": {
         "Ingredientes permitidos": "ingredientes_permitidos",
         "Proceso para nuevos ingredientes": "nuevos_ingredientes"
+    },
+    "Listas Oficiales de Suplementos": {
+    "¿Lista oficial para suplementos?": "lista_oficial_suplementos",
+    "Dónde consultar": "donde_consultar_lista"
     }
 }
 
@@ -44,7 +48,7 @@ CATEGORIAS_REGULATORIAS = {
 PAISES_DISPONIBLES = [
     "Argentina", "Brasil", "Chile", "Colombia", "Costa Rica", 
     "República Dominicana", "Ecuador", "Guatemala", "Honduras", 
-    "México", "Nicaragua", "Panamá", "Perú", "El Salvador", "Alianza del Pacífico",
+    "México", "Nicaragua", "Panamá", "Perú", "El Salvador", "Alianza del Pacífico", "Paraguay"
 ]
 
 # Datos regulatorios completos por país
@@ -84,7 +88,17 @@ DATOS_REGULATORIOS = {
         
         "ingredientes_permitidos": "**Ingredientes autorizados:** 13 vitaminas y 12 minerales (niveles máximos basados en UL, mínimo 30% IDR), proteínas (calidad nutricional equivalente a proteína de leche/suero/huevo/soja), aminoácidos (lista específica con valores máximos), lípidos (triglicéridos de aceite de pescado), botánicos (lista positiva de 28 plantas), probióticos (según artículo 1389 del CAA).",
         
-        "nuevos_ingredientes": "Los ingredientes no mencionados explícitamente en el CAA se incorporan tras evaluación caso-por-caso según el Anexo I de las [Directrices para la aplicación del art. 1381](https://www.argentina.gob.ar/sites/default/files/2019/02/directrices_suplementos_dietarios_2021.pdf) de ANMAT. Requisitos: estar presentes naturalmente en alimentos del CAA, tener especificaciones establecidas en farmacopeas reconocidas, evidencia de rol fisiológico/nutricional."
+        "nuevos_ingredientes": "Los ingredientes no mencionados explícitamente en el CAA se incorporan tras evaluación caso-por-caso según el Anexo I de las [Directrices para la aplicación del art. 1381](https://www.argentina.gob.ar/sites/default/files/2019/02/directrices_suplementos_dietarios_2021.pdf) de ANMAT. Requisitos: estar presentes naturalmente en alimentos del CAA, tener especificaciones establecidas en farmacopeas reconocidas, evidencia de rol fisiológico/nutricional.",
+
+        "lista_oficial_suplementos": "**Parcial** (criterios/listados orientativos)",
+        
+        "donde_consultar_lista": "ANMAT: \"Declaración de Propiedades Saludables\" (compendio y normativa). ([argentina.gob.ar](https://www.argentina.gob.ar/anmat/regulados/alimentos/declaracion-de-propiedades-saludables))",
+    },
+
+    "Paraguay":{
+        "lista_oficial_suplementos": "**No** (sin lista positiva)",
+
+        "donde_consultar_lista": "**DINAVISA Res. 234/2024** (adecuación de declaraciones) + **MERCOSUR GMC Res. 1/2012** (Información Nutricional Complementaria – INC). ([dinavisa.gov.py](https://dinavisa.gov.py/wp-content/uploads/2024/09/RESOLUCION-DINAVISA-N%C2%B0234.pdf?utm_source=chatgpt.com), [normas.mercosur.int](https://normas.mercosur.int/public/normativas/2581?utm_source=chatgpt.com))",
     },
     
     "Brasil": {
@@ -122,7 +136,11 @@ DATOS_REGULATORIOS = {
         
         "ingredientes_permitidos": "La IN N° 28/2018 establece lista positiva completa: vitaminas y minerales (formas permitidas), proteínas, carbohidratos, ácidos grasos, fibra dietética, aminoácidos, enzimas, sustancias bioactivas, probióticos y otros nutrientes. Solo pueden utilizarse sustancias enumeradas. Límites mínimos y máximos para cada grupo de edad. Lista actualizada conforme aprobaciones de ANVISA.",
         
-        "nuevos_ingredientes": "Uso de ingredientes no descritos requiere aprobación de ANVISA mediante evaluación caso-por-caso según Artículo 20 de RDC N° 243/2018. Modalidades: evaluación de seguridad/eficacia de nuevos alimentos/ingredientes, probióticos, enzimas, aditivos alimentarios, auxiliares tecnológicos. Requiere información sobre identidad, eficacia, seguridad, expediente técnico-científico."
+        "nuevos_ingredientes": "Uso de ingredientes no descritos requiere aprobación de ANVISA mediante evaluación caso-por-caso según Artículo 20 de RDC N° 243/2018. Modalidades: evaluación de seguridad/eficacia de nuevos alimentos/ingredientes, probióticos, enzimas, aditivos alimentarios, auxiliares tecnológicos. Requiere información sobre identidad, eficacia, seguridad, expediente técnico-científico.",
+        
+        "lista_oficial_suplementos": "Sí (consulta pública)",
+        
+        "donde_consultar_lista": "ANVISA: \"Ingredientes autorizados\" + herramienta que incluye alegações aprobadas (IN 28/2018 y panel de consulta). ([Serviços e Informações do Brasil](https://www.gov.br/anvisa/pt-br/assuntos/alimentos/ingredientes))",
     },
     
     "Chile": {
@@ -160,7 +178,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "De acuerdo con la definición de complementos alimentarios, se permite la adición de los siguientes ingredientes:\n\n- **Vitaminas y minerales.** La [Resolución Exenta N° 394/2002](http://transparencia.redsalud.gob.cl/transparencia/public/seremi6/2014/03/Marco+normativo/RES+394-02+Vitaminas+y+Minerales+en+Suplementos.pdf) prevé la lista de vitaminas y minerales que pueden ser empleados en la formulación de suplementos alimentarios\n- **Aminoácidos**\n- **Lípidos**\n- **Fibra dietética**\n- **Otros componentes naturalmente presente en los alimentos**\n\nEl RSA no proporciona una lista de sustancias específicas de 'otros componentes' ni de 'ingredientes herbales/vegetales' y sus niveles. Sin embargo, el RSA también establece una categoría específica para los alimentos para deportistas, que se definen según el artículo 539. Sobre esta categoría, en caso de contener vitaminas y minerales, se les clasificara como suplementos alimentarios, y en dicho caso, el Artículo 540 del RSA establece una lista de sustancias que podrían ser empleadas en estos productos (proteínas, lista de aminoácidos y sus valores máximos, cafeína, electrolitos, lista de 3 hierbas permitidas, y otros compuestos como l-carnitina, creatina, etc.).",
             
-            "nuevos_ingredientes": "En el caso de utilizar un ingrediente 'novedoso', se puede aplicar a una evaluación caso-por-caso para tener seguridad de que el producto final será aceptado. Esta evaluación la realiza la Comisión de Régimen Aplicable del Instituto de Salud Pública (ISP)."
+            "nuevos_ingredientes": "En el caso de utilizar un ingrediente 'novedoso', se puede aplicar a una evaluación caso-por-caso para tener seguridad de que el producto final será aceptado. Esta evaluación la realiza la Comisión de Régimen Aplicable del Instituto de Salud Pública (ISP).",
+
+            "lista_oficial_suplementos": "**Sí** (directrices y ejemplos)",
+
+            "donde_consultar_lista": "**Resolución Exenta 764/2009** (y mod. 24/2011): directrices para declarar propiedades saludables de alimentos (incluye suplementos como alimentos). ([bcn.cl](https://www.bcn.cl/leychile/navegar?idNorma=1006915), [juridico1.minsal.cl](https://juridico1.minsal.cl/RESOLUCION_24_11_SP.doc?)",
         },
     
         "Colombia": {
@@ -198,7 +220,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "La regulación proporciona la lista de vitaminas y minerales y sus límites máximos. No se describen otros ingredientes de manera específica, sin embargo, de acuerdo con la definición de suplementos dietarios, se permite la adición de:\n\n- Proteínas\n- Aminoácidos\n- Otros nutrientes\n- Plantas (partes, concentrados y extractos)\n\nEl uso de estos ingredientes debe proporcionar un efecto nutricional y fisiológico al producto, y jamás suponer actividad terapéutica.",
             
-            "nuevos_ingredientes": "Todos los ingredientes dietéticos no previstos en la normativa nacional se consideran 'nuevos ingredientes' y deben ser evaluados previamente al registro del producto. Esta evaluación caso-por-caso la realiza la Sala Especializada en Productos Fitoterapéuticos y Suplementos Dietéticos de la Comisión Revisora (SEPFSD) del INVIMA. Según el Parágrafo 4, Artículo 3 del Decreto 3249 de 2006 (modificado por el Decreto 3863 de 2008) se acepta el uso de las siguientes referencias:\n\n- Food and Drugs Administration (FDA)\n- Codex Alimentarius\n- European Food Safety Authority (EFSA)\n- Instituto Colombiano de Bienestar Familiar (ICBF) y, sus respectivas actualizaciones\n- Normas Farmacológicas 2006"
+            "nuevos_ingredientes": "Todos los ingredientes dietéticos no previstos en la normativa nacional se consideran 'nuevos ingredientes' y deben ser evaluados previamente al registro del producto. Esta evaluación caso-por-caso la realiza la Sala Especializada en Productos Fitoterapéuticos y Suplementos Dietéticos de la Comisión Revisora (SEPFSD) del INVIMA. Según el Parágrafo 4, Artículo 3 del Decreto 3249 de 2006 (modificado por el Decreto 3863 de 2008) se acepta el uso de las siguientes referencias:\n\n- Food and Drugs Administration (FDA)\n- Codex Alimentarius\n- European Food Safety Authority (EFSA)\n- Instituto Colombiano de Bienestar Familiar (ICBF) y, sus respectivas actualizaciones\n- Normas Farmacológicas 2006",
+
+            "lista_oficial_suplementos": "**Sí** (listado INVIMA)",
+
+            "donde_consultar_lista": "\"Listado de Declaraciones de Propiedades Aceptadas para Suplementos Dietarios\" (julio/ago-2024) y página de Sala Especializada. [Invima](https://www.invima.gov.co/sites/default/files/medicamentos-productos-biologicos/Sala-Especializada-de-Medicamentos-Fitoterapeuticos-Homeopaticos/2024/PROCLAMAS%20APROBADAS%20POR%20LA%20SEPFSD%20agost%202024%20%281%29.pdf?utm_source=chatgpt.com)",
         },
     
         "Costa Rica": {
@@ -236,7 +262,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "**Vitaminas y minerales:** el Reglamento RTCR 436:2009 sobre suplementos a la dieta prevé una lista con 8 vitaminas y 13 minerales. La regulación establece los niveles mínimos y máximos de vitaminas que deben cumplir los suplementos a la dieta.\n\n**Otros nutrientes:** el Reglamento RTCR 436:2009 no proporciona una lista definida de otros ingredientes permitidos en la categoría diferente a las vitaminas y minerales. Sin embargo, según la definición de suplementos a la dieta, se permite el uso de:\n\n- Carbohidratos\n- Lípidos\n- Proteínas\n- Aminoácidos\n- Plantas\n- Sustancias bioactivas\n- Otros nutrientes\n- Otras sustancias con efecto fisiológico y nutricional",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se realiza durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible entre otras informaciones específicas del ingrediente que va a depender del tipo de ingrediente que se desea utilizar."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se realiza durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible entre otras informaciones específicas del ingrediente que va a depender del tipo de ingrediente que se desea utilizar.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "MEIC (rotulado nutricional) y adopciones RTCA. ([meic.go.cr](https://www.meic.go.cr/wp-content/uploads/2024/11/45etiquetadonutricional2011-670460.pdf?utm_source=chatgpt.com))",
         },
     
         "República Dominicana": {
@@ -274,7 +304,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "En principio, se permitirá la adición de vitaminas y minerales, así como cualquier otro macronutriente (proteínas, carbohidratos, ácidos grasos, etc), sin embargo, **el uso de cualquier ingrediente en esta categoría de productos debe ser evaluada (caso-por-caso) y aprobada por la autoridad sanitaria correspondiente**.",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una **evaluación caso-por-caso**, la cual realiza la Dirección General de Medicamentos, Alimentos y Productos Sanitarios (DIGEMAPS) durante la consulta de clasificación."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una **evaluación caso-por-caso**, la cual realiza la Dirección General de Medicamentos, Alimentos y Productos Sanitarios (DIGEMAPS) durante la consulta de clasificación.",
+
+            "lista_oficial_suplementos": "**No** (sin lista positiva)",
+            
+            "donde_consultar_lista": "**Decreto 125-22** (DIGEMAPS) y reglamentos de publicidad; sin listado específico de \"claims\". [images.chemycal.com](https://images.chemycal.com/Media/Files/TBT/23_0985_00_s.pdf?utm_source=chatgpt.com)",
         },
     
         "Ecuador": {
@@ -312,7 +346,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "La Resolución ARCSA-DE-028-2016-YMIH no establece una lista que describa ingredientes específicos que estén permitidos en los suplementos alimenticios. No obstante, de acuerdo con la definición, estos pueden contener:\n\n- Vitaminas & Minerales\n- Proteínas\n- Carbohidratos\n- Aminoácidos\n- Ácidos grasos esenciales\n- Plantas (sus partes, concentrados o sus extractos).\n- Probióticos\n\nAdicionalmente, la Norma Técnica Ecuatoriana INEN 2983-2016, que aunque voluntaria sirve de principal referencia, establece una la lista de vitaminas y minerales y sus valores máximos, así como una lista de 64 especies botánicas que pueden ser usada en los suplementos alimenticios.",
             
-            "nuevos_ingredientes": "El uso de nuevos ingredientes debe ser aprobado por la Agencia de Regulación y Control Sanitaria mediante una evaluación caso-por-caso la cual se realiza durante el trámite de registro sanitario del producto. En este caso se debe suministrar toda la evidencia científica y/o regulatoria disponible entre otras informaciones específicas del ingrediente que va a depender del tipo de ingrediente que se desea utilizar."
+            "nuevos_ingredientes": "El uso de nuevos ingredientes debe ser aprobado por la Agencia de Regulación y Control Sanitaria mediante una evaluación caso-por-caso la cual se realiza durante el trámite de registro sanitario del producto. En este caso se debe suministrar toda la evidencia científica y/o regulatoria disponible entre otras informaciones específicas del ingrediente que va a depender del tipo de ingrediente que se desea utilizar.",
+
+            "lista_oficial_suplementos": "**No** (sin lista positiva)",
+
+            "donde_consultar_lista": "**NTE INEN 1334-3** (declaraciones nutricionales y saludables) + **ARCSA-DE-028-2016** (remite a INEN 1334-3 / Codex). ([cbm.export.com.gt](https://cbm.export.com.gt/sites/default/files/normativas/NTE-INEN-1334-3-Rotulado-de-Productos-Alimenticios-para-consumo-Humano-parte-3.pdf), [gob.ec](https://www.gob.ec/sites/default/files/regulations/2023-04/ARCSA-DE-028-2016-YMIH_NORMATIVA-SANITARIA-PARA-CONTROL-DE-SUPLEMENTOS-ALIMENTICIOS..pdf))",
         },
     
         "Guatemala": {
@@ -350,7 +388,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "**Productos clasificados como alimentos:** La [Norma Técnica 001-2022](http://alertas.directoriolegislativo.org/wp-content/uploads/2022/08/norma-tecnica-001-2022.pdf) prevé la lista de vitaminas y minerales autorizados en los complementos y suplementos alimenticios. Asimismo, también se listan algunas sustancias de manera específica tales como cafeína, algunos aminoácidos, ácidos grasos omega 3 y 6, entre otros.\n\n**Productos clasificados como farmacéuticos:** La [Norma Técnica 14-2022 Versión 2](https://alertas.directoriolegislativo.org/wp-content/uploads/2022/08/NORMA-T%C3%89CNICA-14.pdf) prevé la lista de vitaminas y minerales autorizados en los suplementos dietéticos. Asimismo, también se listan algunas sustancias de manera específica tales como cafeína, algunos aminoácidos, ácidos grasos omega 3 y 6, entre otros. Así mismo, la regulación describe el uso de plantas o sus extractos. En todo caso, los ingredientes a ser empleados en estos productos no deben suponer actividad terapéutica.",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se realiza durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se realiza durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "**Norma Técnica 001-2022** (suplementos) + **RTCA de etiquetado/INC**. ([alertas-v3.directoriolegislativo.org](https://alertas-v3.directoriolegislativo.org/wp-content/uploads/2022/08/norma-tecnica-001-2022.pdf?utm_source=chatgpt.com))",   
         },
         "Honduras": {
             "instrumento_legal": "1. [ACUERDO N°6 2005](https://honduras.eregulations.org/media/Acuerdo-06-2005-REGLAMENTO-PARA-EL-CONTROL-SANITARIO.pdf). Reglamento de Control Sanitario de Productos y Servicios\n2. [COMUNICADO C-003-ARSA-2018](https://arsa.gob.hn/public/archivos/comunicado0032018.pdf).",
@@ -387,7 +429,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "La regulación no prevé un lista de ingredientes específicos que pueden ser usados en la elaboración de suplementos nutricionales, sin embargo, la definición prevista en el [COMUNICADO C-003-ARSA-2018](https://arsa.gob.hn/public/archivos/comunicado0032018.pdf) hace mención de que el fin principal de estos productos es la incorporación de \"...nutrientes en la dieta de personas sanas, en concentraciones que no generen indicaciones terapéuticas o sean aplicados a estados patológicos...\", siendo de nuestro mejor entendimiento que, cualquier ingrediente que se desee agregar a los suplementos nutricionales, deberá tener un efecto nutricional asociado a su consumo debidamente justificado, y jamás deberá representar actividad terapéutica en el producto.\n\nEl uso de cualquier ingrediente en suplementos nutricionales será evaluado por la Dirección de Alimentos y Bebidas de la Agencia de Regulación Sanitaria Honduras (ARSA) durante el trámite de registro sanitario.",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "**RTCA 67.01.07:10** (etiquetado general) – ARSA. ([arsa.gob.hn](https://arsa.gob.hn/wp-content/uploads/2022/02/Anexo2802012_Etiquetado_General_de_los_Alimentos_Previamente_Envasados.pdf?utm_source=chatgpt.com))",
         },
     
         "México": {
@@ -425,7 +471,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "El Artículo 168 del RCSPyS establece que los suplementos alimenticios pueden contener los siguientes ingredientes:\n\n- Carbohidratos\n- Proteínas\n- Aminoácidos\n- Ácidos grasos\n- Metabolitos\n- Plantas\n- Algas\n- Alimentos tradicionales deshidratados\n- Otros que apruebe la Secretaría de Salud.\n\nLa regulación no prevé listas de con el nombre específico de estas sustancias.\n\nAdicionalmente, los suplementos pueden ser adicionados de vitaminas y minerales. El apéndice XVII del RCSPyS establece la lista de vitaminas y minerales y sus límites máximos.",
             
-            "nuevos_ingredientes": "*Aditivos: Solicitud de inclusión en el Acuerdo de Aditivos para su uso en la categoría (Dossier).\n*Ingredientes generales: Deberá presentarse la información detallada del ingrediente dentro del dossier en la Consulta de Clasificación."
+            "nuevos_ingredientes": "*Aditivos: Solicitud de inclusión en el Acuerdo de Aditivos para su uso en la categoría (Dossier).\n*Ingredientes generales: Deberá presentarse la información detallada del ingrediente dentro del dossier en la Consulta de Clasificación.",
+
+            "lista_oficial_suplementos": "**No hay lista positiva** (rigen prohibiciones)",
+
+            "donde_consultar_lista": "COFEPRIS (suplementos) y **Reglamento de Publicidad**: prohíbe atribuir propiedades de prevención/curación. ([gob.mx](https://www.gob.mx/cofepris/acciones-y-programas/suplementos-alimenticios?), [salud.gob.mx](https://salud.gob.mx/unidades/cdi/pot/fxiv/Reglamento/r69.pdf?))",
         },
     
         "Nicaragua": {
@@ -463,7 +513,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "La [Resolución Administrativa N° 0562-2021](https://www.minsa.gob.ni/index.php/repository/Descargas-MINSA/Dirección-General-de-Regulación-Sanitaria/Dirección-de-Farmacia/Suplementos-Nutricionales/Resolución-de-Suplementos-Nutricionales/) no prevé una lista de ingredientes específicos que puedan ser empleados en la elaboración de suplementos nutricionales. Esta regulación sólo prevé la lista de vitaminas y minerales que pueden contener los suplementos nutricionales, así como sus límites máximos. Sin embargo, de acuerdo con la definición de suplementos nutricionales provistos en la regulación, estos productos podrán contener:\n\n- Vitaminas y minerales.\n- Aminoácidos.\n- Carbohidratos.\n- Proteínas.\n- Grasas,\n- Mezclas de las sustancias antes mencionadas con extractos de origen vegetal, animal o enzimas, excepto hormonas y su combinación con vitaminas.",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones específicas que va a depender del tipo de ingrediente que se desea utilizar.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "**RTCA 67.04.60:10** (etiquetado nutricional). ([osartec.gob.sv](https://osartec.gob.sv/wp-content/uploads/download-manager-files/38_d.o._rtca_etiquetado_nutricional.pdf?utm_source=chatgpt.com))",
         },
     
         "Panamá": {
@@ -501,7 +555,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "Las regulaciones correspondientes a cada categoría no describen listas de ingredientes específicos a ser empleados en la elaboración de suplementos alimentarios. En general, la regulación aplicable a los productos clasificados como alimentos hacen mención de los suplementos alimenticios a base de vitaminas y minerales, y \"los demás suplementos para la venta al por menor\", lo cual indica que dicha categoría no estaría restringida para a la adición de otros nutrientes y sustancias con fines nutricionales. En el caso de los productos clasificados como medicamentos, la regulación menciona el uso de los siguientes:\n\n- Extractos de plantas u otros productos botánicos,\n- Carbohidratos,\n- Aminoácidos,\n- Proteínas,\n- Ácidos grasos\n- Enzimas\n\nEn cualquier caso, el uso de ingredientes también se considera un punto clave para la clasificación regulatoria como alimento o medicamento durante la evaluación realizada por la Agencia Panameña de Alimentos (APA) durante la consulta de clasificación.",
             
-            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual realiza la Agencia Panameña de Alimentos (APA) durante la consulta de clasificación. En caso de que la APA considere que un nuevo ingrediente no tiene un aporte nutricional en el producto, y que por el contrario, puede suponer algún efecto terapéutico, a dicho producto se lo clasificará como medicamento."
+            "nuevos_ingredientes": "La aprobación de nuevos ingredientes se lleva a cabo mediante una evaluación caso-por-caso, la cual realiza la Agencia Panameña de Alimentos (APA) durante la consulta de clasificación. En caso de que la APA considere que un nuevo ingrediente no tiene un aporte nutricional en el producto, y que por el contrario, puede suponer algún efecto terapéutico, a dicho producto se lo clasificará como medicamento.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "RTCA de etiquetado nutricional/INC (referencia regional). ([osartec.gob.sv](https://osartec.gob.sv/wp-content/uploads/download-manager-files/38_d.o._rtca_etiquetado_nutricional.pdf?utm_source=chatgpt.com))",
         },
     
         "Perú": {
@@ -539,7 +597,11 @@ DATOS_REGULATORIOS = {
             
             "ingredientes_permitidos": "El Artículo 92 del [Decreto Supremo N° DS016-2011-MINSA](https://www.digemid.minsa.gob.pe/UpLoad/UpLoaded/PDF/DS016-2011-MINSA.pdf) establece que, la autoridad sanitaria emitirá el listado de vitaminas, minerales y otros nutrientes aprobados en productos dietéticos, por lo que el Ministerio de Salud ha publicado la versión mas reciente de dicho listado mediante la [Resolución Directoral N° 025-2022-DIGEMID-DG-MINSA](https://busquedas.elperuano.pe/normaslegales/aprueban-el-listado-de-vitaminas-minerales-y-otros-nutrien-resolucion-directoral-no-025-2022-digemid-dg-minsa-2056405-1/) \"Listado de vitaminas, minerales y otros nutrientes permitidos en la fabricación de productos dietéticos\". Esta lista no proporciona límites mínimos ni máximos de dichas sustancias. Asimismo, DIGEMID ha publicado un [listado de colorantes](http://www.digemid.minsa.gob.pe/upload/uploaded/pdf/rd_139_2012.pdf) un [listado de exipientes](http://www.digemid.minsa.gob.pe/upload/uploaded/pdf/rd152_2012_digemid_dg_minsa.pdf) que pueden ser usados en los productos dieteticos.\n\nEl Artículo 92 señala que se aceptara como referencia la IDR o los límites establecidos en los países de alta vigilancia sanitaria (Francia, Holanda, Reino Unido, Estados Unidos de América, Canadá, Japón, Suiza, Alemania, España, Australia, Dinamarca, Italia, Noruega, Bélgica, Suecia, la República de Corea, Portugal, Irlanda y Hungría).",
             
-            "nuevos_ingredientes": "La aprobaciòn de nuevos ingredientes se lleva acabo mediante una evaluaciòn caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones especìficas que va a depender del tìpo de ingrediente que se desea utilizar.\n\nOtra vía para la aprovacion de ingredientes es realizar una consulta previa al registro sanitario ante el Comité Especializado del Ministerio de Salud (CEMIS). La evaluación también se realiza caso-por-caso."
+            "nuevos_ingredientes": "La aprobaciòn de nuevos ingredientes se lleva acabo mediante una evaluaciòn caso-por-caso, la cual se puede realizar durante el trámite de registro sanitario del producto. Para ello se debe suministrar toda la evidencia científica y/o regulatoria disponible que soporte la seguridad y el uso nutricional del ingrediente entre otras informaciones especìficas que va a depender del tìpo de ingrediente que se desea utilizar.\n\nOtra vía para la aprovacion de ingredientes es realizar una consulta previa al registro sanitario ante el Comité Especializado del Ministerio de Salud (CEMIS). La evaluación también se realiza caso-por-caso.",
+
+            "lista_oficial_suplementos": "**No** (sin lista positiva)",
+
+            "donde_consultar_lista": "**RM 491-2016-MINSA**: lineamientos para rotulado/publicidad; se remite a **Codex** para declaraciones. ([digesa.minsa.gob.pe](https://www.digesa.minsa.gob.pe/norma_consulta/RM_314-2024-MINSA.pdf))",
         },
 
         "El Salvador": {
@@ -582,8 +644,12 @@ DATOS_REGULATORIOS = {
 
             "ingredientes_permitidos": "No hay una lista positiva oficial. Se permite el uso de vitaminas, minerales, aminoácidos, carbohidratos, proteínas, grasas o sus mezclas con extractos de origen vegetal, animal o enzimas. Se excluyen hormonas y combinaciones con estas.",
 
-            "nuevos_ingredientes": "Se aprueban caso por caso durante el registro sanitario. El solicitante debe presentar evidencia científica y regulatoria que respalde la seguridad y eficacia del ingrediente."
-            },
+            "nuevos_ingredientes": "Se aprueban caso por caso durante el registro sanitario. El solicitante debe presentar evidencia científica y regulatoria que respalde la seguridad y eficacia del ingrediente.",
+
+            "lista_oficial_suplementos": "**No** (aplica RTCA)",
+
+            "donde_consultar_lista": "**RTCA 67.04.60:10** (etiquetado nutricional de preenvasados). ([asp.salud.gob.sv](https://asp.salud.gob.sv/regulacion/pdf/rtca/rtca_67_04_60_10_etiquetado_nutricional_productos_alimenticios_preenvasados.pdf?utm_source=chatgpt.com))",
+        },
 
         "Alianza del Pacífico": {
             "instrumento_legal": "Las Partes acuerdan que en caso de que se modifiquen sus definiciones nacionales, así como las declaraciones de propiedades nutricionales y saludables, cuando corresponda, se considerarán entre otras, las mejores prácticas internacionales para dichas modificaciones.",
