@@ -307,30 +307,125 @@ body {
     overflow-x: auto;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
+    min-width: 100%;
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
+    table-layout: fixed; /* Importante para el redimensionado */
+    min-width: 1400px; /* Ancho mínimo para todas las columnas */
 }
 
 .data-table th {
     background-color: #f8f9fa;
-    padding: 12px;
+    padding: 12px 8px;
     text-align: left;
     font-weight: 600;
     color: #374151;
     border-bottom: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    position: relative;
+    user-select: none; /* Evita selección de texto al redimensionar */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
+/* Anchos iniciales de columnas */
+.data-table th:nth-child(1) { width: 120px; } /* País */
+.data-table th:nth-child(2) { width: 180px; } /* Ingrediente activo */
+.data-table th:nth-child(3) { width: 140px; } /* Vía de administración */
+.data-table th:nth-child(4) { width: 160px; } /* Dosis permitidas */
+.data-table th:nth-child(5) { width: 150px; } /* Indicación ingrediente 1 */
+.data-table th:nth-child(6) { width: 150px; } /* Indicación ingrediente 2 */
+.data-table th:nth-child(7) { width: 180px; } /* Combinaciones registradas */
+.data-table th:nth-child(8) { width: 200px; } /* Indicación producto */
+.data-table th:nth-child(9) { width: 120px; } /* Año de comercialización */
+.data-table th:nth-child(10) { width: 140px; } /* Clasificación regulatoria */
+
 .data-table td {
-    padding: 12px;
+    padding: 12px 8px;
     border-bottom: 1px solid #f3f4f6;
+    border-right: 1px solid #f3f4f6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .data-table tr:hover {
     background-color: #f8f9fa;
+}
+
+/* Divisor redimensionable */
+.column-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background: transparent;
+    border-right: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.column-resizer:hover {
+    border-right-color: #8ba873;
+}
+
+.column-resizer.resizing {
+    border-right-color: #8ba873;
+    background: rgba(139, 168, 115, 0.1);
+}
+
+/* Tooltip para contenido truncado */
+.data-table td:hover {
+    position: relative;
+    z-index: 10;
+}
+
+.data-table td[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    max-width: 300px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+/* Botón para resetear anchos */
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.reset-columns-btn {
+    background-color: #f8f9fa;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.reset-columns-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
 }
 
 .pagination-controls {
@@ -529,20 +624,57 @@ body {
     <div id="dataContent" style="display: none;">
         <div class="pagination-info" id="paginationInfo" style="margin-bottom: 16px; color: #666; font-size: 14px;">
         </div>
+        
+        <div class="table-controls">
+            <button type="button" class="reset-columns-btn" onclick="resetColumnWidths()">
+                🔄 Resetear anchos de columnas
+            </button>
+        </div>
+        
         <div class="table-container">
             <table class="data-table" id="dataTable">
                 <thead>
                     <tr>
-                        <th>País</th>
-                        <th>Ingrediente activo</th>
-                        <th>Vía de administración</th>
-                        <th>Dosis permitidas/Duración</th>
-                        <th>Indicación ingrediente (ATC1)</th>
-                        <th>Indicación ingrediente (ATC2)</th>
-                        <th>Combinaciones registradas</th>
-                        <th>Indicación producto</th>
-                        <th>Año de comercialización</th>
-                        <th>Clasificación regulatoria</th>
+                        <th>
+                            País
+                            <div class="column-resizer" data-column="0"></div>
+                        </th>
+                        <th>
+                            Ingrediente activo
+                            <div class="column-resizer" data-column="1"></div>
+                        </th>
+                        <th>
+                            Vía de administración
+                            <div class="column-resizer" data-column="2"></div>
+                        </th>
+                        <th>
+                            Dosis permitidas/Duración
+                            <div class="column-resizer" data-column="3"></div>
+                        </th>
+                        <th>
+                            Indicación Ingrediente (ATC 1)
+                            <div class="column-resizer" data-column="4"></div>
+                        </th>
+                        <th>
+                            Indicación ingrediente (ATC 2)
+                            <div class="column-resizer" data-column="5"></div>
+                        </th>
+                        <th>
+                            Combinaciones registradas
+                            <div class="column-resizer" data-column="6"></div>
+                        </th>
+                        <th>
+                            Indicación producto
+                            <div class="column-resizer" data-column="7"></div>
+                        </th>
+                        <th>
+                            Año de comercialización
+                            <div class="column-resizer" data-column="8"></div>
+                        </th>
+                        <th>
+                            Clasificación regulatoria
+                            <div class="column-resizer" data-column="9"></div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
@@ -561,10 +693,24 @@ let currentData = null;
 let currentPage = 1;
 let pageSize = 50;
 
+// AGREGAR estas nuevas variables para el redimensionado de columnas
+let isResizing = false;
+let currentColumn = null;
+let startX = 0;
+let startWidth = 0;
+
+// Anchos por defecto de las columnas
+const defaultColumnWidths = [120, 180, 140, 160, 150, 150, 180, 200, 120, 140];
+
 // Inicializar la página
 document.addEventListener('DOMContentLoaded', function() {
     loadData();
     setupEventListeners();
+    
+    // Inicializar redimensionado de columnas
+    setTimeout(() => {
+        initializeColumnResizing();
+    }, 500);
 });
 
 function setupEventListeners() {
@@ -714,6 +860,7 @@ function updateMetrics(metrics) {
     console.log('📈 Métricas actualizadas:', metrics);
 }
 
+// REEMPLAZAR la función updateDataTable existente
 function updateDataTable(tableData) {
     const tbody = document.getElementById('dataTableBody');
     tbody.innerHTML = '';
@@ -727,19 +874,28 @@ function updateDataTable(tableData) {
         return;
     }
     
+    // Función para truncar texto y agregar tooltip
+    const createCellWithTooltip = (text, maxLength = 30) => {
+        const cleanText = text || '-';
+        if (cleanText.length <= maxLength) {
+            return cleanText;
+        }
+        return `<span title="${cleanText.replace(/"/g, '&quot;')}">${cleanText.substring(0, maxLength)}...</span>`;
+    };
+    
     tableData.forEach((row, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${row['País'] || '-'}</td>
-            <td>${row['Ingrediente activo'] || '-'}</td>
-            <td>${row['Vía de administración'] || '-'}</td>
-            <td>${row['Dosis permitidas/Duración'] || '-'}</td>
-            <td>${row['Indicación ingrediente 1'] || '-'}</td>
-            <td>${row['Indicación ingrediente 2'] || '-'}</td>
-            <td>${row['Combinaciones registradas con el ingrediente activo'] || '-'}</td>
-            <td>${row['Indicación producto/Declaración de propiedades'] || '-'}</td>
-            <td>${row['Año de comercialización'] || '-'}</td>
-            <td>${row['Clasificación regulatoria'] || '-'}</td>
+            <td>${createCellWithTooltip(row['País'], 20)}</td>
+            <td>${createCellWithTooltip(row['Ingrediente activo'], 25)}</td>
+            <td>${createCellWithTooltip(row['Vía de administración'], 20)}</td>
+            <td>${createCellWithTooltip(row['Dosis permitidas/Duración'], 25)}</td>
+            <td>${createCellWithTooltip(row['Indicación ingrediente 1'], 25)}</td>
+            <td>${createCellWithTooltip(row['Indicación ingrediente 2'], 25)}</td>
+            <td>${createCellWithTooltip(row['Combinaciones registradas con el ingrediente activo'], 30)}</td>
+            <td>${createCellWithTooltip(row['Indicación producto/Declaración de propiedades'], 35)}</td>
+            <td>${createCellWithTooltip(row['Año de comercialización'], 15)}</td>
+            <td>${createCellWithTooltip(row['Clasificación regulatoria'], 20)}</td>
         `;
         tbody.appendChild(tr);
         
@@ -751,6 +907,11 @@ function updateDataTable(tableData) {
     
     document.getElementById('dataLoading').style.display = 'none';
     document.getElementById('dataContent').style.display = 'block';
+    
+    // Reinicializar el redimensionado después de actualizar la tabla
+    setTimeout(() => {
+        initializeColumnResizing();
+    }, 100);
 }
 
 function updatePagination(pagination) {
@@ -835,6 +996,67 @@ function changePage(page) {
     
     console.log('📄 Cambiando a página:', page);
     loadData(page);
+}
+// Inicializar redimensionado de columnas
+function initializeColumnResizing() {
+    const resizers = document.querySelectorAll('.column-resizer');
+    
+    resizers.forEach(resizer => {
+        resizer.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            isResizing = true;
+            currentColumn = parseInt(this.getAttribute('data-column'));
+            startX = e.pageX;
+            
+            const th = this.parentElement;
+            startWidth = parseInt(document.defaultView.getComputedStyle(th).width, 10);
+            
+            this.classList.add('resizing');
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+        });
+    });
+    
+    document.addEventListener('mousemove', function(e) {
+        if (!isResizing) return;
+        
+        const diff = e.pageX - startX;
+        const newWidth = Math.max(80, startWidth + diff); // Mínimo 80px
+        
+        // Actualizar ancho de la columna
+        const table = document.getElementById('dataTable');
+        const columnCells = table.querySelectorAll(`th:nth-child(${currentColumn + 1}), td:nth-child(${currentColumn + 1})`);
+        
+        columnCells.forEach(cell => {
+            cell.style.width = newWidth + 'px';
+        });
+    });
+    
+    document.addEventListener('mouseup', function() {
+        if (isResizing) {
+            isResizing = false;
+            currentColumn = null;
+            
+            document.querySelectorAll('.column-resizer').forEach(resizer => {
+                resizer.classList.remove('resizing');
+            });
+            
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+        }
+    });
+}
+
+// Resetear anchos de columnas a valores por defecto
+function resetColumnWidths() {
+    const table = document.getElementById('dataTable');
+    
+    defaultColumnWidths.forEach((width, index) => {
+        const columnCells = table.querySelectorAll(`th:nth-child(${index + 1}), td:nth-child(${index + 1})`);
+        columnCells.forEach(cell => {
+            cell.style.width = width + 'px';
+        });
+    });
 }
 </script>
 </body>

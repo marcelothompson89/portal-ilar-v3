@@ -277,54 +277,19 @@
     </header>
 
     <main class="main-container">
-        <section class="welcome-section">
-            <h1 class="welcome-title">Panel de Control</h1>
-            <p class="welcome-subtitle">Accede a tus tableros de análisis de datos</p>
-            <p class="welcome-description">
-                Bienvenido al portal de datos ILAR. Aquí puedes acceder a diferentes 
-                herramientas de análisis y visualización de datos. Selecciona el tablero que necesitas 
-                para comenzar tu análisis.
-            </p>
+        <section class="welcome-section" style="padding: 0; background: none;">
+            <img src="/static/images/panel-control.png" alt="Panel de Control ILAR" style="width: 100%; height: auto; display: block; border-radius: 12px;">
         </section>
 
         <section class="dashboards-section">
             <h2 class="section-title">Tableros Disponibles</h2>
             <div class="dashboards-grid">
-                <a href="/dashboard/molecules" class="dashboard-card">
-                    <div class="dashboard-icon">🧬</div>
-                    <h3 class="dashboard-title">Moléculas ILAR</h3>
-                    <p class="dashboard-description">
-                        Análisis completo de moléculas farmacéuticas con filtros por país, 
-                        tipo de medicamento (RX/OTC) y visualizaciones interactivas.
-                    </p>
-                    <div class="dashboard-stats">
-                        <div class="stat-item">
-                            <span>📊</span>
-                            <span>Gráficos interactivos</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>🔍</span>
-                            <span>Filtros avanzados</span>
-                        </div>
-                    </div>
+                <a href="/dashboard/molecules" class="dashboard-card" style="padding: 0; overflow: hidden;">
+                    <img src="/static/images/banner-moleculas.png" alt="Moléculas ILAR" style="width: 100%; height: auto; display: block;">
                 </a>
 
-                <a href="/dashboard/suplementos" class="dashboard-card">
-                    <div class="dashboard-icon">💊</div>
-                    <h3 class="dashboard-title">Suplementos Alimenticios en América Latina</h3>
-                    <p class="dashboard-description">
-                        Análisis de regulación de suplementos “alimenticios” por país e ingrediente.
-                    </p>
-                    <div class="dashboard-stats">
-                        <div class="stat-item">
-                            <span>🌎</span>
-                            <span>Múltiples países</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>📋</span>
-                            <span>Comparación regulatoria</span>
-                        </div>
-                    </div>
+                <a href="/dashboard/suplementos" class="dashboard-card" style="padding: 0; overflow: hidden;">
+                    <img src="/static/images/banner-suplementos.png" alt="Suplementos Alimenticios en América Latina" style="width: 100%; height: auto; display: block;">
                 </a>
 
                 <!-- <div class="dashboard-card coming-soon">
