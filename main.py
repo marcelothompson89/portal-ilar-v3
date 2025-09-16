@@ -233,6 +233,60 @@ def require_auth(request: Request):
         )
     return user
 
+def calculate_avg_authorized_ingredients():
+    """Calcula el promedio de ingredientes autorizados por país"""
+    global df_suplementos_cache
+    
+    if df_suplementos_cache is None or len(df_suplementos_cache) == 0:
+        return 0.0
+    
+    # Filtrar solo los ingredientes establecidos (autorizados)
+    authorized_data = df_suplementos_cache[df_suplementos_cache['establecido'] == True]
+    
+    if len(authorized_data) == 0:
+        return 0.0
+    
+    # Contar ingredientes únicos autorizados por país
+    ingredients_per_country = authorized_data.groupby('pais')['ingrediente'].nunique()
+    
+    # Calcular el promedio
+    average_authorized = ingredients_per_country.mean()
+    
+    return round(average_authorized, 1)
+
+def calculate_avg_authorized_other_substances():
+    """Calcula el promedio de otras sustancias autorizadas por país"""
+    global df_otras_sustancias_cache
+    
+    if df_otras_sustancias_cache is None or len(df_otras_sustancias_cache) == 0:
+        return 0.0
+    
+    # Obtener las columnas de países (todas excepto Category y Substance)
+    country_columns = [col for col in df_otras_sustancias_cache.columns 
+                      if col not in ['Category', 'Substance']]
+    
+    if len(country_columns) == 0:
+        return 0.0
+    
+    # Contar sustancias autorizadas por país
+    authorized_counts = {}
+    
+    for country in country_columns:
+        # Contar cuántas sustancias están "Autorizado" en este país
+        authorized_count = df_otras_sustancias_cache[
+            df_otras_sustancias_cache[country] == 'Autorizado'
+        ].shape[0]
+        
+        authorized_counts[country] = authorized_count
+    
+    # Calcular el promedio
+    if len(authorized_counts) > 0:
+        total_authorized = sum(authorized_counts.values())
+        average_authorized = total_authorized / len(authorized_counts)
+        return round(average_authorized, 1)
+    
+    return 0.0
+
 # Rutas públicas
 @app.get("/", response_class=HTMLResponse)
 async def login_page(request: Request):

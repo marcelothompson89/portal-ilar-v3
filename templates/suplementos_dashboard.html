@@ -557,12 +557,12 @@ body {
 
 <section class="metrics-section" id="metricsSection">
     <div class="metric-card">
-        <div class="metric-value" id="totalRecords">-</div>
-        <div class="metric-label">Total de registros</div>
-    </div>
-    <div class="metric-card">
         <div class="metric-value" id="uniqueCountries">-</div>
         <div class="metric-label">Países de América Latina</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" id="avgAuthorizedIngredients">-</div>
+        <div class="metric-label">Promedio de ingredientes autorizados por país</div>
     </div>
     <div class="metric-card">
         <div class="metric-value" id="uniqueIngredients">-</div>
@@ -570,8 +570,8 @@ body {
         <div id="ingredientsBreakdown"></div>
     </div>
     <div class="metric-card">
-        <div class="metric-value" id="establishedRegulations">-</div>
-        <div class="metric-label">Regulaciones establecidas</div>
+        <div class="metric-value" id="avgAuthorizedOtherSubstances">-</div>
+        <div class="metric-label">Promedio de otras sustancias autorizadas por país</div>
     </div>
 </section>
 
@@ -1143,11 +1143,32 @@ function clearAllCategories() {
     loadComparisonData();
 }
 
-function updateMetrics() {
+async function updateMetrics() {
     if (!allData) return;
     
-    const totalRecords = allData.length;
     const uniqueCountries = new Set(allData.map(item => item.pais)).size;
+    
+    // Calcular promedio de ingredientes autorizados por país
+    const authorizedData = allData.filter(item => item.establecido === true);
+    const ingredientsByCountry = {};
+    
+    authorizedData.forEach(item => {
+        if (!ingredientsByCountry[item.pais]) {
+            ingredientsByCountry[item.pais] = new Set();
+        }
+        ingredientsByCountry[item.pais].add(item.ingrediente);
+    });
+    
+    const countriesWithAuthorizedIngredients = Object.keys(ingredientsByCountry);
+    let totalAuthorizedIngredients = 0;
+    
+    countriesWithAuthorizedIngredients.forEach(country => {
+        totalAuthorizedIngredients += ingredientsByCountry[country].size;
+    });
+    
+    const avgAuthorizedIngredients = countriesWithAuthorizedIngredients.length > 0 
+        ? (totalAuthorizedIngredients / countriesWithAuthorizedIngredients.length).toFixed(1)
+        : 0;
     
     // Calcular ingredientes con niveles establecidos
     const ingredientsWithLevels = allData.filter(item => 
@@ -1165,9 +1186,11 @@ function updateMetrics() {
     const uniqueVitamins = new Set(vitaminsWithLevels.map(item => item.ingrediente)).size;
     const uniqueMinerals = new Set(mineralsWithLevels.map(item => item.ingrediente)).size;
     
-    const establishedRegulations = allData.filter(item => item.establecido).length;
+    // Calcular promedio de otras sustancias autorizadas
+    const avgOtherSubstances = await calculateAvgAuthorizedOtherSubstances();
     
-    document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
+    // Actualizar los elementos del DOM
+    document.getElementById('avgAuthorizedIngredients').textContent = avgAuthorizedIngredients;
     document.getElementById('uniqueCountries').textContent = uniqueCountries;
     
     // Actualizar el KPI compuesto
@@ -1179,7 +1202,64 @@ function updateMetrics() {
         </div>
     `;
     
-    document.getElementById('establishedRegulations').textContent = establishedRegulations.toLocaleString();
+    document.getElementById('avgAuthorizedOtherSubstances').textContent = avgOtherSubstances;
+}
+
+// Función para calcular promedio de otras sustancias autorizadas
+async function calculateAvgAuthorizedOtherSubstances() {
+    try {
+        const response = await fetch('/api/otras-sustancias-initial');
+        if (!response.ok) {
+            return 0;
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            return 0;
+        }
+        
+        // Hacer una segunda llamada para obtener todos los datos sin filtros
+        const analysisResponse = await fetch('/api/otras-sustancias-analysis?page=1&page_size=10000');
+        if (!analysisResponse.ok) {
+            return 0;
+        }
+        
+        const analysisData = await analysisResponse.json();
+        
+        if (!analysisData.success || !analysisData.table_data) {
+            return 0;
+        }
+        
+        // Contar sustancias autorizadas por país
+        const authorizedByCountry = {};
+        
+        analysisData.table_data.forEach(row => {
+            if (row.estatus && row.estatus.toLowerCase().includes('autorizado') && 
+                !row.estatus.toLowerCase().includes('no autorizado')) {
+                
+                if (!authorizedByCountry[row.pais]) {
+                    authorizedByCountry[row.pais] = 0;
+                }
+                authorizedByCountry[row.pais]++;
+            }
+        });
+        
+        // Calcular promedio
+        const countries = Object.keys(authorizedByCountry);
+        if (countries.length === 0) {
+            return 0;
+        }
+        
+        const totalAuthorized = Object.values(authorizedByCountry).reduce((sum, count) => sum + count, 0);
+        const average = totalAuthorized / countries.length;
+        
+        return Math.round(average * 10) / 10; // Redondear a 1 decimal
+        
+    } catch (error) {
+        console.error('Error calculando promedio de otras sustancias:', error);
+        return 0;
+    }
 }
 
 async function loadAnalysisData(page = 1) {
