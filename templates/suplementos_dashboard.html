@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tablero de Suplementos - América Latina</title>
+<title>Tablero de Suplementos Alimenticios - América Latina</title>
 <style>
 * {
     margin: 0;
@@ -552,7 +552,7 @@ body {
 </header>
 
 <main class="main-container">
-<h1 class="page-title">Tablero de Suplementos - América Latina</h1>
+<h1 class="page-title">Tablero de Suplementos Alimenticios - América Latina</h1>
 <p class="page-subtitle">Análisis de regulación de suplementos “alimenticios” por país e ingrediente</p>
 
 <section class="metrics-section" id="metricsSection">
@@ -562,7 +562,7 @@ body {
     </div>
     <div class="metric-card">
         <div class="metric-value" id="avgAuthorizedIngredients">-</div>
-        <div class="metric-label">Promedio de ingredientes autorizados por país</div>
+        <div class="metric-label">Promedio de ingredientes con límite max/min establecido por país</div>
     </div>
     <div class="metric-card">
         <div class="metric-value" id="uniqueIngredients">-</div>
@@ -577,10 +577,10 @@ body {
 
 <section class="content-tabs">
     <div class="tabs-header">
-        <button class="tab-button" onclick="showTab('comparison')">
+        <button class="tab-button active" onclick="showTab('comparison')">
             🏛️ Comparación Regulatoria
         </button>
-        <button class="tab-button active" onclick="showTab('analysis')">
+        <button class="tab-button" onclick="showTab('analysis')">
             🔬 Análisis por Ingrediente
         </button>
         <button class="tab-button" onclick="showTab('otras-sustancias')">
@@ -589,7 +589,7 @@ body {
     </div>
 
     <!-- Análisis por Ingrediente -->
-    <div id="analysisTab" class="tab-content active">
+    <div id="analysisTab" class="tab-content">
         <div class="filters-section">
             <h3 class="filters-title">🔍 Filtros de Análisis</h3>
             <div class="filters-grid">
@@ -681,7 +681,7 @@ body {
     </div>
 
     <!-- Comparación Regulatoria -->
-    <div id="comparisonTab" class="tab-content">
+    <div id="comparisonTab" class="tab-content active">
         <div class="filters-section">
             <h3 class="filters-title">🌎 Filtros de Comparación</h3>
             <div class="filters-grid">
@@ -861,12 +861,35 @@ async function loadInitialData() {
         
         setupFilters(data);
         updateMetrics();
-        loadAnalysisData();
+        // NO cargar datos de análisis por defecto
+        // loadAnalysisData();
+
+        // Configurar estado inicial de la pestaña de comparación (que está activa por defecto)
+        initializeComparisonTab();
         
     } catch (error) {
         console.error('❌ Error cargando datos iniciales:', error);
         alert('Error al cargar los datos. Verifica la consola para más detalles.');
     }
+}
+
+// Nueva función para inicializar la pestaña de comparación
+function initializeComparisonTab() {
+    document.getElementById('comparisonLoading').style.display = 'none';
+    document.getElementById('comparisonContent').style.display = 'block';
+    
+    const grid = document.getElementById('comparisonGrid');
+    grid.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb;">
+            <h3 style="color: #8ba873; margin-bottom: 16px;">🌎 Comparación Regulatoria</h3>
+            <p style="margin-bottom: 16px;">Para realizar una comparación regulatoria, selecciona:</p>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 8px;">✅ Al menos un país para comparar</li>
+                <li style="margin-bottom: 8px;">✅ Al menos una categoría regulatoria</li>
+            </ul>
+            <p style="margin-top: 16px; font-size: 14px; color: #888;">Una vez seleccionados, se generará automáticamente la comparación</p>
+        </div>
+    `;
 }
 
 function setupFilters(data) {
@@ -1148,31 +1171,46 @@ async function updateMetrics() {
     
     const uniqueCountries = new Set(allData.map(item => item.pais)).size;
     
-    // Calcular promedio de ingredientes autorizados por país
-    const authorizedData = allData.filter(item => item.establecido === true);
+    // CORRECCIÓN 1: Cambiar la condición de filtro
+    // ❌ Anterior: item.establecido === true
+    // ✅ Nuevo: item.establecido === 'Sí' || item.establecido === true
+    const authorizedData = allData.filter(item => 
+        item.establecido === 'Sí' || item.establecido === true
+    );
+    
+    console.log(`🔍 DEBUG - Registros autorizados encontrados: ${authorizedData.length}`);
+    console.log(`🔍 DEBUG - Muestra de valores 'establecido':`, 
+        allData.slice(0, 5).map(item => item.establecido));
+    
+    // CORRECCIÓN 2: Contar TODOS los ingredientes por país (incluyendo duplicados)
     const ingredientsByCountry = {};
     
     authorizedData.forEach(item => {
         if (!ingredientsByCountry[item.pais]) {
-            ingredientsByCountry[item.pais] = new Set();
+            ingredientsByCountry[item.pais] = []; // Cambiar de Set a Array
         }
-        ingredientsByCountry[item.pais].add(item.ingrediente);
+        ingredientsByCountry[item.pais].push(item.ingrediente); // push en lugar de add
     });
     
     const countriesWithAuthorizedIngredients = Object.keys(ingredientsByCountry);
     let totalAuthorizedIngredients = 0;
     
+    console.log('🌎 DEBUG - Conteo por país (incluyendo duplicados):');
     countriesWithAuthorizedIngredients.forEach(country => {
-        totalAuthorizedIngredients += ingredientsByCountry[country].size;
+        const count = ingredientsByCountry[country].length; // .length en lugar de .size
+        totalAuthorizedIngredients += count;
+        console.log(`   ${country}: ${count} ingredientes`);
     });
     
     const avgAuthorizedIngredients = countriesWithAuthorizedIngredients.length > 0 
         ? (totalAuthorizedIngredients / countriesWithAuthorizedIngredients.length).toFixed(1)
         : 0;
     
-    // Calcular ingredientes con niveles establecidos
+    console.log(`📈 DEBUG - Promedio calculado: ${totalAuthorizedIngredients} ÷ ${countriesWithAuthorizedIngredients.length} = ${avgAuthorizedIngredients}`);
+    
+    // Calcular ingredientes con niveles establecidos (sin cambios)
     const ingredientsWithLevels = allData.filter(item => 
-        item.establecido && 
+        (item.establecido === 'Sí' || item.establecido === true) && 
         item.minimo !== null && item.minimo !== undefined && item.minimo > 0 &&
         item.maximo !== null && item.maximo !== undefined && item.maximo > 0
     );
@@ -1203,6 +1241,8 @@ async function updateMetrics() {
     `;
     
     document.getElementById('avgAuthorizedOtherSubstances').textContent = avgOtherSubstances;
+    
+    console.log('✅ Métricas actualizadas en el DOM');
 }
 
 // Función para calcular promedio de otras sustancias autorizadas
@@ -1497,8 +1537,8 @@ function updateRegulatoryComparisonGrid(comparisonData) {
     grid.innerHTML = '';
     grid.style.display = 'block'; // Asegurar que el contenedor principal sea un bloque
     
-    const hasListasOficiales = selectedCategories.includes('Listas Oficiales de Suplementos');
-    const otherCategories = selectedCategories.filter(cat => cat !== 'Listas Oficiales de Suplementos');
+    const hasListasOficiales = selectedCategories.includes('Listas de Declaraciones de Propiedades para Suplementos Alimenticios');
+    const otherCategories = selectedCategories.filter(cat => cat !== 'Listas de Declaraciones de Propiedades para Suplementos Alimenticios');
     
     // Mostrar tabla para Listas Oficiales si está seleccionada
     if (hasListasOficiales) {
@@ -1596,7 +1636,7 @@ function createListasOficialesTable(comparisonData, container) {
     
     selectedComparisonCountries.forEach(country => {
         const countryData = comparisonData[country] || {};
-        const listasData = countryData['Listas Oficiales de Suplementos'] || {};
+        const listasData = countryData['Listas de Declaraciones de Propiedades para Suplementos Alimenticios'] || {};
         
         const listaOficial = listasData['¿Lista oficial para suplementos?'] || 'Información no disponible';
         const dondeConsultar = listasData['Dónde consultar'] || 'Información no disponible';
@@ -1662,10 +1702,26 @@ function showTab(tabName) {
             loadAnalysisData();
         }
     } else if (tabName === 'comparison') {
-        document.getElementById('comparisonTab').classList.add('active');
-        // NO cargar comparación automáticamente - solo cuando hay selecciones
-        document.getElementById('comparisonLoading').style.display = 'none';
-        document.getElementById('comparisonContent').style.display = 'none';
+    document.getElementById('comparisonTab').classList.add('active');
+    // Mostrar mensaje instructivo en lugar de spinner
+    document.getElementById('comparisonLoading').style.display = 'none';
+    document.getElementById('comparisonContent').style.display = 'block';
+    
+    // Mostrar mensaje instructivo si no hay selecciones
+    if (selectedComparisonCountries.length === 0 || selectedCategories.length === 0) {
+        const grid = document.getElementById('comparisonGrid');
+        grid.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h3 style="color: #8ba873; margin-bottom: 16px;">🌎 Comparación Regulatoria</h3>
+                <p style="margin-bottom: 16px;">Para realizar una comparación regulatoria, selecciona:</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 8px;">✅ Al menos un país para comparar</li>
+                    <li style="margin-bottom: 8px;">✅ Al menos una categoría regulatoria</li>
+                </ul>
+                <p style="margin-top: 16px; font-size: 14px; color: #888;">Una vez seleccionados, se generará automáticamente la comparación</p>
+            </div>
+        `;
+    }
     } else if (tabName === 'otras-sustancias') {
         document.getElementById('otrasSustanciasTab').classList.add('active');
         // Cargar datos iniciales si es la primera vez

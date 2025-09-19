@@ -31,6 +31,10 @@ CATEGORIAS_REGULATORIAS = {
         "Declaración de propiedades de salud": "propiedades_salud",
         "Declaración de propiedades nutricionales": "propiedades_nutricionales"
     },
+    "Listas de Declaraciones de Propiedades para Suplementos Alimenticios": {
+    "¿Lista oficial para suplementos?": "lista_oficial_suplementos",
+    "Dónde consultar": "donde_consultar_lista"
+    },
     "Requisitos de Manufactura Para Establecimientos": {
         "Buenas Prácticas de Manufactura": "bpm"
     },
@@ -38,10 +42,7 @@ CATEGORIAS_REGULATORIAS = {
         "Ingredientes permitidos": "ingredientes_permitidos",
         "Proceso para nuevos ingredientes": "nuevos_ingredientes"
     },
-    "Listas Oficiales de Suplementos": {
-    "¿Lista oficial para suplementos?": "lista_oficial_suplementos",
-    "Dónde consultar": "donde_consultar_lista"
-    }
+
 }
 
 # Lista de países disponibles

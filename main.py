@@ -241,13 +241,13 @@ def calculate_avg_authorized_ingredients():
         return 0.0
     
     # Filtrar solo los ingredientes establecidos (autorizados)
-    authorized_data = df_suplementos_cache[df_suplementos_cache['establecido'] == True]
+    authorized_data = df_suplementos_cache[df_suplementos_cache['establecido'] == 'Sí']
     
     if len(authorized_data) == 0:
         return 0.0
     
-    # Contar ingredientes únicos autorizados por país
-    ingredients_per_country = authorized_data.groupby('pais')['ingrediente'].nunique()
+    # Contar ingredientes autorizados por país
+    ingredients_per_country = authorized_data.groupby('pais')['ingrediente'].count()
     
     # Calcular el promedio
     average_authorized = ingredients_per_country.mean()
