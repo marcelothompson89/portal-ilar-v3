@@ -531,6 +531,53 @@ body {
     font-size: 12px;
     font-weight: 500;
 }
+
+/* Estilos para links en la tabla de actualización regulatoria */
+.data-table a {
+    color: #8ba873;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.data-table a:hover {
+    color: #2d4a65;
+    text-decoration: none;
+}
+
+.data-table a:visited {
+    color: #6b7280;
+}
+
+/* Mejorar el estilo de las celdas de la tabla */
+.data-table td {
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+/* Estilo especial para la columna de fecha */
+.fecha-column {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Estilo para celdas largas */
+.long-text-cell {
+    max-width: 300px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Hover effect para filas de la tabla */
+.data-table tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
 </style>
 </head>
 <body>
@@ -579,6 +626,9 @@ body {
     <div class="tabs-header">
         <button class="tab-button active" onclick="showTab('comparison')">
             🏛️ Comparación Regulatoria
+        </button>
+        <button class="tab-button" onclick="showTab('actualizacion')">
+            📋 En actualización regulatoria / Consulta pública
         </button>
         <button class="tab-button" onclick="showTab('analysis')">
             🔬 Análisis por Ingrediente
@@ -745,6 +795,60 @@ body {
         </div>
     </div>
 
+    <!-- En actualización regulatoria / Consulta pública -->
+    <div id="actualizacionTab" class="tab-content">
+        <div class="filters-section">
+            <h3 class="filters-title">🔍 Filtros de Actualización Regulatoria</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Países:</label>
+                    <div class="multi-select-container">
+                        <div class="filter-select" id="actualizacionPaisesSelector" onclick="toggleDropdown('actualizacionPaisesDropdown')">
+                            Seleccionar países...
+                        </div>
+                        <div class="multi-select-dropdown" id="actualizacionPaisesDropdown">
+                            <!-- Opciones se cargan dinámicamente -->
+                        </div>
+                        <div class="multi-select-controls">
+                            <button type="button" class="control-btn" onclick="selectAllActualizacionPaises()">
+                                Todos
+                            </button>
+                            <button type="button" class="control-btn" onclick="clearAllActualizacionPaises()">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="actualizacionLoading">
+            <div class="spinner"></div>
+            <div>Cargando información de actualización regulatoria...</div>
+        </div>
+        
+        <div id="actualizacionContent" style="display: none;">
+            <div class="pagination-info" id="actualizacionPaginationInfo"></div>
+            <div class="table-container">
+                <table class="data-table" id="actualizacionTable">
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th>Alcance - Borrador</th>
+                            <th>Normatividad en Revisión</th>
+                            <th>Fecha</th>
+                            <th>Link / Documentos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="actualizacionTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-controls" id="actualizacionPaginationControls"></div>
+            
+        </div>
+    </div>
+
     <!-- Otras Sustancias -->
     <div id="otrasSustanciasTab" class="tab-content">
         <div class="filters-section">
@@ -827,6 +931,10 @@ let selectedOtrasSustanciasPaises = [];
 let currentOtrasSustanciasPage = 1;
 let otrasSustanciasCategorias = [];
 let otrasSustanciasPaises = [];
+// Variables para actualización regulatoria
+let selectedActualizacionPaises = [];
+let currentActualizacionPage = 1;
+let actualizacionPaises = [];
 
 // Inicializar dashboard
 document.addEventListener('DOMContentLoaded', function() {
@@ -1722,6 +1830,14 @@ function showTab(tabName) {
             </div>
         `;
     }
+    } else if (tabName === 'actualizacion') {
+            document.getElementById('actualizacionTab').classList.add('active');
+            // Cargar datos iniciales si es la primera vez
+            if (actualizacionPaises.length === 0) {
+                loadActualizacionRegulatoria();
+            } else if (document.getElementById('actualizacionContent').style.display !== 'block') {
+                loadActualizacionData();
+            }
     } else if (tabName === 'otras-sustancias') {
         document.getElementById('otrasSustanciasTab').classList.add('active');
         // Cargar datos iniciales si es la primera vez
@@ -2086,6 +2202,279 @@ async function exportOtrasSustanciasData() {
         alert('Error al exportar los datos.');
     }
 }
+
+// Cargar datos iniciales de actualización regulatoria
+async function loadActualizacionRegulatoria() {
+    try {
+        console.log('Cargando datos iniciales de actualización regulatoria...');
+        
+        const response = await fetch('/api/actualizacion-regulatoria-initial');
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos iniciales de actualización regulatoria:', data);
+        
+        actualizacionPaises = data.countries;
+        
+        setupActualizacionFilters();
+        loadActualizacionData();
+        
+    } catch (error) {
+        console.error('Error cargando datos iniciales de actualización regulatoria:', error);
+        alert('Error al cargar los datos de actualización regulatoria.');
+    }
+}
+
+// Configurar filtros de actualización regulatoria
+function setupActualizacionFilters() {
+    // Configurar países
+    const paisesDropdown = document.getElementById('actualizacionPaisesDropdown');
+    paisesDropdown.innerHTML = actualizacionPaises.map(pais => 
+        `<div class="multi-select-option" data-value="${pais}" onclick="toggleActualizacionPaisSelection('${pais}')">${pais}</div>`
+    ).join('');
+}
+
+// Toggle selección de países para actualización regulatoria
+function toggleActualizacionPaisSelection(pais) {
+    const index = selectedActualizacionPaises.indexOf(pais);
+    const option = document.querySelector(`#actualizacionPaisesDropdown [data-value="${pais}"]`);
+    
+    if (index === -1) {
+        selectedActualizacionPaises.push(pais);
+        option.classList.add('selected');
+    } else {
+        selectedActualizacionPaises.splice(index, 1);
+        option.classList.remove('selected');
+    }
+    
+    updateSelectorDisplay('actualizacionPaisesSelector', selectedActualizacionPaises, 'países');
+    currentActualizacionPage = 1;
+    loadActualizacionData();
+}
+
+// Seleccionar todos los países para actualización regulatoria
+function selectAllActualizacionPaises() {
+    selectedActualizacionPaises = [...actualizacionPaises];
+    
+    document.querySelectorAll('#actualizacionPaisesDropdown .multi-select-option').forEach(option => {
+        option.classList.add('selected');
+    });
+    
+    updateSelectorDisplay('actualizacionPaisesSelector', selectedActualizacionPaises, 'países');
+    currentActualizacionPage = 1;
+    loadActualizacionData();
+}
+
+// Limpiar todos los países para actualización regulatoria
+function clearAllActualizacionPaises() {
+    selectedActualizacionPaises = [];
+    
+    document.querySelectorAll('#actualizacionPaisesDropdown .multi-select-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    updateSelectorDisplay('actualizacionPaisesSelector', selectedActualizacionPaises, 'países');
+    currentActualizacionPage = 1;
+    loadActualizacionData();
+}
+
+// Cargar datos de actualización regulatoria
+async function loadActualizacionData(page = 1) {
+    try {
+        page = parseInt(page) || 1;
+        
+        if (page === 1) {
+            document.getElementById('actualizacionLoading').style.display = 'block';
+            document.getElementById('actualizacionContent').style.display = 'none';
+        }
+        
+        const params = new URLSearchParams({
+            page: page,
+            page_size: pageSize
+        });
+        
+        if (selectedActualizacionPaises.length > 0) {
+            params.append('paises', selectedActualizacionPaises.join(','));
+        }
+        
+        const response = await fetch(`/api/actualizacion-regulatoria-analysis?${params.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Datos de actualización regulatoria recibidos:', data);
+        
+        currentActualizacionPage = page;
+        updateActualizacionTable(data.table_data);
+        updateActualizacionPagination(data.pagination);
+        
+    } catch (error) {
+        console.error('Error cargando actualización regulatoria:', error);
+        alert('Error al cargar los datos de actualización regulatoria.');
+        
+        document.getElementById('actualizacionLoading').style.display = 'none';
+        document.getElementById('actualizacionContent').style.display = 'block';
+        document.getElementById('actualizacionTableBody').innerHTML = 
+            '<tr><td colspan="5" style="text-align: center; color: #dc2626; padding: 20px;">Error al cargar los datos.</td></tr>';
+    }
+}
+
+// Actualizar tabla de actualización regulatoria
+function updateActualizacionTable(tableData) {
+    const tbody = document.getElementById('actualizacionTableBody');
+    tbody.innerHTML = '';
+    
+    if (tableData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666; padding: 20px;">No hay datos disponibles con los filtros seleccionados</td></tr>';
+        document.getElementById('actualizacionLoading').style.display = 'none';
+        document.getElementById('actualizacionContent').style.display = 'block';
+        return;
+    }
+    
+    tableData.forEach(row => {
+        const tr = document.createElement('tr');
+        
+        // Formatear fecha a Mes/Año - VERSIÓN SIMPLE
+        let fechaFormateada = '-';
+        if (row.fecha && row.fecha !== '') {
+            try {
+                const meses = [
+                    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                ];
+                
+                // Extraer año y mes directamente del string
+                let año, mesNumero;
+                
+                if (row.fecha.includes('-')) {
+                    // Formato YYYY-MM-DD o similar
+                    const partes = row.fecha.split('-');
+                    año = parseInt(partes[0]);
+                    mesNumero = parseInt(partes[1]);
+                } else {
+                    // Intentar con Date como fallback
+                    const fecha = new Date(row.fecha);
+                    año = fecha.getFullYear();
+                    mesNumero = fecha.getMonth() + 1; // Sumar 1 porque getMonth() devuelve 0-11
+                }
+                
+                // Validar que el mes esté en rango válido
+                if (mesNumero >= 1 && mesNumero <= 12 && año > 1900) {
+                    const mesNombre = meses[mesNumero - 1]; // Restar 1 para índice del array
+                    fechaFormateada = `${mesNombre} ${año}`;
+                } else {
+                    fechaFormateada = row.fecha; // Mostrar original si no se puede procesar
+                }
+                
+            } catch (e) {
+                console.log('Error formateando fecha:', e);
+                fechaFormateada = row.fecha;
+            }
+        }
+        
+        // Formatear links como hipervínculos
+        let linkFormateado = row.link_documentos || '-';
+        if (linkFormateado && linkFormateado !== '-' && linkFormateado.trim() !== '') {
+            // Verificar si es una URL válida
+            if (linkFormateado.startsWith('http://') || linkFormateado.startsWith('https://')) {
+                linkFormateado = `<a href="${linkFormateado.trim()}" target="_blank" rel="noopener noreferrer" style="color: #8ba873; text-decoration: underline; word-break: break-all;">📄 Ver documento</a>`;
+            } else if (linkFormateado.toLowerCase() !== 'nan' && linkFormateado !== 'undefined') {
+                // Si no es URL pero tiene contenido útil, mostrarlo como texto
+                linkFormateado = `<span style="font-style: italic; color: #666;">${linkFormateado}</span>`;
+            } else {
+                linkFormateado = '-';
+            }
+        }
+        
+        tr.innerHTML = `
+            <td><strong style="color: #8ba873;">${row.pais || '-'}</strong></td>
+            <td style="max-width: 300px; word-wrap: break-word; line-height: 1.4;">${row.alcance_borrador || '-'}</td>
+            <td style="max-width: 250px; word-wrap: break-word; line-height: 1.4;">${row.normatividad_revision || '-'}</td>
+            <td style="min-width: 120px;"><strong>${fechaFormateada}</strong></td>
+            <td style="max-width: 200px; word-wrap: break-word;">${linkFormateado}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    document.getElementById('actualizacionLoading').style.display = 'none';
+    document.getElementById('actualizacionContent').style.display = 'block';
+}
+
+// Actualizar paginación de actualización regulatoria
+function updateActualizacionPagination(pagination) {
+    const infoDiv = document.getElementById('actualizacionPaginationInfo');
+    const controlsDiv = document.getElementById('actualizacionPaginationControls');
+    
+    infoDiv.innerHTML = `
+        Mostrando ${pagination.showing_from} - ${pagination.showing_to} de ${pagination.total_records} registros
+    `;
+    
+    if (pagination.total_records === 0) {
+        controlsDiv.innerHTML = '';
+        return;
+    }
+    
+    let paginationHTML = '';
+    
+    // Botón anterior
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_previous ? 'disabled' : ''}" 
+                onclick="changeActualizacionPage(${pagination.current_page - 1})" 
+                ${!pagination.has_previous ? 'disabled' : ''}>
+            ‹ Anterior
+        </button>
+    `;
+    
+    // Números de página
+    const startPage = Math.max(1, pagination.current_page - 2);
+    const endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+    
+    if (startPage > 1) {
+        paginationHTML += `<button class="pagination-btn" onclick="changeActualizacionPage(1)">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button class="pagination-btn ${i === pagination.current_page ? 'active' : ''}" 
+                    onclick="changeActualizacionPage(${i})">
+                ${i}
+            </button>
+        `;
+    }
+    
+    if (endPage < pagination.total_pages) {
+        if (endPage < pagination.total_pages - 1) {
+            paginationHTML += `<span style="padding: 8px; color: #666;">...</span>`;
+        }
+        paginationHTML += `<button class="pagination-btn" onclick="changeActualizacionPage(${pagination.total_pages})">${pagination.total_pages}</button>`;
+    }
+    
+    // Botón siguiente
+    paginationHTML += `
+        <button class="pagination-btn ${!pagination.has_next ? 'disabled' : ''}" 
+                onclick="changeActualizacionPage(${pagination.current_page + 1})" 
+                ${!pagination.has_next ? 'disabled' : ''}>
+            Siguiente ›
+        </button>
+    `;
+    
+    controlsDiv.innerHTML = paginationHTML;
+}
+
+// Cambiar página de actualización regulatoria
+function changeActualizacionPage(page) {
+    page = parseInt(page);
+    if (isNaN(page) || page < 1) return;
+    
+    loadActualizacionData(page);
+}
+
 </script>
 </body>
 </html>

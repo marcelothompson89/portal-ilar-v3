@@ -73,7 +73,7 @@ else:
 # Cache para datos
 @app.on_event("startup")
 def load_data_cache():
-    global df_cache, df_suplementos_cache, df_referencias_cache, df_otras_sustancias_cache
+    global df_cache, df_suplementos_cache, df_referencias_cache, df_otras_sustancias_cache, df_actualizacion_regulatoria_cache
     
     # Cargar datos de moléculas (existente)
     try:
@@ -134,6 +134,16 @@ def load_data_cache():
     except Exception as e:
         print(f"Error cargando datos de otras sustancias: {e}")
         df_otras_sustancias_cache = create_sample_otras_sustancias_data()
+    
+    # Cargar datos de actualización regulatoria
+    try:
+        df_actualizacion_regulatoria_cache = load_actualizacion_regulatoria_from_excel()
+        print(f"Datos actualización regulatoria cargados: {len(df_actualizacion_regulatoria_cache)} registros")
+        
+    except Exception as e:
+        print(f"Error cargando datos de actualización regulatoria: {e}")
+        print("Usando datos de ejemplo...")
+        df_actualizacion_regulatoria_cache = create_sample_actualizacion_regulatoria_data()
 
 def clean_duplicates(df):
     """Limpia duplicados basándose en columnas clave"""
@@ -1205,6 +1215,214 @@ async def export_otras_sustancias(
             media_type="text/csv",
             headers={"Content-Disposition": "attachment; filename=otras_sustancias_error.csv"}
         )
+
+# AGREGAR AL FINAL DE main.py, ANTES DE LAS APIs DE OTRAS SUSTANCIAS
+
+def load_actualizacion_regulatoria_from_excel():
+    """Carga datos reales de actualización regulatoria desde el archivo Excel"""
+    try:
+        import pandas as pd
+        from datetime import datetime
+        
+        # Leer el archivo Excel
+        df = pd.read_excel('docs_en_act_reg_cons_pub.xlsx', sheet_name='Hoja1')
+        
+        print(f"Datos de actualización regulatoria cargados: {len(df)} registros")
+        print(f"Columnas: {list(df.columns)}")
+        
+        # Limpiar y procesar los datos
+        data = []
+        
+        for _, row in df.iterrows():
+            # Limpiar espacios en blanco
+            pais = str(row['PAÍS']).strip() if pd.notna(row['PAÍS']) else ''
+            alcance = str(row['ALCANCE - BORRADOR']).strip() if pd.notna(row['ALCANCE - BORRADOR']) else ''
+            normatividad = str(row['NORMATIVIDAD EN REVISIÓN']).strip() if pd.notna(row['NORMATIVIDAD EN REVISIÓN']) else ''
+            link_docs = str(row['LINK / DOCUMENTOS']).strip() if pd.notna(row['LINK / DOCUMENTOS']) else ''
+            
+            # Procesar fecha
+            fecha_str = ''
+            if pd.notna(row['FECHA']):
+                try:
+                    if isinstance(row['FECHA'], datetime):
+                        fecha_str = row['FECHA'].strftime('%Y-%m-%d')
+                    else:
+                        # Intentar parsear la fecha si es string
+                        fecha_obj = pd.to_datetime(row['FECHA'])
+                        fecha_str = fecha_obj.strftime('%Y-%m-%d')
+                except:
+                    fecha_str = str(row['FECHA'])
+            
+            # Solo agregar si tiene datos válidos
+            if pais and alcance:
+                data.append({
+                    'pais': pais,
+                    'alcance_borrador': alcance,
+                    'normatividad_revision': normatividad,
+                    'fecha': fecha_str,
+                    'link_documentos': link_docs
+                })
+        
+        print(f"Registros procesados exitosamente: {len(data)}")
+        return data
+        
+    except FileNotFoundError:
+        print("⚠️ Archivo docs_en_act_reg_cons_pub.xlsx no encontrado. Usando datos de ejemplo.")
+        return create_sample_actualizacion_regulatoria_data()
+    except Exception as e:
+        print(f"Error cargando datos de actualización regulatoria: {e}")
+        print("Usando datos de ejemplo...")
+        return create_sample_actualizacion_regulatoria_data()
+
+def create_sample_actualizacion_regulatoria_data():
+    """Función de respaldo con datos de ejemplo (mantener por si falla la carga del Excel)"""
+    import random
+    from datetime import datetime, timedelta
+    
+    paises = ['Argentina', 'Brasil', 'Chile', 'Colombia', 'México', 'Perú', 'Costa Rica', 'Ecuador']
+    
+    alcances = [
+        'Límites máximos de vitaminas y minerales',
+        'Lista de ingredientes permitidos',
+        'Declaraciones de propiedades saludables',
+        'Etiquetado nutricional',
+        'Requisitos de registro sanitario'
+    ]
+    
+    normatividades = [
+        'Resolución sobre límites de micronutrientes',
+        'Normativa técnica de suplementos dietarios',
+        'Reglamento de productos naturales',
+        'Directrices de etiquetado'
+    ]
+    
+    documentos = [
+        'Consulta pública - Borrador disponible',
+        'Proyecto de norma en revisión',
+        'Documento técnico preliminar'
+    ]
+    
+    data = []
+    
+    for pais in paises[:4]:  # Solo 4 países de ejemplo
+        fecha_base = datetime.now()
+        dias_adelante = random.randint(0, 180)
+        fecha = fecha_base + timedelta(days=dias_adelante)
+        
+        data.append({
+            'pais': pais,
+            'alcance_borrador': random.choice(alcances),
+            'normatividad_revision': random.choice(normatividades),
+            'fecha': fecha.strftime('%Y-%m-%d'),
+            'link_documentos': random.choice(documentos)
+        })
+    
+    return data
+
+# API para datos iniciales de actualización regulatoria
+@app.get("/api/actualizacion-regulatoria-initial")
+async def get_actualizacion_regulatoria_initial(request: Request, user: str = Depends(require_auth)):
+    """API para obtener datos iniciales de actualización regulatoria"""
+    try:
+        global df_actualizacion_regulatoria_cache
+        
+        # Usar cache si está disponible, sino cargar desde archivo
+        if df_actualizacion_regulatoria_cache is None:
+            df_actualizacion_regulatoria_cache = load_actualizacion_regulatoria_from_excel()
+        
+        data = df_actualizacion_regulatoria_cache
+        
+        # Obtener lista de países únicos
+        paises = sorted(list(set(item['pais'] for item in data if item['pais'])))
+        
+        return {
+            "success": True,
+            "data": data,
+            "countries": paises,
+            "total_records": len(data)
+        }
+        
+    except Exception as e:
+        print(f"Error en actualizacion-regulatoria-initial: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "data": [],
+            "countries": [],
+            "total_records": 0
+        }
+
+# API para análisis de actualización regulatoria con filtros
+@app.get("/api/actualizacion-regulatoria-analysis")
+async def get_actualizacion_regulatoria_analysis(
+    request: Request,
+    paises: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 50,
+    user: str = Depends(require_auth)
+):
+    """API para análisis de actualización regulatoria con filtros y paginación"""
+    try:
+        global df_actualizacion_regulatoria_cache
+        
+        # Usar cache si está disponible, sino cargar desde archivo
+        if df_actualizacion_regulatoria_cache is None:
+            df_actualizacion_regulatoria_cache = load_actualizacion_regulatoria_from_excel()
+        
+        all_data = df_actualizacion_regulatoria_cache.copy()
+        
+        # Aplicar filtros
+        filtered_data = all_data.copy()
+        
+        if paises and paises.strip():
+            pais_list = [p.strip() for p in paises.split(',') if p.strip()]
+            if pais_list:
+                filtered_data = [item for item in filtered_data if item['pais'] in pais_list]
+        
+        # Ordenar por fecha (más recientes primero)
+        filtered_data.sort(key=lambda x: x['fecha'] if x['fecha'] else '1900-01-01', reverse=True)
+        
+        # Paginación
+        total_records = len(filtered_data)
+        start_idx = (page - 1) * page_size
+        end_idx = start_idx + page_size
+        paginated_data = filtered_data[start_idx:end_idx]
+        
+        # Información de paginación
+        total_pages = (total_records + page_size - 1) // page_size if total_records > 0 else 1
+        
+        return {
+            "success": True,
+            "table_data": paginated_data,
+            "pagination": {
+                "current_page": page,
+                "total_pages": total_pages,
+                "page_size": page_size,
+                "has_previous": page > 1,
+                "has_next": page < total_pages,
+                "showing_from": start_idx + 1 if total_records > 0 else 0,
+                "showing_to": min(end_idx, total_records),
+                "total_records": total_records
+            }
+        }
+        
+    except Exception as e:
+        print(f"Error en actualizacion-regulatoria-analysis: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "table_data": [],
+            "pagination": {
+                "current_page": 1,
+                "total_pages": 1,
+                "page_size": page_size,
+                "has_previous": False,
+                "has_next": False,
+                "showing_from": 0,
+                "showing_to": 0,
+                "total_records": 0
+            }
+        }
 
 if __name__ == "__main__":
     import uvicorn
