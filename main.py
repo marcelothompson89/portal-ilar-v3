@@ -11,6 +11,12 @@ from supabase import create_client, Client
 import secrets
 from dotenv import load_dotenv
 import io
+import re
+from datetime import datetime
+from openpyxl import Workbook
+from openpyxl.styles import Font, Border, Side, PatternFill, Alignment
+from openpyxl.drawing.image import Image as XlImage
+from openpyxl.utils import get_column_letter
 
 from regulatory_data import (
     CATEGORIAS_REGULATORIAS, 
@@ -228,6 +234,162 @@ def create_sample_referencias_data():
             })
     
     return pd.DataFrame(data)
+
+
+def create_branded_excel(
+    df: pd.DataFrame,
+    title: str,
+    subtitle: str,
+    section_name: str,
+    column_widths: dict = None
+) -> io.BytesIO:
+    """Genera un archivo Excel con formato de tabla, encabezado con títulos y logos de ILAR."""
+    wb = Workbook()
+    ws = wb.active
+    ws.title = section_name[:31]
+
+    # Colores de marca
+    ILAR_DARK_BLUE = "2D4A65"
+    ILAR_GREEN = "8BA873"
+    HEADER_BG = PatternFill(start_color=ILAR_DARK_BLUE, end_color=ILAR_DARK_BLUE, fill_type="solid")
+    HEADER_FONT = Font(name="Calibri", bold=True, color="FFFFFF", size=11)
+    TITLE_FONT = Font(name="Calibri", bold=True, color=ILAR_DARK_BLUE, size=16)
+    SUBTITLE_FONT = Font(name="Calibri", color="666666", size=11)
+    SECTION_FONT = Font(name="Calibri", bold=True, color=ILAR_GREEN, size=13)
+    LINK_FONT = Font(name="Calibri", color=ILAR_GREEN, size=10, underline="single")
+    DATE_FONT = Font(name="Calibri", color="999999", size=9)
+    thin_border = Border(
+        left=Side(style="thin", color="D9D9D9"),
+        right=Side(style="thin", color="D9D9D9"),
+        top=Side(style="thin", color="D9D9D9"),
+        bottom=Side(style="thin", color="D9D9D9"),
+    )
+
+    num_cols = max(len(df.columns), 4)
+
+    # --- Encabezado (filas 1-7) ---
+    # Fila 1: espaciador
+    ws.row_dimensions[1].height = 6
+
+    # Fila 2: Título
+    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=min(num_cols - 2, 5))
+    cell_title = ws.cell(row=2, column=1, value=title)
+    cell_title.font = TITLE_FONT
+    cell_title.alignment = Alignment(vertical="center")
+
+    # Fila 3: Subtítulo
+    ws.merge_cells(start_row=3, start_column=1, end_row=3, end_column=min(num_cols - 2, 5))
+    cell_sub = ws.cell(row=3, column=1, value=subtitle)
+    cell_sub.font = SUBTITLE_FONT
+    cell_sub.alignment = Alignment(vertical="center")
+
+    # Fila 4: Nombre de sección
+    ws.merge_cells(start_row=4, start_column=1, end_row=4, end_column=min(num_cols - 2, 5))
+    cell_section = ws.cell(row=4, column=1, value=section_name)
+    cell_section.font = SECTION_FONT
+    cell_section.alignment = Alignment(vertical="center")
+
+    # Fila 5: Link Portal ILAR
+    cell_link = ws.cell(row=5, column=1, value="Portal ILAR")
+    cell_link.font = LINK_FONT
+    cell_link.hyperlink = "https://portalilar.org"
+
+    # Fila 6: Fecha de generación
+    fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
+    cell_date = ws.cell(row=6, column=1, value=f"Generado: {fecha}")
+    cell_date.font = DATE_FONT
+
+    # Fila 7: espaciador
+    ws.row_dimensions[7].height = 10
+
+    # --- Insertar logos (imagen original sin perder resolución) ---
+    from PIL import Image as PILImage
+
+    logo_path = os.path.join("static", "images", "logo-ilar.png")
+    if os.path.exists(logo_path):
+        try:
+            with PILImage.open(logo_path) as pil_img:
+                orig_w, orig_h = pil_img.size
+            logo_img = XlImage(logo_path)
+            # Visualizar a 250px ancho manteniendo proporción (imagen original intacta)
+            logo_img.width = 250
+            logo_img.height = int(orig_h * 250 / orig_w)
+            anchor_col = get_column_letter(min(num_cols, 6))
+            ws.add_image(logo_img, f"{anchor_col}1")
+        except Exception:
+            pass
+
+    banner_path = os.path.join("static", "images", "banner-suplementos.png")
+    if os.path.exists(banner_path):
+        try:
+            with PILImage.open(banner_path) as pil_img:
+                orig_w, orig_h = pil_img.size
+            banner_img = XlImage(banner_path)
+            # Visualizar a 200px ancho manteniendo proporción (imagen original intacta)
+            banner_img.width = 200
+            banner_img.height = int(orig_h * 200 / orig_w)
+            anchor_col_banner = get_column_letter(min(num_cols + 1, 8))
+            ws.add_image(banner_img, f"{anchor_col_banner}1")
+        except Exception:
+            pass
+
+    # --- Tabla de datos (fila 8+) ---
+    data_start_row = 8
+
+    # Encabezados de columna
+    for col_idx, col_name in enumerate(df.columns, 1):
+        cell = ws.cell(row=data_start_row, column=col_idx, value=str(col_name))
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_BG
+        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+        cell.border = thin_border
+
+    # Datos
+    alt_fill = PatternFill(start_color="F8F9FA", end_color="F8F9FA", fill_type="solid")
+    data_font = Font(name="Calibri", size=10)
+    data_align = Alignment(vertical="top", wrap_text=True)
+
+    for row_idx, (_, row_data) in enumerate(df.iterrows(), data_start_row + 1):
+        for col_idx, value in enumerate(row_data, 1):
+            cell = ws.cell(row=row_idx, column=col_idx, value=value)
+            cell.font = data_font
+            cell.border = thin_border
+            cell.alignment = data_align
+            if (row_idx - data_start_row) % 2 == 0:
+                cell.fill = alt_fill
+
+    # --- Ancho de columnas automático ---
+    for col_idx in range(1, len(df.columns) + 1):
+        col_letter = get_column_letter(col_idx)
+        max_length = len(str(df.columns[col_idx - 1]))
+
+        for row in ws.iter_rows(min_row=data_start_row + 1, max_row=min(ws.max_row, data_start_row + 100),
+                                min_col=col_idx, max_col=col_idx):
+            for cell in row:
+                if cell.value:
+                    max_length = max(max_length, min(len(str(cell.value)), 50))
+
+        adjusted_width = min(max_length + 4, 60)
+
+        if column_widths and col_idx in column_widths:
+            adjusted_width = column_widths[col_idx]
+
+        ws.column_dimensions[col_letter].width = adjusted_width
+
+    # Frozen panes
+    ws.freeze_panes = f"A{data_start_row + 1}"
+
+    # Configuración de página
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+
+    # Guardar en BytesIO
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+    return output
+
 
 def get_current_user(request: Request) -> Optional[str]:
     """Obtiene el usuario actual de la sesión"""
@@ -992,22 +1154,19 @@ async def export_suplementos_analysis(
         False: 'No'
     })
     
-    # Crear CSV con codificación UTF-8 y BOM para Excel
-    output = io.StringIO()
-    filtered_df.to_csv(output, index=False, encoding='utf-8')
-    output.seek(0)
-    
-    # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
-    csv_content = output.getvalue()
-    csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
-    
+    # Generar Excel con formato
+    excel_output = create_branded_excel(
+        df=filtered_df,
+        title="Tablero de Suplementos Alimenticios - América Latina",
+        subtitle='Análisis de regulación de suplementos "alimenticios" por país',
+        section_name="Análisis de Suplementos",
+    )
+
+    filename = f"suplementos_analisis_{datetime.now().strftime('%Y-%m-%d')}.xlsx"
     return StreamingResponse(
-        io.BytesIO(csv_bytes.encode('utf-8')),
-        media_type="text/csv; charset=utf-8",
-        headers={
-            "Content-Disposition": "attachment; filename=suplementos_analisis.csv",
-            "Content-Type": "text/csv; charset=utf-8"
-        }
+        excel_output,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
 
 # Descarga de datos de comparación regulatoria
@@ -1102,53 +1261,43 @@ async def export_suplementos_comparison(
         
         print(f"Datos preparados para exportación: {len(df_export)} filas")
         
-        # Crear CSV con codificación UTF-8 y BOM para Excel
-        output = io.StringIO()
-        df_export.to_csv(output, index=False, encoding='utf-8')
-        output.seek(0)
-
-        # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
-        csv_content = output.getvalue()
-        csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
-
-        return StreamingResponse(
-            io.BytesIO(csv_bytes.encode('utf-8')),
-            media_type="text/csv; charset=utf-8",
-            headers={
-                "Content-Disposition": "attachment; filename=suplementos_comparacion_regulatoria.csv",
-                "Content-Type": "text/csv; charset=utf-8"
-            }
+        # Generar Excel con formato
+        excel_output = create_branded_excel(
+            df=df_export,
+            title="Tablero de Suplementos Alimenticios - América Latina",
+            subtitle='Análisis de regulación de suplementos "alimenticios" por país',
+            section_name="Comparación Regulatoria",
+            column_widths={4: 80}
         )
-        
+
+        filename = f"suplementos_comparacion_{datetime.now().strftime('%Y-%m-%d')}.xlsx"
+        return StreamingResponse(
+            excel_output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
     except Exception as e:
         print(f"Error en export_suplementos_comparison: {e}")
         import traceback
         traceback.print_exc()
-        
-        # En caso de error, crear CSV con mensaje de error
-        import pandas as pd  # Asegurar que pd esté importado
-        error_data = [{
-            'pais': 'Error',
-            'categoria': 'Error', 
-            'subcategoria': 'Error al generar exportación',
-            'informacion_regulatoria': str(e)
-        }]
 
-        df_error = pd.DataFrame(error_data)
-        output = io.StringIO()
-        df_error.to_csv(output, index=False, encoding='utf-8')
-        output.seek(0)
+        error_data = pd.DataFrame([{
+            'Error': 'Error al generar exportación',
+            'Detalle': str(e)
+        }])
 
-        csv_content = output.getvalue()
-        csv_bytes = '\ufeff' + csv_content
+        excel_output = create_branded_excel(
+            df=error_data,
+            title="Error en Exportación",
+            subtitle="Se produjo un error al generar el archivo",
+            section_name="Error",
+        )
 
         return StreamingResponse(
-            io.BytesIO(csv_bytes.encode('utf-8')),
-            media_type="text/csv; charset=utf-8",
-            headers={
-                "Content-Disposition": "attachment; filename=suplementos_comparacion_error.csv",
-                "Content-Type": "text/csv; charset=utf-8"
-            }
+            excel_output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": "attachment; filename=suplementos_comparacion_error.xlsx"}
         )
 
 # AGREGAR API PARA EXPORTAR OTRAS SUSTANCIAS
@@ -1180,40 +1329,40 @@ async def export_otras_sustancias(
                 columns_to_keep = ['Category', 'Substance'] + valid_countries
                 filtered_df = filtered_df[columns_to_keep]
         
-        # Crear CSV con codificación UTF-8 y BOM para Excel
-        output = io.StringIO()
-        filtered_df.to_csv(output, index=False, encoding='utf-8')
-        output.seek(0)
-
-        # CORRECCIÓN: Agregar BOM para compatibilidad con Excel y usar UTF-8
-        csv_content = output.getvalue()
-        csv_bytes = '\ufeff' + csv_content  # BOM para UTF-8
-
-        return StreamingResponse(
-            io.BytesIO(csv_bytes.encode('utf-8')),
-            media_type="text/csv; charset=utf-8",
-            headers={
-                "Content-Disposition": "attachment; filename=otras_sustancias_analisis.csv",
-                "Content-Type": "text/csv; charset=utf-8"
-            }
+        # Generar Excel con formato
+        excel_output = create_branded_excel(
+            df=filtered_df,
+            title="Tablero de Suplementos Alimenticios - América Latina",
+            subtitle="Otras sustancias reguladas por país",
+            section_name="Otras Sustancias",
         )
-        
+
+        filename = f"otras_sustancias_{datetime.now().strftime('%Y-%m-%d')}.xlsx"
+        return StreamingResponse(
+            excel_output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
     except Exception as e:
         print(f"Error en export_otras_sustancias: {e}")
-        # En caso de error, crear CSV con mensaje de error
+
         error_data = pd.DataFrame([{
             'Error': 'Error al generar exportación',
             'Detalle': str(e)
         }])
-        
-        output = io.StringIO()
-        error_data.to_csv(output, index=False, encoding='utf-8')
-        output.seek(0)
-        
+
+        excel_output = create_branded_excel(
+            df=error_data,
+            title="Error en Exportación",
+            subtitle="Se produjo un error al generar el archivo",
+            section_name="Error",
+        )
+
         return StreamingResponse(
-            io.BytesIO(output.getvalue().encode('utf-8')),
-            media_type="text/csv",
-            headers={"Content-Disposition": "attachment; filename=otras_sustancias_error.csv"}
+            excel_output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": "attachment; filename=otras_sustancias_error.xlsx"}
         )
 
 # AGREGAR AL FINAL DE main.py, ANTES DE LAS APIs DE OTRAS SUSTANCIAS

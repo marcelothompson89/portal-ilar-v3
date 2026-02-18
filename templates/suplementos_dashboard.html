@@ -724,7 +724,7 @@ body {
             
             <div class="export-section">
                 <button class="export-btn" onclick="exportAnalysisData()">
-                    📥 Exportar datos filtrados (CSV)
+                    📥 Exportar datos filtrados (Excel)
                 </button>
             </div>
         </div>
@@ -789,7 +789,7 @@ body {
             
             <div class="export-section">
                 <button class="export-btn" onclick="exportComparisonData()">
-                    📥 Exportar comparación (CSV)
+                    📥 Exportar comparación (Excel)
                 </button>
             </div>
         </div>
@@ -909,7 +909,7 @@ body {
             
             <div class="export-section">
                 <button class="export-btn" onclick="exportOtrasSustanciasData()">
-                    📥 Exportar datos filtrados (CSV)
+                    📥 Exportar datos filtrados (Excel)
                 </button>
             </div>
         </div>
@@ -1877,7 +1877,7 @@ async function exportAnalysisData() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `suplementos_analisis_${new Date().toISOString().slice(0,10)}.csv`;
+        a.download = `suplementos_analisis_${new Date().toISOString().slice(0,10)}.xlsx`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -1905,7 +1905,7 @@ async function exportComparisonData() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `suplementos_comparacion_${new Date().toISOString().slice(0,10)}.csv`;
+        a.download = `suplementos_comparacion_${new Date().toISOString().slice(0,10)}.xlsx`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -2191,7 +2191,7 @@ async function exportOtrasSustanciasData() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `otras_sustancias_${new Date().toISOString().slice(0,10)}.csv`;
+        a.download = `otras_sustancias_${new Date().toISOString().slice(0,10)}.xlsx`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
