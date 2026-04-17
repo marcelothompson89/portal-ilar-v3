@@ -16,20 +16,13 @@ jobs:
           response=$(curl -s -X GET '${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive?select=*&limit=1' \
             -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}")
-          echo "Response: $response"
+          echo "📊 Database Response: $response"
+
+          # Verificar que recibimos datos
           if [ -z "$response" ] || [ "$response" = "[]" ]; then
             echo "❌ Error: No data returned from keep_alive table"
             exit 1
           fi
 
-      - name: Update Keep-Alive Timestamp
-        run: |
-          curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/rpc/update_keep_alive' \
-            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d '{}'
-        continue-on-error: true
-
-      - name: Verify Success
-        run: echo "✅ Supabase database activity registered successfully!"
+          echo "✅ Database activity registered successfully!"
+          echo "📅 Last ping: $(echo $response | grep -o '"last_ping":"[^"]*"' | cut -d'"' -f4)"
