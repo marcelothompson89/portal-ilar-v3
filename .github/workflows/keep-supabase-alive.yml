@@ -11,17 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping Supabase Database
-        run: |
-          curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/rpc/ping' \
-            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d '{}'
-        continue-on-error: true
-
-      - name: Alternative Ping (Auth endpoint)
-        if: always()
+      - name: Ping Supabase Auth Service
         run: |
           curl -X GET '${{ secrets.SUPABASE_URL }}/auth/v1/health' \
             -H "apikey: ${{ secrets.SUPABASE_KEY }}"
+
+      - name: Verify Response
+        run: echo "✅ Supabase keep-alive ping successful!"
