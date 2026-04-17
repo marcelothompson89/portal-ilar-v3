@@ -1,0 +1,27 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Ejecutar cada 3 días a las 12:00 UTC (9:00 AM hora CDMX)
+    - cron: '0 12 */3 * *'
+  workflow_dispatch: # Permite ejecutar manualmente desde GitHub UI
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/rpc/ping' \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+        continue-on-error: true
+
+      - name: Alternative Ping (Auth endpoint)
+        if: always()
+        run: |
+          curl -X GET '${{ secrets.SUPABASE_URL }}/auth/v1/health' \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}"
