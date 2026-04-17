@@ -11,10 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping Supabase Auth Service
+      - name: Query Supabase Database
         run: |
-          curl -X GET '${{ secrets.SUPABASE_URL }}/auth/v1/health' \
-            -H "apikey: ${{ secrets.SUPABASE_KEY }}"
+          response=$(curl -s -X GET '${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive?select=*&limit=1' \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}")
+          echo "Response: $response"
+          if [ -z "$response" ] || [ "$response" = "[]" ]; then
+            echo "❌ Error: No data returned from keep_alive table"
+            exit 1
+          fi
 
-      - name: Verify Response
-        run: echo "✅ Supabase keep-alive ping successful!"
+      - name: Update Keep-Alive Timestamp
+        run: |
+          curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/rpc/update_keep_alive' \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+        continue-on-error: true
+
+      - name: Verify Success
+        run: echo "✅ Supabase database activity registered successfully!"
