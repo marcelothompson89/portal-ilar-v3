@@ -48,7 +48,7 @@ portal-ilar-v3/
 ├── suplementos_normalizados_completo.csv # Datos suplementos
 ├── referencias_suplementos_vitaminas.csv # Referencias vitaminas
 ├── referencias_suplementos_minerales.csv # Referencias minerales
-├── moleculas_sin_duplicados_2025.xlsx    # Datos mol&eacute;culas
+├── moleculas_sin_duplicados_2026.xlsx    # Datos mol&eacute;culas
 ├── otras_substancias_ilar.xlsx           # Otras sustancias
 └── docs_en_act_reg_cons_pub.xlsx         # Actualizaci&oacute;n regulatoria
 ```

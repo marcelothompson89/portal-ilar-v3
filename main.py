@@ -83,9 +83,12 @@ def load_data_cache():
     
     # Cargar datos de moléculas (existente)
     try:
-        df_cache = pd.read_excel('moleculas_sin_duplicados_2025.xlsx', 
+        df_cache = pd.read_excel('moleculas_sin_duplicados_2026.xlsx',
                                sheet_name='Hoja1')
         df_cache = clean_duplicates(df_cache)
+        # Renombrar columna para mostrar en dashboard
+        if 'Vía de administración' in df_cache.columns:
+            df_cache = df_cache.rename(columns={'Vía de administración': 'Forma Farmacéutica'})
         print(f"Datos moléculas cargados: {len(df_cache)} registros")
     except FileNotFoundError:
         print("⚠️ Archivo Excel no encontrado. Usando datos de ejemplo.")
@@ -171,7 +174,7 @@ def create_sample_data():
         data.append({
             'País': random.choice(countries),
             'Ingrediente activo': random.choice(ingredientes),
-            'Vía de administración': random.choice(vias),
+            'Forma Farmacéutica': random.choice(vias),
             'Dosis permitidas/Duración': f"{random.randint(10, 500)}mg / {random.randint(3, 14)} días",
             'Indicación ingrediente 1': f"Indicación {random.randint(1, 10)}",
             'Indicación ingrediente 2': f"Indicación {random.randint(1, 10)}",
@@ -623,9 +626,9 @@ async def get_molecules_data(
     if total_records > 0:
         # Asegurar que las columnas existen antes de seleccionarlas
         required_columns = [
-            'País', 
-            'Ingrediente activo', 
-            'Vía de administración', 
+            'País',
+            'Ingrediente activo',
+            'Forma Farmacéutica',
             'Dosis permitidas/Duración',
             'Indicación ingrediente 1',
             'Indicación ingrediente 2', 
