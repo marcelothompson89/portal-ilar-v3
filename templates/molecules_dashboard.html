@@ -173,6 +173,265 @@ body {
     box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
 }
 
+/* ---- Autocomplete Component ---- */
+.autocomplete-container {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.autocomplete-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    background: white;
+    color: #333;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.autocomplete-input:focus {
+    outline: none;
+    border-color: #8ba873;
+    box-shadow: 0 0 0 3px rgba(139, 168, 115, 0.2);
+}
+
+.autocomplete-input::placeholder {
+    color: #9ca3af;
+}
+
+.autocomplete-input.has-selection {
+    border-color: #8ba873;
+    background-color: #f0f7eb;
+    font-weight: 500;
+    color: #2D4A65;
+}
+
+.autocomplete-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.autocomplete-clear:hover {
+    color: #dc2626;
+    background-color: #fef2f2;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 50;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.autocomplete-dropdown.visible {
+    display: block;
+}
+
+.autocomplete-option {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 1px solid #f3f4f6;
+    transition: background-color 0.15s;
+}
+
+.autocomplete-option:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-option:hover,
+.autocomplete-option.highlighted {
+    background-color: #f0f7eb;
+    color: #2D4A65;
+}
+
+.autocomplete-option.highlighted {
+    background-color: #e2eeda;
+}
+
+.autocomplete-option mark {
+    background-color: #d4e8c4;
+    color: #2D4A65;
+    font-weight: 600;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.autocomplete-option-all {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #8ba873;
+    border-bottom: 2px solid #e5e7eb;
+    background-color: #f8f9fa;
+    transition: background-color 0.15s;
+}
+
+.autocomplete-option-all:hover,
+.autocomplete-option-all.highlighted {
+    background-color: #e2eeda;
+}
+
+.autocomplete-no-results {
+    padding: 16px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.autocomplete-count {
+    padding: 8px 16px;
+    text-align: right;
+    color: #9ca3af;
+    font-size: 12px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* ---- Active Filters Bar ---- */
+.active-filters-bar {
+    background: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-left: 4px solid #8ba873;
+}
+
+.active-filters-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.active-filters-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #e2eeda;
+    color: #2D4A65;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.filter-tag-remove {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 2px;
+    border-radius: 50%;
+    transition: color 0.2s;
+}
+
+.filter-tag-remove:hover {
+    color: #dc2626;
+}
+
+.active-filters-clear {
+    background: none;
+    border: 1px solid #d1d5db;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.active-filters-clear:hover {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+#countriesCount {
+    font-weight: 400;
+    color: #8ba873;
+    font-size: 13px;
+}
+
+/* ---- Mobile Responsive ---- */
+@media (max-width: 768px) {
+    .autocomplete-dropdown {
+        max-height: 200px;
+    }
+    .countries-filter {
+        max-height: 100px;
+    }
+    .active-filters-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .active-filters-tags {
+        width: 100%;
+    }
+    .filter-tag {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters-section {
+        padding: 16px;
+    }
+    .autocomplete-input {
+        font-size: 14px;
+        padding: 10px 36px 10px 12px;
+    }
+    .country-checkbox {
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+}
+
 .countries-filter {
     display: flex;
     flex-wrap: wrap;
@@ -591,16 +850,33 @@ body {
     <div class="filters-grid">
         <div class="filter-group">
             <label class="filter-label">Selecciona una molécula:</label>
-            <select id="moleculeSelect" class="filter-select">
-                <option value="all">Todas las moléculas</option>
-                {% for molecule in molecules %}
-                <option value="{{ molecule }}">{{ molecule }}</option>
-                {% endfor %}
-            </select>
+            <div class="autocomplete-container" id="autocompleteContainer">
+                <div class="autocomplete-input-wrapper">
+                    <input
+                        type="text"
+                        id="moleculeInput"
+                        class="autocomplete-input"
+                        placeholder="Buscar molécula..."
+                        autocomplete="off"
+                        role="combobox"
+                        aria-expanded="false"
+                        aria-controls="moleculeDropdown"
+                        aria-autocomplete="list"
+                    >
+                    <button type="button" id="moleculeClearBtn" class="autocomplete-clear" title="Limpiar selección" style="display: none;">
+                        &times;
+                    </button>
+                </div>
+                <div class="autocomplete-dropdown" id="moleculeDropdown" role="listbox"></div>
+                <input type="hidden" id="moleculeSelect" value="all">
+            </div>
+            <script id="allMoleculesData" type="application/json">
+                {{ molecules | list | tojson }}
+            </script>
         </div>
         
         <div class="filter-group">
-            <label class="filter-label">Selecciona países:</label>
+            <label class="filter-label">Selecciona países: <span id="countriesCount"></span></label>
             <div class="countries-controls" style="margin-bottom: 8px;">
                 <button type="button" id="selectAllCountries" class="control-btn">
                     Seleccionar todos
@@ -619,6 +895,14 @@ body {
         </div>
     </div>
 </section>
+
+<div class="active-filters-bar" id="activeFiltersBar" style="display: none;">
+    <span class="active-filters-label">Filtros activos:</span>
+    <div class="active-filters-tags" id="activeFiltersTags"></div>
+    <button type="button" class="active-filters-clear" onclick="clearAllFilters()">
+        Limpiar todo
+    </button>
+</div>
 
 <section class="metrics-section" id="metricsSection">
     <div class="metric-card">
@@ -690,6 +974,7 @@ body {
 </main>
 
 <script>
+const ALL_MOLECULES = JSON.parse(document.getElementById('allMoleculesData').textContent);
 let selectedCountries = [];
 let currentData = null;
 let currentPage = 1;
@@ -704,33 +989,324 @@ let pageSize = 50;
 // Anchos por defecto de las columnas
 // const defaultColumnWidths = [120, 180, 140, 160, 150, 150, 180, 200, 120, 140];
 
+// ---- Autocomplete State ----
+let autocompleteHighlightIndex = -1;
+let autocompleteFilteredList = [];
+let moleculeSelected = false;
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function escapeJs(str) {
+    return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+function initAutocomplete() {
+    const input = document.getElementById('moleculeInput');
+    const dropdown = document.getElementById('moleculeDropdown');
+    const hiddenSelect = document.getElementById('moleculeSelect');
+    const clearBtn = document.getElementById('moleculeClearBtn');
+    const container = document.getElementById('autocompleteContainer');
+
+    const debouncedFilter = debounce(function() {
+        const query = input.value.trim().toLowerCase();
+        moleculeSelected = false;
+        input.classList.remove('has-selection');
+        autocompleteHighlightIndex = -1;
+
+        if (query.length === 0) {
+            showAllOptions();
+        } else {
+            filterOptions(query);
+        }
+        showDropdown();
+    }, 150);
+
+    input.addEventListener('input', debouncedFilter);
+
+    input.addEventListener('focus', function() {
+        if (moleculeSelected) {
+            this.select();
+        }
+        const query = this.value.trim().toLowerCase();
+        if (query.length === 0 || moleculeSelected) {
+            showAllOptions();
+        } else {
+            filterOptions(query);
+        }
+        showDropdown();
+    });
+
+    input.addEventListener('keydown', function(e) {
+        const options = dropdown.querySelectorAll('.autocomplete-option, .autocomplete-option-all');
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            autocompleteHighlightIndex = Math.min(autocompleteHighlightIndex + 1, options.length - 1);
+            updateHighlight(options);
+            scrollToHighlighted(dropdown);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            autocompleteHighlightIndex = Math.max(autocompleteHighlightIndex - 1, -1);
+            updateHighlight(options);
+            scrollToHighlighted(dropdown);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (autocompleteHighlightIndex >= 0 && autocompleteHighlightIndex < options.length) {
+                options[autocompleteHighlightIndex].click();
+            } else if (autocompleteFilteredList.length === 1) {
+                selectMolecule(autocompleteFilteredList[0]);
+            }
+        } else if (e.key === 'Escape') {
+            hideDropdown();
+            input.blur();
+        } else if (e.key === 'Tab') {
+            hideDropdown();
+        }
+    });
+
+    clearBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        clearMoleculeSelection();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!container.contains(e.target)) {
+            hideDropdown();
+            if (!moleculeSelected && input.value.trim() !== '') {
+                const exactMatch = ALL_MOLECULES.find(
+                    m => m.toLowerCase() === input.value.trim().toLowerCase()
+                );
+                if (exactMatch) {
+                    selectMolecule(exactMatch);
+                } else {
+                    if (hiddenSelect.value === 'all') {
+                        input.value = '';
+                        input.classList.remove('has-selection');
+                        clearBtn.style.display = 'none';
+                    } else {
+                        input.value = hiddenSelect.value;
+                        input.classList.add('has-selection');
+                    }
+                }
+            }
+        }
+    });
+}
+
+function showAllOptions() {
+    const dropdown = document.getElementById('moleculeDropdown');
+    autocompleteFilteredList = ALL_MOLECULES.slice().sort((a, b) => a.localeCompare(b, 'es'));
+
+    let html = '<div class="autocomplete-option-all" data-value="all" onclick="selectMolecule(\'all\')">Todas las moléculas</div>';
+    html += autocompleteFilteredList.map(mol =>
+        '<div class="autocomplete-option" data-value="' + escapeHtml(mol) + '" onclick="selectMolecule(\'' + escapeJs(mol) + '\')">' + escapeHtml(mol) + '</div>'
+    ).join('');
+    html += '<div class="autocomplete-count">' + autocompleteFilteredList.length + ' moléculas disponibles</div>';
+
+    dropdown.innerHTML = html;
+}
+
+function filterOptions(query) {
+    const dropdown = document.getElementById('moleculeDropdown');
+
+    autocompleteFilteredList = ALL_MOLECULES.filter(mol =>
+        mol.toLowerCase().includes(query)
+    );
+
+    autocompleteFilteredList.sort((a, b) => {
+        const aStarts = a.toLowerCase().startsWith(query) ? 0 : 1;
+        const bStarts = b.toLowerCase().startsWith(query) ? 0 : 1;
+        if (aStarts !== bStarts) return aStarts - bStarts;
+        return a.localeCompare(b);
+    });
+
+    let html = '<div class="autocomplete-option-all" data-value="all" onclick="selectMolecule(\'all\')">Todas las moléculas</div>';
+
+    if (autocompleteFilteredList.length === 0) {
+        html += '<div class="autocomplete-no-results">No se encontraron moléculas con "' + escapeHtml(query) + '"</div>';
+    } else {
+        html += autocompleteFilteredList.map(mol => {
+            const highlighted = highlightMatch(mol, query);
+            return '<div class="autocomplete-option" data-value="' + escapeHtml(mol) + '" onclick="selectMolecule(\'' + escapeJs(mol) + '\')">' + highlighted + '</div>';
+        }).join('');
+        html += '<div class="autocomplete-count">' + autocompleteFilteredList.length + ' de ' + ALL_MOLECULES.length + ' moléculas</div>';
+    }
+
+    dropdown.innerHTML = html;
+}
+
+function highlightMatch(text, query) {
+    const lowerText = text.toLowerCase();
+    const index = lowerText.indexOf(query);
+    if (index === -1) return escapeHtml(text);
+
+    const before = escapeHtml(text.substring(0, index));
+    const match = escapeHtml(text.substring(index, index + query.length));
+    const after = escapeHtml(text.substring(index + query.length));
+
+    return before + '<mark>' + match + '</mark>' + after;
+}
+
+function selectMolecule(molecule) {
+    const input = document.getElementById('moleculeInput');
+    const hiddenSelect = document.getElementById('moleculeSelect');
+    const clearBtn = document.getElementById('moleculeClearBtn');
+
+    hiddenSelect.value = molecule;
+
+    if (molecule === 'all') {
+        input.value = '';
+        input.placeholder = 'Buscar molécula...';
+        input.classList.remove('has-selection');
+        clearBtn.style.display = 'none';
+        moleculeSelected = false;
+    } else {
+        input.value = molecule;
+        input.classList.add('has-selection');
+        clearBtn.style.display = 'block';
+        moleculeSelected = true;
+    }
+
+    hideDropdown();
+    console.log('Molécula seleccionada:', molecule);
+    currentPage = 1;
+    loadData();
+}
+
+function clearMoleculeSelection() {
+    selectMolecule('all');
+}
+
+function showDropdown() {
+    const dropdown = document.getElementById('moleculeDropdown');
+    const input = document.getElementById('moleculeInput');
+    dropdown.classList.add('visible');
+    input.setAttribute('aria-expanded', 'true');
+}
+
+function hideDropdown() {
+    const dropdown = document.getElementById('moleculeDropdown');
+    const input = document.getElementById('moleculeInput');
+    dropdown.classList.remove('visible');
+    input.setAttribute('aria-expanded', 'false');
+    autocompleteHighlightIndex = -1;
+}
+
+function updateHighlight(options) {
+    options.forEach((opt, i) => {
+        opt.classList.toggle('highlighted', i === autocompleteHighlightIndex);
+    });
+}
+
+function scrollToHighlighted(dropdown) {
+    const highlighted = dropdown.querySelector('.highlighted');
+    if (highlighted) {
+        highlighted.scrollIntoView({ block: 'nearest' });
+    }
+}
+
+// ---- Active Filters Bar ----
+function updateActiveFiltersBar() {
+    const bar = document.getElementById('activeFiltersBar');
+    const tagsContainer = document.getElementById('activeFiltersTags');
+    const molecule = document.getElementById('moleculeSelect').value;
+    const countries = selectedCountries;
+
+    const tags = [];
+
+    if (molecule && molecule !== 'all') {
+        tags.push({
+            label: 'Molécula: ' + molecule,
+            onRemove: 'clearMoleculeSelection()'
+        });
+    }
+
+    countries.forEach(country => {
+        tags.push({
+            label: country,
+            onRemove: "removeCountryFilter('" + escapeJs(country) + "')"
+        });
+    });
+
+    if (tags.length === 0) {
+        bar.style.display = 'none';
+        return;
+    }
+
+    bar.style.display = 'flex';
+    tagsContainer.innerHTML = tags.map(tag =>
+        '<span class="filter-tag">' +
+            escapeHtml(tag.label) +
+            ' <button type="button" class="filter-tag-remove" onclick="' + tag.onRemove + '" title="Quitar filtro">&times;</button>' +
+        '</span>'
+    ).join('');
+}
+
+function removeCountryFilter(country) {
+    const checkbox = document.querySelector('.country-checkbox[data-country="' + country + '"]');
+    if (checkbox) {
+        checkbox.classList.remove('selected');
+    }
+    selectedCountries = selectedCountries.filter(c => c !== country);
+    updateCountriesCount();
+    currentPage = 1;
+    loadData();
+}
+
+function clearAllFilters() {
+    clearMoleculeSelection();
+    const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+    selectedCountries = [];
+    countryCheckboxes.forEach(cb => cb.classList.remove('selected'));
+    updateCountriesCount();
+    currentPage = 1;
+    loadData();
+}
+
+// ---- Countries Count ----
+function updateCountriesCount() {
+    const countEl = document.getElementById('countriesCount');
+    if (selectedCountries.length > 0) {
+        countEl.textContent = '(' + selectedCountries.length + ' seleccionados)';
+    } else {
+        countEl.textContent = '';
+    }
+}
+
 // Inicializar la página
 document.addEventListener('DOMContentLoaded', function() {
+    initAutocomplete();
     loadData();
     setupEventListeners();
 });
 
 function setupEventListeners() {
-    // Filtro de moléculas
-    document.getElementById('moleculeSelect').addEventListener('change', function() {
-        console.log('Molécula seleccionada:', this.value);
-        currentPage = 1; // Reset a la primera página cuando cambia el filtro
-        loadData();
-    });
-
     // Botones para selección masiva de países
     document.getElementById('selectAllCountries').addEventListener('click', function() {
         const countryCheckboxes = document.querySelectorAll('.country-checkbox');
         selectedCountries = [];
-        
+
         countryCheckboxes.forEach(checkbox => {
             if (!checkbox.classList.contains('selected')) {
                 checkbox.classList.add('selected');
                 selectedCountries.push(checkbox.dataset.country);
             }
         });
-        
+
         console.log('Todos los países seleccionados:', selectedCountries);
+        updateCountriesCount();
         currentPage = 1;
         loadData();
     });
@@ -738,12 +1314,13 @@ function setupEventListeners() {
     document.getElementById('clearAllCountries').addEventListener('click', function() {
         const countryCheckboxes = document.querySelectorAll('.country-checkbox');
         selectedCountries = [];
-        
+
         countryCheckboxes.forEach(checkbox => {
             checkbox.classList.remove('selected');
         });
-        
+
         console.log('Selección de países limpiada');
+        updateCountriesCount();
         currentPage = 1;
         loadData();
     });
@@ -753,7 +1330,7 @@ function setupEventListeners() {
     countryCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('click', function() {
             const country = this.dataset.country;
-            
+
             if (this.classList.contains('selected')) {
                 this.classList.remove('selected');
                 selectedCountries = selectedCountries.filter(c => c !== country);
@@ -761,9 +1338,10 @@ function setupEventListeners() {
                 this.classList.add('selected');
                 selectedCountries.push(country);
             }
-            
+
             console.log('Países seleccionados:', selectedCountries);
-            currentPage = 1; // Reset a la primera página cuando cambia el filtro
+            updateCountriesCount();
+            currentPage = 1;
             loadData();
         });
     });
@@ -780,7 +1358,9 @@ async function loadData(page = 1) {
     console.log('   - Molécula:', molecule);
     console.log('   - Países:', countries);
     console.log('   - Página:', page);
-    
+
+    updateActiveFiltersBar();
+
     // Mostrar loading solo si es la primera carga o cambio de filtros
     if (page === 1) {
         document.getElementById('dataLoading').style.display = 'block';

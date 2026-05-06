@@ -528,9 +528,12 @@ async def molecules_dashboard(request: Request, user: str = Depends(require_auth
     """Dashboard de moléculas ILAR"""
     global df_cache
     
-    # Obtener listas para filtros
-    molecules = sorted(df_cache['Ingrediente activo'].unique().tolist())
-    countries = sorted(df_cache['País'].unique().tolist())
+    # Obtener listas para filtros (orden locale-aware para tildes y ñ)
+    import unicodedata
+    def _locale_key(s):
+        return unicodedata.normalize('NFD', str(s).lower())
+    molecules = sorted(df_cache['Ingrediente activo'].unique().tolist(), key=_locale_key)
+    countries = sorted(df_cache['País'].unique().tolist(), key=_locale_key)
     
     return templates.TemplateResponse("molecules_dashboard.html", {
         "request": request,
